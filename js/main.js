@@ -55,7 +55,7 @@ var app = new Vue({
         },
         skating: function () {
             if (this.additionalRate) {
-                return 3320 <= Math.round(this.portable) ? 'はい' : 'いいえ';
+                return 3315 <= this.portable ? 'はい' : 'いいえ';
             }
             return 3311 <= this.portable ? 'はい' : 'いいえ';
         },
