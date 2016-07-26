@@ -11,112 +11,142 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title></title>
   <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <style>
-    body {
-      padding-top: 50px;
-      padding-bottom: 20px;
-    }
-  </style>
-  <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
   <link rel="stylesheet" href="css/main.css">
-
   <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 
 <body>
   <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">slackpulse</a>
-      </div>
+  <![endif]-->
+  <nav>
+    <div class="nav-wrapper blue darken-4" role="navigation">
+      <a class="brand-logo" href="#">slackpulse</a>
     </div>
   </nav>
-  <div class="jumbotron">
-    <div class="container">
-      <h2>アフパルポータブル計算機</h2>
+
+  <div class="container" id="app">
+    <h3>ポータブル計算機</h3>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="portability-headgear" name="headgear" type="number" class="form-control"
+        max="1000" min="0" v-model="headPortable" required />
+        <label for="portability-headgear">頭</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="portability-torso" name="torso" type="number" class="form-control" min="0"
+        max="1000" v-model="torsoPortable" required />
+        <label for="portability-torso">胴体</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="portability-pants" name="pants" type="number" class="form-control" min="0"
+        max="1000" v-model="pantsPortable" required />
+        <label for="portability-pants ">脚</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="portability-weapon" name="weapon" type="number" class="form-control"
+        min="0" max="1000" v-model="weaponPortable" required />
+        <label for="portability-weapon">武器</label>
+      </div>
+      <div class="input-field col s6 ">
+        <input id="portability-addition" name="weapon" type="number" class="form-control"
+        min="0" max="10" v-model="additionalRate" required />
+        <label for="portability-addition ">加算率(%)</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s4">
+        <span class="label label-default">表示ポータブル</span>
+        <h4><span class="label label-primary" v-text="sum"></span></h4>
+      </div>
+      <div class="col s4">
+        <span class="label label-default">算出ポータブル</span>
+        <h4><span class="label label-primary" v-text="portable"></span></h4>
+      </div>
+      <div class="col s4">
+        <span class="label label-default">スケート可能</span>
+        <h4><span class="label label-info" v-text="skating ? 'はい' : 'いいえ' "></span></h4>
+      </div>
+    </div>
+
+    <div class="row ">
+      <div class="col s12 ">
+        <a v-show="histories.length" class="waves-effect waves-light btn red" v-on:click.stop.prevent="clear ">クリア</a>
+        <a class="waves-effect waves-light btn blue" v-on:click.stop.prevent="save ">保存</a>
+      </div>
+    </div>
+
+    <table class="striped" v-if="histories.length">
+      <thead>
+        <tr>
+          <th>頭</th>
+          <th>胴</th>
+          <th>脚</th>
+          <th>加算</th>
+          <th>表示値</th>
+          <th>算出値</th>
+          <th>スケート</th>
+        </tr>
+      </thead>
+      <tr v-for="record in histories ">
+        <td>{{record.headPortable}}</td>
+        <td>{{record.torsoPortable}}</td>
+        <td>{{record.pantsPortable}}</td>
+        <td>{{record.additionalRate}}</td>
+        <td>{{record.sum}}</td>
+        <td>{{record.portable}}</td>
+        <td>{{record.skating ? 'o' : 'x'}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="container ">
+    <div class="card-panel hoverable red lighten-5 ">
+      <p>運営によるとポータブルはユーザーには表示されない複数の値から算出されているとのことです。そのため計算機の結果はあくまで参考値としてご利用ください。
+        <br />また、現在のところ算出値及びスケート可否はパトリオット(准将)のパンツには対応していません。
+      </p>
     </div>
   </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <form>
-          <fieldset class="form-group row">
-            <label class="col-xs-5" for="portability-headgear">頭</label>
-            <div class="col-xs-7">
-              <input id="portability-headgear" name="headgear" type="number" class="form-control"
-              placeholder="ポータブルを入力" max="1000" min="0" v-model="headPortable"
-              required />
-            </div>
-          </fieldset>
-          <fieldset class="form-group row">
-            <label class="col-xs-5" for="portability-torso">胴</label>
-            <div class="col-xs-7">
-              <input id="portability-torso" name="torso" type="number" class="form-control" placeholder="ポータブルを入力"
-              min="0" max="1000" v-model="torsoPortable" required />
-            </div>
-          </fieldset>
-          <fieldset class="form-group row">
-            <label class="col-xs-5" for="portability-pants">パンツ</label>
-            <div class="col-xs-7">
-              <input id="portability-pants" name="pants" type="number" class="form-control" placeholder="ポータブルを入力"
-              min="0" max="1000" v-model="pantsPortable" required />
-          </fieldset>
-          <fieldset class="form-group row">
-            <label class="col-xs-5" for="portability-weapon">武器</label>
-            <div class="col-xs-7">
-              <input id="portability-weapon" name="weapon" type="number" class="form-control"
-              placeholder="ポータブルを入力" min="0" max="1000" v-model="weaponPortable"
-              required />
-            </div>
-          </fieldset>
-          <fieldset class="form-group row">
-            <label class="col-xs-5" for="portability-addition">ポータブル加算率(%)</label>
-            <div class="col-xs-7">
-              <input id="portability-addition" name="weapon" type="number" class="form-control"
-              placeholder="加算率を入力" min="0" max="10" v-model="additionalRate" required
-              />
-            </div>
-          </fieldset>
-          <fieldset class="form-group row">
-            <label class="col-xs-5">ポータブル</label>
-            <div class="col-xs-7">
-              <h3><span class="label label-primary" v-text="portable"></span></h3>
-            </div>
-          </fieldset>
-          <fieldset class="form-group row">
-            <label class="col-xs-5">スケート可能</label>
-            <div class="col-xs-7">
-              <h3><span class="label label-info" v-text="skating"></span></h3>
-            </div>
-          </fieldset>
-        </form>
-        </div>
+  <footer class="page-footer blue darken-3 ">
+    <div class="footer-copyright blue darken-4 ">
+      <div class="container ">
+        &copy; slackpulse 2016
       </div>
-
-      <hr>
-
-      <footer>
-        <p>&copy; slackpulse 2016</p>
-      </footer>
     </div>
-    <!-- /container -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>
-      window.jQuery || document.write(
-        '<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
-    </script>
-
-    <script src="js/vendor/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
-    <script src="js/main.js"></script>
+  </footer>
+  <!-- /container -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js "></script>
+  <script>
+    window.jQuery || document.write(
+      '<script src="js/vendor/jquery-1.11.2.min.js "><\/script>'
+    )
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js "></script>
+  <script type="text/javascript " src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.0/lodash.min.js "></script>
+  <script src="js/main.js "></script>
+  <script>
+    (function(b, o, i, l, e, r)
+    {
+      b.GoogleAnalyticsObject = l;
+      b[l] || (b[l] = function()
+      {
+        (b[l].q = b[l].q || []).push(arguments)
+      });
+      b[l].l = +new Date;
+      e = o.createElement(i);
+      r = o.getElementsByTagName(i)[0];
+      e.src = 'https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e, r)
+    }(window, document, 'script', 'ga'));
+    ga('create', 'UA-80136739-1', 'auto');
+    ga('send', 'pageview');
+  </script>
 </body>
 
 </html>
