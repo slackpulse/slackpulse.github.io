@@ -61,7 +61,7 @@ jQuery(document).ready(function () {
                 return Math.floor(result);
             },
             skating: function () {
-                if (this.additionalRate) {
+                if (this.additionalRate && 0 < parseInt(this.additionalRate, 10)) {
                     return 3315 <= this.portable;
                 }
                 return 3311 <= this.portable;
