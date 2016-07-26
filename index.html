@@ -86,16 +86,18 @@
           <th>頭</th>
           <th>胴</th>
           <th>脚</th>
-          <th>加算</th>
-          <th>表示値</th>
-          <th>算出値</th>
-          <th>スケート</th>
+          <th>武</th>
+          <th>加</th>
+          <th>表示</th>
+          <th>算出</th>
+          <th>スケ</th>
         </tr>
       </thead>
       <tr v-for="record in histories ">
         <td>{{record.headPortable}}</td>
         <td>{{record.torsoPortable}}</td>
         <td>{{record.pantsPortable}}</td>
+        <td>{{record.weaponPortable}}</td>
         <td>{{record.additionalRate}}</td>
         <td>{{record.sum}}</td>
         <td>{{record.portable}}</td>
