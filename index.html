@@ -61,11 +61,11 @@
     <div class="row">
       <div class="col s4">
         <span class="label label-default">表示ポータブル</span>
-        <h4><span class="label label-primary" v-text="sum"></span></h4>
+        <h4><span class="label label-primary">{{sum | commify}}</span></h4>
       </div>
       <div class="col s4">
         <span class="label label-default">算出ポータブル</span>
-        <h4><span class="label label-primary" v-text="portable"></span></h4>
+        <h4><span class="label label-primary">{{portable | commify}}</span></h4>
       </div>
       <div class="col s4">
         <span class="label label-default">スケート可能</span>
@@ -94,13 +94,13 @@
         </tr>
       </thead>
       <tr v-for="record in histories ">
-        <td>{{record.headPortable}}</td>
-        <td>{{record.torsoPortable}}</td>
-        <td>{{record.pantsPortable}}</td>
-        <td>{{record.weaponPortable}}</td>
+        <td>{{record.headPortable | commify}}</td>
+        <td>{{record.torsoPortable | commify}}</td>
+        <td>{{record.pantsPortable | commify}}</td>
+        <td>{{record.weaponPortable | commify}}</td>
         <td>{{record.additionalRate}}</td>
-        <td>{{record.sum}}</td>
-        <td>{{record.portable}}</td>
+        <td>{{record.sum | commify}}</td>
+        <td>{{record.portable | commify}}</td>
         <td>{{record.skating ? 'o' : 'x'}}</td>
       </tr>
     </table>
