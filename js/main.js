@@ -2,6 +2,11 @@ String.prototype.reverse = function () {
     return this.split('').reverse().join('');
 };
 
+String.prototype.commify = function () {
+    var num = parseInt(this, 10);
+    return num.commify();
+}
+
 Number.prototype.commify = function () {
     var str = this.toString();
     str = str.reverse();
@@ -10,8 +15,16 @@ Number.prototype.commify = function () {
     return str;
 };
 
+function getUniqueStr(myStrong) {
+    var strong = 1000;
+    if (myStrong) {
+        strong = myStrong;
+    }
+    return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16)
+}
+
 Vue.filter('commify', function (value) {
-    return value.commify();
+    return value ? value.commify() : '';
 });
 
 var app = new Vue({
@@ -101,6 +114,7 @@ var app = new Vue({
                 return;
             }
             this.histories.push({
+                uuid: getUniqueStr(),
                 headPortable: this.headPortable,
                 torsoPortable: this.torsoPortable,
                 pantsPortable: this.pantsPortable,
@@ -118,6 +132,12 @@ var app = new Vue({
                 key += record.additionalRate;
                 console.log(key);
                 return key;
+            });
+            window.localStorage.setItem('histories', JSON.stringify(this.histories));
+        },
+        remove: function (uuid) {
+            this.histories = _.reject(this.histories, {
+                uuid: uuid
             });
             window.localStorage.setItem('histories', JSON.stringify(this.histories));
         },
