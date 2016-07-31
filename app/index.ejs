@@ -24,8 +24,17 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
   <nav>
-    <div class="nav-wrapper blue darken-4" role="navigation">
-      <a class="brand-logo" v-link="{ name: 'portable'}">slackpulse</a>
+    <div class="nav-wrapper blue darken-4">
+      <a href="#!" class="brand-logo">slackpulse</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a v-link="{ name: 'portable' }">ポータブル計算機</a></li>
+        <li><a v-link="{ name: 'xp' }">XP計算機</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a v-link="{ name: 'portable' }">ポータブル計算機</a></li>
+        <li><a v-link="{ name: 'xp' }">XP計算機</a></li>
+      </ul>
     </div>
   </nav>
 
@@ -42,7 +51,10 @@
   </footer>
   <!-- /container -->
   <script src="js/bundle.js "></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+  <script>
+      jQuery('.button-collapse').sideNav();
+  </script>
   <script>
     (function(b, o, i, l, e, r)
     {

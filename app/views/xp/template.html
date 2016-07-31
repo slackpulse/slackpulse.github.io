@@ -1,0 +1,46 @@
+<h3>XP計算機</h3>
+<div class="row">
+  <h5>所持金 ⇒ 到達レベル</h5>
+  <div class="input-field col s6">
+    <input id="xp-money" type="number" class="form-control" min="0" v-model="money"
+    required />
+    <label for="xp-money">お金</label>
+  </div>
+  <div class="input-field col s6">
+    <input id="xp-current-level" type="number" class="form-control" min="1" v-model="currentLevel"
+    required />
+    <label for="xp-current-level">現在のレベル</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col s4">
+    <span class="label label-default">到達レベル</span>
+    <h4><span class="label label-primary">Lv{{levelResult | commify}}</span></h4>
+  </div>
+</div>
+<div class="row">
+  <h5>目標レベル ⇒ 費用</h5>
+  <div class="input-field col s6">
+    <input id="xp-target-level" type="number" class="form-control" min="0" v-model="targetLevel"
+    required />
+    <label for="xp-target-level">目標レベル</label>
+  </div>
+  <div class="input-field col s6">
+    <input id="xp-current-level2" type="number" class="form-control" min="1" v-model="currentLevel2"
+    required />
+    <label for="xp-current-level2">現在のレベル</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col s4">
+    <span class="label label-default">必要なお金</span>
+    <h4><span class="label label-primary">{{moneyResult | commify}}</span></h4>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12">
+    <div class="card-panel hoverable blue lighten-5 ">
+      <p>XPの経験値テーブルは<a href="http://after-pulse.gamerch.com/武器レベル上げ表">アフターパルス攻略wikiさんのレベル上げ表</a>を参考にさせていただきました。Lv30以上は星1換算した場合の予測値のため、参考程度でお願いします。</p>
+    </div>
+  </div>
+</div>
