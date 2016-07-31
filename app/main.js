@@ -1,3 +1,9 @@
+var Vue = require('vue');
+var jQuery = require('jquery');
+
+global.jQuery = jQuery;
+global.$ = global.jQuery;
+
 String.prototype.reverse = function () {
     return this.split('').reverse().join('');
 };
