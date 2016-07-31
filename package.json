@@ -16,7 +16,8 @@
     "start": "sh -c 'webpack-dev-server --progress --colors --inline --hot'",
     "--------": "--------",
     "build": "webpack --progress --colors",
-    "clean": "rm -f -R ./tmp ./build/{index.html,js/,css/}"
+    "clean": "rm -f -R ./tmp ./build/{index.html,js/,css/}",
+    "deploy": "sh -c 'git subtree push --prefix build/ origin gh-pages'"
   },
   "dependencies": {
     "autosize": "latest",

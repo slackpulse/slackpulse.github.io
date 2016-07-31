@@ -25,7 +25,7 @@ let styleLoader = function (before) {
                                                             [].concat(cssLoaders, before || []).join('!'),
                                                             {publicPath: '../'});
     };
-styleLoader.extractTextWebpackPlugin = new ExtractTextWebpackPlugin('css/style.css');
+styleLoader.extractTextWebpackPlugin = new ExtractTextWebpackPlugin('css/main.css');
 
 const appConfig = require(`./app/config.js`);
 
@@ -33,7 +33,8 @@ const webpackConfig = {
     context: path.resolve(__dirname),
     entry: [].map((prebuilt) => `script-loader!${prebuilt}`)
         .concat(`./app/config.js`)
-        .concat('./app/main.js'),
+        .concat('./app/main.js')
+        .concat('./app/css/main.less'),
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'js/bundle.js',

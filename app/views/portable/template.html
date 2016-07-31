@@ -1,0 +1,97 @@
+ <h3>ポータブル計算機</h3>
+<div class="row">
+  <div class="input-field col s6">
+    <input id="portability-headgear" name="headgear" type="number" class="form-control"
+    max="1000" min="0" v-model="headPortable" required />
+    <label for="portability-headgear">頭</label>
+  </div>
+  <div class="input-field col s6">
+    <input id="portability-torso" name="torso" type="number" class="form-control" min="0"
+    max="1000" v-model="torsoPortable" required />
+    <label for="portability-torso">胴体</label>
+  </div>
+  <div class="input-field col s6">
+    <input id="portability-pants" name="pants" type="number" class="form-control" min="0"
+    max="1000" v-model="pantsPortable" required />
+    <label for="portability-pants ">脚</label>
+  </div>
+  <div class="input-field col s6">
+    <input id="portability-weapon" name="weapon" type="number" class="form-control"
+    min="0" max="1000" v-model="weaponPortable" required />
+    <label for="portability-weapon">武器</label>
+  </div>
+  <div class="input-field col s6 ">
+    <input id="portability-addition" name="weapon" type="number" class="form-control"
+    min="0" max="10" v-model="additionalRate" required />
+    <label for="portability-addition ">加算率(%)</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col s4">
+    <span class="label label-default">表示ポータブル</span>
+    <h4><span class="label label-primary">{{sum | commify}}</span></h4>
+  </div>
+  <div class="col s4">
+    <span class="label label-default">算出ポータブル</span>
+    <h4><span class="label label-primary">{{portable | commify}}</span></h4>
+  </div>
+  <div class="col s4">
+    <span class="label label-default">スケート可能</span>
+    <h4><span class="label label-info" v-text="skating ? 'はい' : 'いいえ' "></span></h4>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12">
+    <a class="waves-effect waves-light btn blue" v-on:click.stop.prevent="save">追加</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12">
+    <table class="centered highlight" v-if="histories.length">
+      <thead>
+        <tr>
+          <th>頭</th>
+          <th>胴</th>
+          <th>脚</th>
+          <th>武</th>
+          <th>加</th>
+          <th>表示</th>
+          <th>算出</th>
+          <th>ス</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tr v-for="record in histories ">
+        <td>{{record.headPortable | commify}}</td>
+        <td>{{record.torsoPortable | commify}}</td>
+        <td>{{record.pantsPortable | commify}}</td>
+        <td>{{record.weaponPortable | commify}}</td>
+        <td>{{record.additionalRate}}</td>
+        <td>{{record.sum | commify}}</td>
+        <td>{{record.portable | commify}}</td>
+        <td>{{record.skating ? 'o' : 'x'}}</td>
+        <td>
+          <a class="waves-effect waves-light btn btn-floating orange darken-2" v-on:click.stop.prevent="remove(record.uuid)"><i class="material-icons">delete</i>
+          </a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12">
+    <a v-show="histories.length" class="waves-effect waves-light btn red" v-on:click.stop.prevent="clear ">クリア</a>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12">
+    <div class="card-panel hoverable red lighten-5 ">
+      <p>運営によるとポータブルはユーザーには表示されない複数の値から算出されているとのことです。そのため計算機の結果はあくまで参考値としてご利用ください。
+        <br />また、現在のところ
+        <算出値及びスケート可否はパトリオット(准将)のパンツには<a href="https://slackpulse.github.io/images/patriot-experiment-1.png">対応していません</a>。
+      </p>
+    </div>
+  </div>
+</div>
