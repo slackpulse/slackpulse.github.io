@@ -23,14 +23,6 @@ Number.prototype.commify = function () {
     return str;
 };
 
-function getUniqueStr(myStrong) {
-    var strong = 1000;
-    if (myStrong) {
-        strong = myStrong;
-    }
-    return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16)
-}
-
 Vue.filter('commify', function (value) {
     return value ? value.commify() : '';
 });
