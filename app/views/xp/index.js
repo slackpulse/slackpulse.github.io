@@ -52,7 +52,6 @@ module.exports = {
             money: 1000000,
             currentLevel: 1,
             targetLevel: 30,
-            currentLevel2: 1,
         };
     },
     ready: function () {},
@@ -75,7 +74,7 @@ module.exports = {
         moneyResult: function () {
             var that = this;
             var targetValue = REQUIRED_RANK_ONE[this.targetLevel - 1];
-            var currentValue = REQUIRED_RANK_ONE[this.currentLevel2 - 1];
+            var currentValue = REQUIRED_RANK_ONE[this.currentLevel - 1];
             return parseInt((targetValue - currentValue) * 4500, 10);
         },
     },

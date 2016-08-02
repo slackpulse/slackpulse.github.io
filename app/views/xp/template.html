@@ -1,40 +1,30 @@
-<h3>XP計算機</h3>
+<h4>XP計算機</h4>
 <div class="row">
-  <h5>所持金 ⇒ 到達レベル</h5>
   <div class="input-field col s6">
-    <input id="xp-money" type="number" class="form-control" min="0" v-model="money"
-    required />
-    <label for="xp-money">お金</label>
-  </div>
-  <div class="input-field col s6">
-    <input id="xp-current-level" type="number" class="form-control" min="1" v-model="currentLevel"
-    required />
-    <label for="xp-current-level">現在のレベル</label>
+    <input id="xp-current-level2" type="number" class="active" min="1" v-model="currentLevel" required />
+    <label class="active" for="xp-current-level2">現在のレベル</label>
   </div>
 </div>
 <div class="row">
-  <div class="col s4">
-    <span class="label label-default">到達レベル</span>
-    <h4><span class="label label-primary">Lv{{levelResult | commify}}</span></h4>
+  <div class="col s12">所持金 ⇒ 到達レベル</div>
+  <div class="input-field col s6">
+    <input id="xp-money" type="number" min="0" v-model="money" required />
+    <label class="active" for="xp-money">お金</label>
+  </div>
+  <div class="input-field col s6">
+    <label class="active">到達レベル</label>
+    <h5>{{levelResult | commify}}</h5>
   </div>
 </div>
 <div class="row">
-  <h5>目標レベル ⇒ 費用</h5>
+  <div class="col s12">目標レベル ⇒ 費用</div>
   <div class="input-field col s6">
-    <input id="xp-target-level" type="number" class="form-control" min="0" v-model="targetLevel"
-    required />
-    <label for="xp-target-level">目標レベル</label>
+    <input id="xp-target-level" type="number" min="0" v-model="targetLevel" required />
+    <label for="xp-target-level" class="active">目標レベル</label>
   </div>
   <div class="input-field col s6">
-    <input id="xp-current-level2" type="number" class="form-control" min="1" v-model="currentLevel2"
-    required />
-    <label for="xp-current-level2">現在のレベル</label>
-  </div>
-</div>
-<div class="row">
-  <div class="col s4">
-    <span class="label label-default">必要なお金</span>
-    <h4><span class="label label-primary">{{moneyResult | commify}}</span></h4>
+    <label class="active">必要なお金</label>
+    <h5>{{moneyResult | commify}}</h5>
   </div>
 </div>
 <div class="row">
