@@ -11,8 +11,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>アフパルポータブル計算機 - slackpulse</title>
   <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
@@ -23,20 +22,26 @@
   <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
-  <nav>
-    <div class="nav-wrapper blue darken-4">
-      <a href="#!" class="brand-logo">slackpulse</a>
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <ul class="right hide-on-med-and-down">
-        <li><a v-link="{ name: 'portable' }">ポータブル計算機</a></li>
-        <li><a v-link="{ name: 'xp' }">XP計算機</a></li>
-      </ul>
-      <ul class="side-nav" id="mobile-demo">
-        <li><a v-link="{ name: 'portable' }">ポータブル計算機</a></li>
-        <li><a v-link="{ name: 'xp' }">XP計算機</a></li>
-      </ul>
-    </div>
-  </nav>
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper blue darken-4">
+        <a href="#!" class="brand-logo">slackpulse</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a v-link="{ name: 'portable' }">ポータブル計算機</a>
+          </li>
+          <li><a v-link="{ name: 'xp' }">XP計算機</a>
+          </li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+          <li><a v-link="{ name: 'portable' }">ポータブル計算機</a>
+          </li>
+          <li><a v-link="{ name: 'xp' }">XP計算機</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 
   <div class="container" id="app">
     <router-view keep-alive></router-view>
@@ -53,14 +58,14 @@
   <script src="js/bundle.js "></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
   <script>
-      jQuery('.button-collapse').sideNav();
+    jQuery('.button-collapse').sideNav({
+      closeOnClick: true,
+    });
   </script>
   <script>
-    (function(b, o, i, l, e, r)
-    {
+    (function(b, o, i, l, e, r) {
       b.GoogleAnalyticsObject = l;
-      b[l] || (b[l] = function()
-      {
+      b[l] || (b[l] = function() {
         (b[l].q = b[l].q || []).push(arguments)
       });
       b[l].l = +new Date;
