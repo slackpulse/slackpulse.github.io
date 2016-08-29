@@ -118,7 +118,7 @@ module.exports = {
                 pants: this.pantsPortable,
                 weapon: this.weaponPortable,
                 rate: this.additionalRate,
-            })) + '&via=slackpulse&hashtags=[アフパル]';
+            })) + '&via=slackpulse&hashtags=#アフパル';
         },
     },
     methods: {
