@@ -1,11 +1,12 @@
 var _ = require('lodash');
+_.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 
 function getUniqueStr(myStrong) {
     var strong = 1000;
     if (myStrong) {
         strong = myStrong;
     }
-    return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16)
+    return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16);
 }
 
 module.exports = {
@@ -22,6 +23,32 @@ module.exports = {
     },
     ready: function () {
         this.loadHistories();
+    },
+    route: {
+        data: function (transition) {
+            console.log('query:', transition.to.query);
+            var head = _.get(transition, 'to.query.head', 0);
+            if (_.has(transition, 'to.query.head')) {
+                this.headPortable = parseInt(head, 10);
+            }
+            var torso = _.get(transition, 'to.query.torso', 0);
+            if (_.has(transition, 'to.query.torso')) {
+                this.torsoPortable = parseInt(torso, 10);
+            }
+            var pants = _.get(transition, 'to.query.pants', 0);
+            if (_.has(transition, 'to.query.pants')) {
+                this.pantsPortable = parseInt(pants, 10);
+            }
+            var weapon = _.get(transition, 'to.query.weapon', 0);
+            if (_.has(transition, 'to.query.weapon')) {
+                this.weaponPortable = parseInt(weapon, 10);
+            }
+            var addRate = _.get(transition, 'to.query.rate', 0);
+            if (_.has(transition, 'to.query.rate')) {
+                this.additionalRate = parseInt(additionalRate, 10);
+            }
+            transition.next();
+        },
     },
     computed: {
         sum: function () {
@@ -74,6 +101,24 @@ module.exports = {
                 return 3315 <= this.portable;
             }
             return 3311 <= this.portable;
+        },
+        shareURL: function () {
+            var compiled = _.template([
+                window.location.protocol + '//' + window.location.host + '/#!/',
+                '?head={{ head }}',
+                '&torso={{ torso }}',
+                '&pants={{ pants }}',
+                '&weapon={{ weapon }}',
+                '&rate={{ rate }}',
+            ].join(''));
+
+            return 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(compiled({
+                head: this.headPortable,
+                torso: this.torsoPortable,
+                pants: this.pantsPortable,
+                weapon: this.weaponPortable,
+                rate: this.weaponPortable,
+            })) + '&via=slackpulse&hashtags=[アフパル]';
         },
     },
     methods: {

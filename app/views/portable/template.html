@@ -1,11 +1,11 @@
- <h4>ポータブル計算機</h4>
+<h4>ポータブル計算機</h4>
 <div class="row">
   <div class="input-field col s6">
     <input id="portability-headgear" name="headgear" type="number" max="1000" min="0" v-model="headPortable" required />
     <label class="active" for="portability-headgear">頭</label>
   </div>
   <div class="input-field col s6">
-    <input id="portability-torso" name="torso" type="number"  min="0" max="1000" v-model="torsoPortable" required />
+    <input id="portability-torso" name="torso" type="number" min="0" max="1000" v-model="torsoPortable" required />
     <label class="active" for="portability-torso">胴体</label>
   </div>
   <div class="input-field col s6">
@@ -38,6 +38,7 @@
 
 <div class="row">
   <div class="col s12">
+    <a v-bind:href="shareURL" class="waves-effect waves-light btn twitter"><i class="fa fa-twitter"></i>シェア</a>
     <a class="waves-effect waves-light btn blue" v-on:click.stop.prevent="save">追加</a>
   </div>
 </div>
@@ -85,7 +86,8 @@
     <div class="card-panel hoverable red lighten-5 ">
       <p>運営によるとポータブルはユーザーには表示されない複数の値から算出されているとのことです。そのため計算機の結果はあくまで参考値としてご利用ください。
         <br />また、現在のところ 算出値及びスケート可否はパトリオット(准将)のパンツには
-        <a href="https://slackpulse.github.io/images/patriot-experiment-1.png">対応していません</a>。
+        <a href="https://slackpulse.github.io/images/patriot-experiment-1.png">対応していません</a>。<br />
+        <b>パトリオット(准将)パンツを計算する際は、表示ポータブルに118を足せば実際のポータブルになるようです。</b>
       </p>
     </div>
   </div>
