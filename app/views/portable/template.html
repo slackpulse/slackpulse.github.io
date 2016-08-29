@@ -16,9 +16,17 @@
     <input id="portability-weapon" name="weapon" type="number" min="0" max="1000" v-model="weaponPortable" required />
     <label class="active" for="portability-weapon">武器</label>
   </div>
-  <div class="input-field col s6 ">
-    <input id="portability-addition" name="weapon" type="number" min="0" max="10" v-model="additionalRate" required />
-    <label class="active" for="portability-addition ">加算率(%)</label>
+  <div class="col s6">
+    <label for="portability-addition ">加算率(%)</label>
+    <select class="browser-default" id="portability-addition" name="rate" type="number" min="0" max="10" v-model="additionalRate" required>
+      <option value="0">0</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="7">7</option>
+      <option value="10">10</option>
+    </select>
   </div>
 </div>
 <div class="row">
@@ -85,9 +93,6 @@
   <div class="col s12">
     <div class="card-panel hoverable red lighten-5 ">
       <p>運営によるとポータブルはユーザーには表示されない複数の値から算出されているとのことです。そのため計算機の結果はあくまで参考値としてご利用ください。
-        <br />また、現在のところ 算出値及びスケート可否はパトリオット(准将)のパンツには
-        <a href="https://slackpulse.github.io/images/patriot-experiment-1.png">対応していません</a>。<br />
-        <b>パトリオット(准将)パンツを計算する際は、表示ポータブルに118を足せば実際のポータブルになるようです。</b>
       </p>
     </div>
   </div>

@@ -1,8 +1,10 @@
 var Vue = require('vue');
-var jQuery = require('jquery');
 
-global.jQuery = jQuery;
-global.$ = global.jQuery;
+global.$ = require('jquery');
+global.jQuery = global.$;
+
+require('../node_modules/materialize-css/dist/css/materialize.css')
+require('../node_modules/materialize-css/dist/js/materialize.js')
 
 String.prototype.reverse = function () {
     return this.split('').reverse().join('');
@@ -30,8 +32,13 @@ var app = {
         return 'body';
     },
     ready: function () {
+        $('#portability-addition').material_select();
+        $('.button-collapse').sideNav({
+            closeOnClick: true,
+        });
     },
-}
+};
 
 var router = require('./router.js');
 router(app);
+
