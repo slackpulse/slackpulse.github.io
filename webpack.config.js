@@ -21,10 +21,12 @@ const cssLoaders = [
     'postcss-loader',
 ];
 let styleLoader = function (before) {
-        return styleLoader.extractTextWebpackPlugin.extract('vue-style-loader',
-                                                            [].concat(cssLoaders, before || []).join('!'),
-                                                            {publicPath: '../'});
-    };
+    return styleLoader.extractTextWebpackPlugin.extract('vue-style-loader',
+        [].concat(cssLoaders, before || []).join('!'),
+        {
+            publicPath: '../'
+        });
+};
 styleLoader.extractTextWebpackPlugin = new ExtractTextWebpackPlugin('css/main.css');
 
 const appConfig = require(`./app/config.js`);
@@ -60,8 +62,8 @@ const webpackConfig = {
                     "style-loader", "css-loader?sourceMap!postcss-loader")
             },
             {
-              test: /\.(ttf|eot|svg|woff(2)?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-              loader: "url-loader?limit=80000"
+                test: /\.(ttf|eot|svg|woff(2)?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: "url-loader?limit=80000"
             }
         ],
     },
@@ -92,6 +94,12 @@ const webpackConfig = {
         net: 'empty',
         tls: 'empty',
     },
+    resolve: {
+        extensions: ['', '.js', '.jsx'],
+        alias: {
+            'jquery': path.join(__dirname, 'node_modules/jquery/dist/jquery'),
+        }
+    }
 };
 
 if (styleLoader.extractTextWebpackPlugin) {
