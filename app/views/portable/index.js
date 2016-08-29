@@ -117,7 +117,7 @@ module.exports = {
                 torso: this.torsoPortable,
                 pants: this.pantsPortable,
                 weapon: this.weaponPortable,
-                rate: this.weaponPortable,
+                rate: this.additionalRate,
             })) + '&via=slackpulse&hashtags=[アフパル]';
         },
     },
