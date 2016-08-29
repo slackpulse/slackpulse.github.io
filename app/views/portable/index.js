@@ -127,9 +127,11 @@ module.exports = {
                 '&rate={{ rate }}',
             ].join(''));
 
-            var text = this.scating ? 'スケートできるよ！' : 'ポータブルは' + this.sum;
-            if (this.scating && 10 <= this.additionalRate) {
-                text = 'スケートできるかも？';
+            var text = '';
+            if (this.skating) {
+                text += 'スケートできる！！';
+            } else {
+                text += 'スケートできません...';
             }
 
             return [
@@ -141,8 +143,7 @@ module.exports = {
                     weapon: this.weaponPortable,
                     rate: this.additionalRate,
                 })),
-                '&via=slackpulse',
-                '&hashtags=アフパル',
+                '&hashtags=アフパルポータブル計算機',
                 '&text=' + text,
             ].join('');
         },
