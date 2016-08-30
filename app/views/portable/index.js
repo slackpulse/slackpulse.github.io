@@ -164,7 +164,7 @@ module.exports = {
         },
         save: function () {
             if (!this.isValid) {
-                return;
+                return true;
             }
             this.histories.push({
                 uuid: getUniqueStr(),
@@ -187,6 +187,7 @@ module.exports = {
                 return key;
             });
             window.localStorage.setItem('histories', JSON.stringify(this.histories));
+            return true;
         },
         remove: function (uuid) {
             this.histories = _.reject(this.histories, {

@@ -14,10 +14,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
   <link rel="stylesheet" href="css/main.css">
-  <script type="text/javascript" async id="twitter-wjs" src="//platform.twitter.com/widgets.js"></script>
+  <script type="text/javascript" async id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script>
 </head>
 
 <body>
@@ -28,17 +27,17 @@
     <nav>
       <div class="nav-wrapper blue darken-4">
         <a href="#!" class="brand-logo">slackpulse</a>
-        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
-          <li><a v-link="{ name: 'portable' }">ポータブル計算機</a>
+          <li><a v-on:click="onClickNav('portable')">ポータブル</a>
           </li>
-          <li><a v-link="{ name: 'xp' }">XP計算機</a>
+          <li><a v-on:click="onClickNav('xp')">XP</a>
           </li>
         </ul>
-        <ul class="side-nav" id="mobile-demo">
-          <li><a v-link="{ name: 'portable' }">ポータブル計算機</a>
+        <ul class="side-nav" id="slide-out">
+          <li><a v-on:click="onClickNav('portable')">ポータブル計算機</a>
           </li>
-          <li><a v-link="{ name: 'xp' }">XP計算機</a>
+          <li><a v-on:click="onClickNav('xp')">XP計算機</a>
           </li>
         </ul>
       </div>
