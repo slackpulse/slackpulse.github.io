@@ -22,6 +22,7 @@
   "dependencies": {
     "autosize": "latest",
     "bluebird": "latest",
+    "firebase": "latest",
     "fs-readdir-recursive": "latest",
     "jquery": "latest",
     "js-base64": "latest",

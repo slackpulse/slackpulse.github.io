@@ -23,22 +23,33 @@
   <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
+  <ul id="dropdown1" class="dropdown-content">
+    <li v-on:click="signOut"><a href="#!">ログアウト</a></li>
+  </ul>
+
   <div class="navbar-fixed">
     <nav>
       <div class="nav-wrapper blue darken-4">
         <a href="#!" class="brand-logo">slackpulse</a>
         <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
-          <li><a v-on:click="onClickNav('portable')">ポータブル</a>
+          <li><a v-on:click="onClickNav('portable')">ポータブル</a></li>
+          <li><a v-on:click="onClickNav('xp')">XP</a></li>
+          <li v-if="isLoggedIn" class="login avatar">
+            <a class="dropdown-button" href="#!" data-activates="dropdown1" data-hover="true">
+              <img v-if="isLoggedIn" v-bind:src="avatar" alt="" class="circle responsive-img" />
+            </a>
           </li>
-          <li><a v-on:click="onClickNav('xp')">XP</a>
-          </li>
+          <li v-if="!isLoggedIn"><a class="blue-grey darken-4 btn" v-on:click="signIn">ログイン</a></li>
         </ul>
         <ul class="side-nav" id="slide-out">
-          <li><a v-on:click="onClickNav('portable')">ポータブル計算機</a>
+          <li v-if="isLoggedIn" class="login avatar">
+            <img v-if="isLoggedIn" v-bind:src="avatar" alt="" class="circle responsive-img" /><span class="name">{{name}}</span>
           </li>
-          <li><a v-on:click="onClickNav('xp')">XP計算機</a>
-          </li>
+          <li v-if="!isLoggedIn"><a class="blue-grey darken-4 btn" v-on:click="signIn">ログイン</a></li>
+          <li><a v-on:click="onClickNav('portable')">ポータブル計算機</a></li>
+          <li><a v-on:click="onClickNav('xp')">XP計算機</a></li>
+          <li v-if="isLoggedIn" v-on:click="signOut"><a href="#!">ログアウト</a></li>
         </ul>
       </div>
     </nav>
@@ -54,6 +65,16 @@
     <a class="twitter-timeline" href="https://twitter.com/slackpulse">
       Tweets by @slackpulse
     </a>
+  </div>
+
+  <div id="loggedin-modal" class="modal">
+    <div class="modal-content">
+      <h4>ログインしました</h4>
+      <p></p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
   </div>
 
   <footer class="page-footer blue darken-3 ">
