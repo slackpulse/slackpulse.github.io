@@ -42,4 +42,25 @@ RemoteService.prototype.signOut = function () {
         });
 };
 
+RemoteService.prototype.getEquipments = function getEquipments() {
+    var that = this;
+    console.log('getEquipments');
+    firebase.database().goOnline();
+    var equipmentsRef = firebase.database().ref('equipments');
+    return new Promise(function (resolve) {
+        equipmentsRef.once('value')
+            .then(function (dataSnapshot) {
+                return Promise.resolve(dataSnapshot.val());
+            })
+            .then(function (data) {
+                firebase.database().goOffline();
+                resolve(data);
+                return Promise.resolve(data);
+            }, function () {
+                firebase.database().goOffline();
+                return Promise.resolve();
+            });
+    });
+};
+
 module.exports = RemoteService;

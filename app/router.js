@@ -7,6 +7,7 @@ Vue.use(VueRouter);
 
 var Portable = require('./views/portable');
 var Xp = require('./views/xp');
+var Equipment = require('./views/equipment');
 
 module.exports = function (app) {
     var App = Vue.extend(app);
@@ -27,6 +28,10 @@ module.exports = function (app) {
         '/xp': {
             component: Xp,
             name: 'xp',
+        },
+        '/equipments': {
+            component: Equipment,
+            name: 'equipments',
         },
         '*': {
             component: Portable,
