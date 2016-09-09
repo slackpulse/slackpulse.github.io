@@ -85,6 +85,7 @@ const webpackConfig = {
     ],
     plugins: [
         new webpack.IgnorePlugin(/cls-bluebird/, /request-promise/),
+        new webpack.optimize.UglifyJsPlugin(),
         new HtmlWebpackPlugin({
             template: 'app/index.ejs',
         }),
