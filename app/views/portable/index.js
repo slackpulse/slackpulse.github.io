@@ -90,12 +90,7 @@ module.exports = {
                 return '計算不可';
             }
 
-            var result;
-            if (10 === this.additionalRateValue) {
-                result = this.sum + 118;
-                return result;
-            }
-            result = this.sum + this.pantsAdditionWithoutOnesPlace + this.weaponAdditionWithoutOnesPlace;
+            var result = this.sum;
 
             console.log('sum', this.sum);
             console.log('pantsAdditionWithoutOnesPlace', this.pantsAdditionWithoutOnesPlace);
@@ -103,12 +98,18 @@ module.exports = {
             console.log('pantsAdditionOnesPlace', this.pantsAdditionOnesPlace);
             console.log('weaponAdditionOnesPlace', this.weaponAdditionOnesPlace);
 
+            var addition = this.pantsAdditionWithoutOnesPlace + this.weaponAdditionWithoutOnesPlace;
             if (5 <= this.pantsAdditionOnesPlace) {
-                result += this.pantsAdditionOnesPlace;
+                addition += this.pantsAdditionOnesPlace;
             }
             if (5 <= this.weaponAdditionOnesPlace) {
-                result += this.weaponAdditionOnesPlace;
+                addition += this.weaponAdditionOnesPlace;
             }
+            if (990 < (this.pantsPortable + addition)) {
+                addition = 990 - this.pantsPortable;
+            }
+            console.log('addition', addition);
+            result += addition;
             return Math.floor(result);
         },
         skating: function () {
