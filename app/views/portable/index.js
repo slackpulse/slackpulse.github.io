@@ -100,16 +100,19 @@ module.exports = {
 
             var addition = this.pantsAdditionWithoutOnesPlace + this.weaponAdditionWithoutOnesPlace;
             if (5 <= this.pantsAdditionOnesPlace) {
-                addition += this.pantsAdditionOnesPlace;
+                addition += Math.floor(this.pantsAdditionOnesPlace);
             }
             if (5 <= this.weaponAdditionOnesPlace) {
-                addition += this.weaponAdditionOnesPlace;
+                addition += Math.floor(this.weaponAdditionOnesPlace);
             }
-            if (990 < (this.pantsPortable + addition)) {
-                addition = 990 - this.pantsPortable;
-            }
+            var pantsPortable = parseInt(this.pantsPortable, 10);
+            console.log('pantsPortable', pantsPortable);
             console.log('addition', addition);
+            if (990 < (pantsPortable + addition)) {
+                addition = 990 - pantsPortable;
+            }
             result += addition;
+            console.log('portable', result);
             return Math.floor(result);
         },
         skating: function () {
