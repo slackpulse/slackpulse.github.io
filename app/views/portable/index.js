@@ -80,7 +80,7 @@ module.exports = {
             return this.weaponAddition % 10;
         },
         isValid: function () {
-            if (10 < this.additionalRateValue || this.additionalRateValue < 0) {
+            if (this.additionalRateValue < 0) {
                 return false;
             }
             return this.headPortable && this.torsoPortable && this.pantsPortable && this.weaponPortable;
@@ -105,17 +105,28 @@ module.exports = {
             if (5 <= this.weaponAdditionOnesPlace) {
                 addition += Math.floor(this.weaponAdditionOnesPlace);
             }
-            var pantsPortable = parseInt(this.pantsPortable, 10);
-            console.log('pantsPortable', pantsPortable);
             console.log('addition', addition);
-            if (990 < (pantsPortable + addition)) {
-                addition = 990 - pantsPortable;
+
+            // 固定値???
+            if (this.additionalRateValue === 5) {
+                addition = 61
+            } else if (this.additionalRateValue === 7) {
+                addition = 86
+            } else if (this.additionalRateValue === 10) {
+                addition = 119;
+            } else if (this.additionalRateValue === 12) {
+                addition = 86 + 61;
+            } else if (this.additionalRateValue === 17) {
+                addition = 86 + 119;
             }
             result += addition;
             console.log('portable', result);
             return Math.floor(result);
         },
         skating: function () {
+            if (5 <= this.additionalRateValue) {
+                return 3311 <= this.portable;
+            }
             if (this.additionalRate && 0 < this.additionalRateValue) {
                 return 3315 <= this.portable;
             }
