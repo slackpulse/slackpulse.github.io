@@ -2,14 +2,22 @@
 <div class="row">
   <div class="input-field col s6">
     <input id="xp-current-level2" type="number" class="active" min="1" v-model="currentLevel" required />
-    <label class="active" for="xp-current-level2">現在のレベル</label>
+    <label class="active" for="xp-current-level2">現在の武器レベル</label>
+  </div>
+  <div class="col s6">
+    <label for="mix-rank">素材の最大ランク</label>
+    <select class="browser-default" id="mix-rank" name="rate" type="number" v-model="mixRank" required>
+      <option value="1">★</option>
+      <option value="2">★★</option>
+      <option value="3">★★★</option>
+    </select>
   </div>
 </div>
 <div class="row">
   <div class="col s12">所持金 ⇒ 到達レベル</div>
   <div class="input-field col s6">
     <input id="xp-money" type="number" min="0" v-model="money" required />
-    <label class="active" for="xp-money">お金</label>
+    <label class="active" for="xp-money">所持金</label>
   </div>
   <div class="input-field col s6">
     <label class="active">到達レベル</label>
@@ -23,14 +31,14 @@
     <label for="xp-target-level" class="active">目標レベル</label>
   </div>
   <div class="input-field col s6">
-    <label class="active">必要なお金</label>
+    <label class="active">費用</label>
     <h5>{{moneyResult | commify}}</h5>
   </div>
 </div>
 <div class="row">
   <div class="col s12">
     <div class="card-panel hoverable blue lighten-5 ">
-      <p>XPの経験値テーブルは<a href="http://after-pulse.gamerch.com/武器レベル上げ表">アフターパルス攻略wikiさんのレベル上げ表</a>を参考にさせていただきました。Lv30以上は星1換算した場合の予測値のため、参考程度でお願いします。</p>
+      <p>XPの経験値テーブルは<a href="http://afterpulsewiki.wixsite.com/generalalex/fusion">Afterpulse WikiのWEAPONS UPGRADE CHART</a>を参考にさせていただきました。</p>
     </div>
   </div>
 </div>
