@@ -92,7 +92,7 @@ module.exports = {
         expectedMoney: function () {
             var result = 0;
             if (this.mixRank === '1') {
-                result = (p1 * (DRAW_COST + FUSION_COST_PER_WEAPON_1)) / (p1 * XP_PER_WEAPON_1);
+                result = (DRAW_COST + FUSION_COST_PER_WEAPON_1) / (p1 * XP_PER_WEAPON_1);
             }
             if (this.mixRank === '2') {
                 result = (p1 * (DRAW_COST + FUSION_COST_PER_WEAPON_1) +
