@@ -79,15 +79,12 @@ module.exports = {
                 result = expXp1 / (DRAW_COST + FUSION_COST_PER_WEAPON_1);
             }
             if (this.mixRank === '2') {
-                result = expXp1 / (DRAW_COST + FUSION_COST_PER_WEAPON_1) +
-                    expXp2 / (DRAW_COST + FUSION_COST_PER_WEAPON_2);
+                result = (expXp1 + expXp2) / (DRAW_COST + p1 * FUSION_COST_PER_WEAPON_1 + p2 * FUSION_COST_PER_WEAPON_2);
             }
             if (this.mixRank === '3') {
-                result = expXp1 / (DRAW_COST + FUSION_COST_PER_WEAPON_1) +
-                    expXp2 / (DRAW_COST + FUSION_COST_PER_WEAPON_2) +
-                    expXp3 / (DRAW_COST + FUSION_COST_PER_WEAPON_3);
+                result = (expXp1 + expXp2 + expXp3) / (DRAW_COST + p1 * FUSION_COST_PER_WEAPON_1 + p2 * FUSION_COST_PER_WEAPON_2 + p3 * FUSION_COST_PER_WEAPON_3);
             }
-            return result * parseInt(this.money, 10);
+            return result * (parseInt(this.money, 10) + 1);
         },
         expectedMoney: function () {
             var result = 0;
@@ -95,14 +92,18 @@ module.exports = {
                 result = (DRAW_COST + FUSION_COST_PER_WEAPON_1) / (p1 * XP_PER_WEAPON_1);
             }
             if (this.mixRank === '2') {
-                result = (p1 * (DRAW_COST + FUSION_COST_PER_WEAPON_1) +
-                    p2 * (DRAW_COST + FUSION_COST_PER_WEAPON_2)) /
+                result = (
+                    DRAW_COST + 
+                    (p1 * FUSION_COST_PER_WEAPON_1) +
+                    (p2 * FUSION_COST_PER_WEAPON_2)) /
                     (p1 * XP_PER_WEAPON_1 + p2 * XP_PER_WEAPON_2);
             }
             if (this.mixRank === '3') {
-                result = (p1 * (DRAW_COST + FUSION_COST_PER_WEAPON_1) +
-                    p2 * (DRAW_COST + FUSION_COST_PER_WEAPON_2) +
-                    p3 * (DRAW_COST + FUSION_COST_PER_WEAPON_3)) /
+                result = (
+                    DRAW_COST
+                    (p1 * FUSION_COST_PER_WEAPON_1) +
+                    (p2 * FUSION_COST_PER_WEAPON_2) +
+                    (p3 * FUSION_COST_PER_WEAPON_3)) /
                     (p1 * XP_PER_WEAPON_1 + p2 * XP_PER_WEAPON_2 + p3 * XP_PER_WEAPON_3);
             }
             console.log('expectedMoney', result);
@@ -110,7 +111,7 @@ module.exports = {
         },
         levelResult: function () {
             var that = this;
-            var currentValue = REQUIRED_XP[this.currentLevel - 1];
+            var currentValue = REQUIRED_XP[parseInt(this.currentLevel, 10) - 1];
             var foundIndex = _.findIndex(REQUIRED_XP, function (value, index) {
                 return that.expectedXp <= value - currentValue;
             });
@@ -126,8 +127,8 @@ module.exports = {
             return 40;
         },
         moneyResult: function () {
-            var targetValue = REQUIRED_XP[this.targetLevel - 1];
-            var currentValue = REQUIRED_XP[this.currentLevel - 1];
+            var targetValue = REQUIRED_XP[parseInt(this.targetLevel, 10) - 1];
+            var currentValue = REQUIRED_XP[parseInt(this.currentLevel, 10) - 1];
 
             if (parseInt(this.targetLevel, 10) < parseInt(this.currentLevel, 10)) {
                 return 0;
