@@ -1,17 +1,18 @@
-<h4>装備一覧</h4>
-<div class="row">
-  <div class="col s6">
-    <label for="search-region">部位</label>
-    <select class="browser-default" id="search-region" v-model="searchRegion">
+<div>
+  <h4>装備一覧</h4>
+  <div class="row">
+    <div class="col s6">
+      <label for="search-region">部位</label>
+      <select class="browser-default" id="search-region" v-model="searchRegion">
       <option value="ALL">全て</option>
       <option value="HEADGEAR">ヘッドギア</option>
       <option value="TORSO">胴</option>
       <option value="LEGS">脚</option>
     </select>
-  </div>
-  <div class="col s6">
-    <label for="search-star">星</label>
-    <select class="browser-default" id="search-star" v-model="searchStar" number>
+    </div>
+    <div class="col s6">
+      <label for="search-star">星</label>
+      <select class="browser-default" id="search-star" v-model.number="searchStar">
       <option value="0">全て</option>
       <option value="6">★6</option>
       <option value="5">★5</option>
@@ -20,23 +21,24 @@
       <option value="2">★2</option>
       <option value="1">★1</option>
     </select>
-  </div>
-  <div class="col s12" v-for="equipment in filteredEquipments" track-by="id">
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title text-strong">
+    </div>
+    <div class="col s12" v-for="equipment in filteredEquipments" v-bind:key="equipment.id">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title text-strong">
       {{equipment.name_ja}}<br />
         <span class="text-small">{{equipment.name}}</span>
-        </span>
-        <ul>
-          <li class="blue lighten-2 white-text chip">{{equipment.region | regionFilter}}</li>
-          <li><i class="orange-text text-darken-4 material-icons" v-for="n in equipment.star">star</i>
-          </li>
-          <li>ポータブル: {{equipment.portability}}</li>
-          <li>防御力: {{equipment.defence}}</li>
-          <li>ポータブル加算率: {{equipment.rate || 0}}</li>
-          <li>効果: {{equipment.description}}</li>
-        </ul>
+          </span>
+          <ul>
+            <li class="blue lighten-2 white-text chip">{{equipment.region | regionFilter}}</li>
+            <li><i class="orange-text text-darken-4 material-icons" v-for="n in equipment.star">star</i>
+            </li>
+            <li>ポータブル: {{equipment.portability}}</li>
+            <li>防御力: {{equipment.defence}}</li>
+            <li>ポータブル加算率: {{equipment.rate || 0}}</li>
+            <li>効果: {{equipment.description}}</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

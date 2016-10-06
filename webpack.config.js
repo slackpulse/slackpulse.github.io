@@ -98,7 +98,8 @@ const webpackConfig = {
     resolve: {
         extensions: ['', '.js', '.jsx'],
         alias: {
-            'jquery': path.join(__dirname, 'node_modules/jquery/dist/jquery'),
+            jquery: path.join(__dirname, 'node_modules/jquery/dist/jquery'),
+            vue: path.join(__dirname, 'node_modules/vue/dist/vue')
         }
     }
 };

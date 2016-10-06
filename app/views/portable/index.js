@@ -22,33 +22,33 @@ module.exports = {
             histories: [],
         };
     },
-    ready: function () {
-        this.loadHistories();
+    mounted: function () {
+        this.$nextTick(function () {
+            this.loadHistories();
+        });
     },
-    route: {
-        data: function (transition) {
-            console.log('query:', transition.to.query);
-            var head = _.get(transition, 'to.query.head', 0);
-            if (_.has(transition, 'to.query.head')) {
+    watch: {
+        '$route': function (from, to) {
+            var head = _.get(to, 'query.head', 0);
+            if (_.has(to, 'query.head')) {
                 this.headPortable = parseInt(head, 10);
             }
-            var torso = _.get(transition, 'to.query.torso', 0);
-            if (_.has(transition, 'to.query.torso')) {
+            var torso = _.get(to, 'query.torso', 0);
+            if (_.has(to, 'query.torso')) {
                 this.torsoPortable = parseInt(torso, 10);
             }
-            var pants = _.get(transition, 'to.query.pants', 0);
-            if (_.has(transition, 'to.query.pants')) {
+            var pants = _.get(to, 'query.pants', 0);
+            if (_.has(to, 'query.pants')) {
                 this.pantsPortable = parseInt(pants, 10);
             }
-            var weapon = _.get(transition, 'to.query.weapon', 0);
-            if (_.has(transition, 'to.query.weapon')) {
+            var weapon = _.get(to, 'query.weapon', 0);
+            if (_.has(to, 'query.weapon')) {
                 this.weaponPortable = parseInt(weapon, 10);
             }
-            var additionalRate = _.get(transition, 'to.query.rate', 0);
-            if (_.has(transition, 'to.query.rate')) {
+            var additionalRate = _.get(to, 'query.rate', 0);
+            if (_.has(to, 'query.rate')) {
                 this.additionalRate = parseInt(additionalRate, 10);
             }
-            transition.next();
         },
     },
     computed: {
@@ -109,9 +109,9 @@ module.exports = {
 
             // 固定値???
             if (this.additionalRateValue === 5) {
-                addition = 61
+                addition = 61;
             } else if (this.additionalRateValue === 7) {
-                addition = 86
+                addition = 86;
             } else if (this.additionalRateValue === 10) {
                 addition = 119;
             } else if (this.additionalRateValue === 12) {
@@ -174,7 +174,9 @@ module.exports = {
             return;
         },
         clear: function () {
-            this.histories.splice(0, this.histories.length);
+            if (this.histories) {
+                this.histories.splice(0, this.histories.length);
+            }
             window.localStorage.clear();
         },
         save: function () {

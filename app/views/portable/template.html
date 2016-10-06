@@ -1,24 +1,25 @@
-<h4>ポータブル計算機</h4>
-<div class="row">
-  <div class="input-field col s6">
-    <input id="portability-headgear" name="headgear" type="number" max="1000" min="0" v-model="headPortable" required />
-    <label class="active" for="portability-headgear">ヘッドギア</label>
-  </div>
-  <div class="input-field col s6">
-    <input id="portability-torso" name="torso" type="number" min="0" max="1000" v-model="torsoPortable" required />
-    <label class="active" for="portability-torso">胴体</label>
-  </div>
-  <div class="input-field col s6">
-    <input id="portability-pants" name="pants" type="number" min="0" max="1000" v-model="pantsPortable" required />
-    <label class="active" for="portability-pants ">脚</label>
-  </div>
-  <div class="input-field col s6">
-    <input id="portability-weapon" name="weapon" type="number" min="0" max="1000" v-model="weaponPortable" required />
-    <label class="active" for="portability-weapon">武器</label>
-  </div>
-  <div class="col s6">
-    <label for="portability-addition ">加算率(%)</label>
-    <select class="browser-default" id="portability-addition" name="rate" type="number" v-model="additionalRate" required>
+<div>
+  <h4>ポータブル計算機</h4>
+  <div class="row">
+    <div class="input-field col s6">
+      <input id="portability-headgear" name="headgear" type="number" max="1000" min="0" v-model="headPortable">
+      <label class="active" for="portability-headgear">ヘッドギア</label>
+    </div>
+    <div class="input-field col s6">
+      <input id="portability-torso" name="torso" type="number" min="0" max="1000" v-model="torsoPortable">
+      <label class="active" for="portability-torso">胴体</label>
+    </div>
+    <div class="input-field col s6">
+      <input id="portability-pants" name="pants" type="number" min="0" max="1000" v-model="pantsPortable">
+      <label class="active" for="portability-pants ">脚</label>
+    </div>
+    <div class="input-field col s6">
+      <input id="portability-weapon" name="weapon" type="number" min="0" max="1000" v-model="weaponPortable">
+      <label class="active" for="portability-weapon">武器</label>
+    </div>
+    <div class="col s6">
+      <label for="portability-addition ">加算率(%)</label>
+      <select class="browser-default" id="portability-addition" name="rate" v-model="additionalRate">
       <option value="0">0</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -29,73 +30,74 @@
       <option value="12">12</option>
       <option value="17">17</option>
     </select>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col s4">
-    <span class="">表示ポータブル</span>
-    <h4>{{sum | commify}}</h4>
+  <div class="row">
+    <div class="col s4">
+      <span class="">表示ポータブル</span>
+      <h4>{{sum | commify}}</h4>
+    </div>
+    <div class="col s4">
+      <span class="">算出ポータブル</span>
+      <h4>{{portable | commify}}</h4>
+    </div>
+    <div class="col s4">
+      <span class="">スケート可能</span>
+      <h4 v-text="skating ? 'はい' : 'いいえ' "></h4>
+    </div>
   </div>
-  <div class="col s4">
-    <span class="">算出ポータブル</span>
-    <h4>{{portable | commify}}</h4>
-  </div>
-  <div class="col s4">
-    <span class="">スケート可能</span>
-    <h4 v-text="skating ? 'はい' : 'いいえ' "></h4>
-  </div>
-</div>
 
-<div class="row">
-  <div class="col s12">
-    <a v-bind:href="shareURL" class="share-button btn twitter"><i class="fa fa-twitter"></i>ツイートする</a>
-    <a class="save-button btn blue" v-on:click.stop.prevent="save">追加</a>
+  <div class="row">
+    <div class="col s12">
+      <a v-bind:href="shareURL" class="share-button btn twitter"><i class="fa fa-twitter"></i>ツイートする</a>
+      <a class="save-button btn blue" v-on:click="save">追加</a>
+    </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col s12">
-    <table class="centered highlight" v-if="histories.length">
-      <thead>
-        <tr>
-          <th>へ</th>
-          <th>胴</th>
-          <th>脚</th>
-          <th>武</th>
-          <th>加</th>
-          <th>表示</th>
-          <th>算出</th>
-          <th>ス</th>
-          <th>&nbsp;</th>
-        </tr>
-      </thead>
-      <tr v-for="record in histories ">
-        <td>{{record.headPortable | commify}}</td>
-        <td>{{record.torsoPortable | commify}}</td>
-        <td>{{record.pantsPortable | commify}}</td>
-        <td>{{record.weaponPortable | commify}}</td>
-        <td>{{record.additionalRate}}</td>
-        <td>{{record.sum | commify}}</td>
-        <td>{{record.portable | commify}}</td>
-        <td>{{record.skating ? 'o' : 'x'}}</td>
-        <td>
-          <a class="waves-effect waves-light btn btn-floating orange darken-2" v-on:click.stop.prevent="remove(record.uuid)"><i class="material-icons">delete</i>
+  <div class="row">
+    <div class="col s12">
+      <table class="centered highlight" v-if="histories && histories.length">
+        <thead>
+          <tr>
+            <th>へ</th>
+            <th>胴</th>
+            <th>脚</th>
+            <th>武</th>
+            <th>加</th>
+            <th>表示</th>
+            <th>算出</th>
+            <th>ス</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tr v-for="record in histories ">
+          <td>{{record.headPortable | commify}}</td>
+          <td>{{record.torsoPortable | commify}}</td>
+          <td>{{record.pantsPortable | commify}}</td>
+          <td>{{record.weaponPortable | commify}}</td>
+          <td>{{record.additionalRate}}</td>
+          <td>{{record.sum | commify}}</td>
+          <td>{{record.portable | commify}}</td>
+          <td>{{record.skating ? 'o' : 'x'}}</td>
+          <td>
+            <a class="waves-effect waves-light btn btn-floating orange darken-2" v-on:click="remove(record.uuid)"><i class="material-icons">delete</i>
           </a>
-        </td>
-      </tr>
-    </table>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col s12">
-    <a v-show="histories.length" class="waves-effect waves-light btn red" v-on:click.stop.prevent="clear ">クリア</a>
+  <div class="row">
+    <div class="col s12">
+      <a v-show="histories && histories.length" class="waves-effect waves-light btn red" v-on:click="clear ">クリア</a>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col s12">
-    <div class="card-panel hoverable red lighten-5 ">
-      <p>運営によるとポータブルはユーザーには表示されない複数の値から算出されているとのことです。そのため計算機の結果はあくまで参考値としてご利用ください。
-      </p>
+  <div class="row">
+    <div class="col s12">
+      <div class="card-panel hoverable red lighten-5 ">
+        <p>運営によるとポータブルはユーザーには表示されない複数の値から算出されているとのことです。そのため計算機の結果はあくまで参考値としてご利用ください。
+        </p>
+      </div>
     </div>
   </div>
 </div>

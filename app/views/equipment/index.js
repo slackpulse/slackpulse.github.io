@@ -10,13 +10,10 @@ module.exports = {
             searchStar: 6,
         };
     },
-    route: {
-        data: function (transition) {
-            transition.next();
-        },
-    },
-    ready: function () {
-        this.getEquipments();
+    mounted: function () {
+        this.$nextTick(function () {
+            this.getEquipments();
+        });
     },
     computed: {
         filteredEquipments: function () {
@@ -40,8 +37,7 @@ module.exports = {
             var that = this;
             this.$root.remoteService.getEquipments()
                 .tap(function (data) {
-                    that.$set('equipments', data);
-                    console.log(that.equipments);
+                    that.equipments = data;
                 });
         },
     },
