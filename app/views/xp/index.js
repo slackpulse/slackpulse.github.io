@@ -87,7 +87,7 @@ module.exports = {
                     expXp2 / (DRAW_COST + FUSION_COST_PER_WEAPON_2) +
                     expXp3 / (DRAW_COST + FUSION_COST_PER_WEAPON_3);
             }
-            return parseInt(result * this.money, 10);
+            return result * parseInt(this.money, 10);
         },
         expectedMoney: function () {
             var result = 0;
@@ -114,6 +114,9 @@ module.exports = {
             var foundIndex = _.findIndex(REQUIRED_XP, function (value, index) {
                 return that.expectedXp <= value - currentValue;
             });
+            if (_.sum(REQUIRED_XP) < that.expectedXp) {
+                return 40;
+            }
             if (foundIndex && 0 < foundIndex) {
                 return foundIndex;
             }
