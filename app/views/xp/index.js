@@ -100,7 +100,7 @@ module.exports = {
             }
             if (this.mixRank === '3') {
                 result = (
-                    DRAW_COST
+                    DRAW_COST +
                     (p1 * FUSION_COST_PER_WEAPON_1) +
                     (p2 * FUSION_COST_PER_WEAPON_2) +
                     (p3 * FUSION_COST_PER_WEAPON_3)) /
