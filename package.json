@@ -32,6 +32,7 @@
     "moment-timezone": "latest",
     "qs": "latest",
     "vue": "latest",
+    "vue-head": "latest",
     "vue-router": "latest",
     "vue-touch": "latest",
     "vue-translate-plugin": "latest"

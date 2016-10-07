@@ -77,6 +77,9 @@ module.exports = {
     },
     watch: {
         '$route': function (to, from) {
+            if (to.name === 'portable') {
+                this.$root.title = 'Afterpulse Portability Calculator';
+            }
         },
     },
     computed: {

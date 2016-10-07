@@ -62,7 +62,7 @@ const webpackConfig = {
                     "style-loader", "css-loader?sourceMap!postcss-loader")
             },
             {
-                test: /\.(ttf|eot|svg|woff(2)?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                test: /\.(png|ttf|eot|svg|woff(2)?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: "url-loader?limit=80000"
             }
         ],

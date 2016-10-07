@@ -1,7 +1,9 @@
 var Vue = require('vue');
+var VueHead = require('vue-head');
 var VueRouter = require('vue-router');
 var VueTranslate = require('vue-translate-plugin');
 
+Vue.use(VueHead);
 Vue.use(VueRouter);
 Vue.use(VueTranslate);
 
@@ -21,9 +23,6 @@ function materializeInit() {
     jQuery('.dropdown-button').dropdown();
     jQuery('.modal-trigger').leanModal();
 }
-
-jQuery(document).ready(function () {});
-
 
 String.prototype.reverse = function () {
     return this.split('').reverse().join('');
@@ -46,8 +45,7 @@ Vue.filter('commify', function (value) {
     return value ? value.commify() : '';
 });
 
-var router = require('./router.js');
-vueRouter = router();
+var routeConfig = require('./router.js');
 
 var app = {
     locales: {
@@ -104,11 +102,9 @@ var app = {
         </div>
 
         <div class="container">
-          <transition>
-            <keep-alive>
-              <router-view></router-view>
-            </keep-alive>
-          </transition>
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
         </div>
 
         <div class="container">
@@ -151,9 +147,22 @@ var app = {
     `,
     data: function () {
         return {
+            title: '',
             remoteService: null,
             lang: null,
         };
+    },
+    head: {
+        title: function () {
+            return {
+                inner: this.title,
+                complement: 'slackpulse',
+            };
+        },
+        link: [
+            {rel: 'icon', href: 'images/icon-16.png', sizes: '16x16', type: 'image/png'},
+            {rel: 'icon', href: 'images/icon-32.png', sizes: '32x32', type: 'image/png'},
+        ],
     },
     computed: {
         isLoggedIn: function () {
@@ -180,11 +189,12 @@ var app = {
             });
             this.remoteService = new RemoteService();
             this.setLanguage();
+            document.title = 'Afterpulse Calculator | slackpulse';
         });
     },
     watch: {
-        '$route': function (to, from) {
-            this.setLanguage();
+        title: function (newValue, oldValue) {
+            document.title = newValue + ' | ' + 'slackpulse';
         },
     },
     methods: {
@@ -232,7 +242,7 @@ var app = {
             this.remoteService.signOut();
         },
     },
-    router: vueRouter,
+    router: new VueRouter(routeConfig),
 };
 
-var App = new Vue(app).$mount('#app');
+global.eventHub = new Vue(app).$mount('#app');

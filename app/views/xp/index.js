@@ -78,6 +78,8 @@ module.exports = {
     },
     template: require('./template.html'),
     mounted: function () {
+        this.$nextTick(function () {
+        });
     },
     data: function () {
         return {
@@ -86,6 +88,16 @@ module.exports = {
             targetLevel: 30,
             mixRank: '3',
         };
+    },
+    beforeRouteEnter: function (route, redirect, next) {
+        next();
+    },
+    watch: {
+        '$route': function (to, from) {
+            if (to.name === 'xp') {
+                this.$root.title = 'Afterpulse XP Calculator';
+            }
+        },
     },
     computed: {
         expectedXp: function () {
