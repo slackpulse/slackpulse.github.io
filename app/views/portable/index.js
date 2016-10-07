@@ -27,28 +27,32 @@ module.exports = {
             this.loadHistories();
         });
     },
+    beforeRouteEnter: function (route, redirect, next) {
+        next(function (vm) {
+            var head = _.get(route, 'query.head', 0);
+            if (_.has(route, 'query.head')) {
+                vm.headPortable = parseInt(head, 10);
+            }
+            var torso = _.get(route, 'query.torso', 0);
+            if (_.has(route, 'query.torso')) {
+                vm.torsoPortable = parseInt(torso, 10);
+            }
+            var pants = _.get(route, 'query.pants', 0);
+            if (_.has(route, 'query.pants')) {
+                vm.pantsPortable = parseInt(pants, 10);
+            }
+            var weapon = _.get(route, 'query.weapon', 0);
+            if (_.has(route, 'query.weapon')) {
+                vm.weaponPortable = parseInt(weapon, 10);
+            }
+            var additionalRate = _.get(route, 'query.rate', 0);
+            if (_.has(route, 'query.rate')) {
+                vm.additionalRate = parseInt(additionalRate, 10);
+            }
+        });
+    },
     watch: {
-        '$route': function (from, to) {
-            var head = _.get(to, 'query.head', 0);
-            if (_.has(to, 'query.head')) {
-                this.headPortable = parseInt(head, 10);
-            }
-            var torso = _.get(to, 'query.torso', 0);
-            if (_.has(to, 'query.torso')) {
-                this.torsoPortable = parseInt(torso, 10);
-            }
-            var pants = _.get(to, 'query.pants', 0);
-            if (_.has(to, 'query.pants')) {
-                this.pantsPortable = parseInt(pants, 10);
-            }
-            var weapon = _.get(to, 'query.weapon', 0);
-            if (_.has(to, 'query.weapon')) {
-                this.weaponPortable = parseInt(weapon, 10);
-            }
-            var additionalRate = _.get(to, 'query.rate', 0);
-            if (_.has(to, 'query.rate')) {
-                this.additionalRate = parseInt(additionalRate, 10);
-            }
+        '$route': function (to, from) {
         },
     },
     computed: {
@@ -93,10 +97,6 @@ module.exports = {
             var result = this.sum;
 
             console.log('sum', this.sum);
-            console.log('pantsAdditionWithoutOnesPlace', this.pantsAdditionWithoutOnesPlace);
-            console.log('weaponAdditionWithoutOnesPlace', this.weaponAdditionWithoutOnesPlace);
-            console.log('pantsAdditionOnesPlace', this.pantsAdditionOnesPlace);
-            console.log('weaponAdditionOnesPlace', this.weaponAdditionOnesPlace);
 
             var addition = this.pantsAdditionWithoutOnesPlace + this.weaponAdditionWithoutOnesPlace;
             if (5 <= this.pantsAdditionOnesPlace) {
@@ -105,7 +105,6 @@ module.exports = {
             if (5 <= this.weaponAdditionOnesPlace) {
                 addition += Math.floor(this.weaponAdditionOnesPlace);
             }
-            console.log('addition', addition);
 
             // 固定値???
             if (this.additionalRateValue === 5) {
@@ -120,6 +119,8 @@ module.exports = {
                 addition = 86 + 119;
             }
             result += addition;
+
+            console.log('addition', addition);
             console.log('portable', result);
             return Math.floor(result);
         },
