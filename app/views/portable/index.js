@@ -22,6 +22,30 @@ module.exports = {
             histories: [],
         };
     },
+    locales: {
+        'ja': {
+            'PORTABILITY CALCULATOR': 'ポータブル計算機',
+            'HEAD': '頭',
+            'HEADGEAR': 'ヘッドギア',
+            'TORSO': '胴体',
+            'LEG': '脚',
+            'WEAPON': '武器',
+            '+RATE(%)': '加算率(%)',
+            'DISPLAYED PORTABILITY': '表示ポータブル',
+            'CALCULATED PORTABILITY': '算出ポータブル',
+            'DISPLAYED': '表示',
+            'CALCULATED': '算出',
+            'SKATER': 'スケート可能',
+            'YES': 'はい',
+            'NO': 'いいえ',
+            'CLEAR': 'クリア',
+            'TWEET': 'ツイートする',
+            'SAVE': '保存',
+            'Unable to calculate': '計算不可',
+            'Skater': 'スケートできる!',
+            'Not skater': 'スケートできません...',
+        },
+    },
     mounted: function () {
         this.$nextTick(function () {
             this.loadHistories();
@@ -91,7 +115,7 @@ module.exports = {
         },
         portable: function () {
             if (!this.isValid) {
-                return '計算不可';
+                return this.t('Unable to calculate.');
             }
 
             var result = this.sum;

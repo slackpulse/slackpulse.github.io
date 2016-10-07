@@ -33,7 +33,8 @@
     "qs": "latest",
     "vue": "latest",
     "vue-router": "latest",
-    "vue-touch": "latest"
+    "vue-touch": "latest",
+    "vue-translate-plugin": "latest"
   },
   "devDependencies": {
     "autoprefixer": "latest",

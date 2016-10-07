@@ -63,7 +63,22 @@ var expXp2 = p2 * XP_PER_WEAPON_2;
 var expXp3 = p3 * XP_PER_WEAPON_3;
 
 module.exports = {
+    locales: {
+        'ja': {
+            'XP CALCULATOR': 'XP計算機',
+            'CURRENT WEAPON LEVEL': '現在の武器レベル',
+            'MAX WEAPON GRADE': '素材の最大ランク',
+            'CASH > LEVEL': '所持金 ⇒  到達レベル',
+            'CASH': '所持金',
+            'LEVEL': 'レベル',
+            'LEVEL > COST': '目標レベル ⇒  COST',
+            'TARGET LEVEL': '目標レベル',
+            'COST': '費用',
+        },
+    },
     template: require('./template.html'),
+    mounted: function () {
+    },
     data: function () {
         return {
             money: 1000000,

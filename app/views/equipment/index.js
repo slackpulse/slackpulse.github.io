@@ -2,6 +2,18 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 
 module.exports = {
+    locales: {
+        'ja': {
+            'EQUIPMENTS': '装備データ',
+            'POSITION': '部位',
+            'GRADE': '星',
+            'HEAD': '頭',
+            'HEADGEAR': 'ヘッドギア',
+            'TORSO': '胴体',
+            'LEG': '脚',
+            'ALL': '全て',
+        },
+    },
     template: require('./template.html'),
     data: function () {
         return {
@@ -35,6 +47,9 @@ module.exports = {
     methods: {
         getEquipments: function () {
             var that = this;
+            if (!this.$root.remoteService) {
+                return [];
+            }
             this.$root.remoteService.getEquipments()
                 .tap(function (data) {
                     that.equipments = data;

@@ -1,4 +1,9 @@
 var Vue = require('vue');
+var VueRouter = require('vue-router');
+var VueTranslate = require('vue-translate-plugin');
+
+Vue.use(VueRouter);
+Vue.use(VueTranslate);
 
 global.jQuery = require('jquery');
 
@@ -41,17 +46,29 @@ Vue.filter('commify', function (value) {
     return value ? value.commify() : '';
 });
 
-var VueRouter = require('vue-router');
-Vue.use(VueRouter);
-
 var router = require('./router.js');
 vueRouter = router();
 
 var app = {
+    locales: {
+        'ja': {
+            'PORTABILITY': 'ポータブル',
+            'XP': 'XP',
+            'EQUIPMENTS': '装備',
+            'PORTABILITY CALCULATOR': 'ポータブル計算機',
+            'LOGIN': 'ログイン',
+            'LOGOUT': 'ログアウト',
+            'LOGGED IN': 'ログインしました',
+            'SELECT LANGUAGE': '言語を選択してください',
+            'LANGUAGE': '言語',
+            'English': 'English',
+            'Japanese': '日本語',
+        },
+    },
     template: `
       <div id="app">
         <ul id="dropdown1" class="dropdown-content">
-          <li v-on:click="signOut"><a href="#!">ログアウト</a>
+          <li v-on:click="signOut"><a href="#!" v-translate>LOGOUT</a>
           </li>
         </ul>
 
@@ -61,34 +78,26 @@ var app = {
               <a href="#!" class="brand-logo">slackpulse</a>
               <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
               <ul class="right hide-on-med-and-down">
-                <li><a v-on:click="onClickNav('portable')">ポータブル</a>
-                </li>
-                <li><a v-on:click="onClickNav('xp')">XP</a>
-                </li>
-                <li v-if="isLoggedIn"><a v-on:click="onClickNav('equipments')">装備一覧</a>
-                </li>
-                <li v-if="isLoggedIn" class="login avatar">
+                <li><a v-on:click="onClickNav('portable')" v-translate>PORTABILITY</a></li>
+                <li><a v-on:click="onClickNav('xp')" v-translate>XP</a></li>
+                <li v-show="isLoggedIn"><a v-on:click="onClickNav('equipments')" v-translate>EQUIPMENTS</a></li>
+                <li v-show="isLoggedIn" class="login avatar">
                   <a class="dropdown-button" href="#!" data-activates="dropdown1" data-hover="true">
-                    <img v-if="isLoggedIn" v-bind:src="avatar" alt="" class="circle responsive-img" />
+                    <img v-show="isLoggedIn" v-bind:src="avatar" alt="" class="circle responsive-img" />
                   </a>
                 </li>
-                <li v-if="!isLoggedIn"><a class="blue-grey darken-4 btn" v-on:click="signIn">ログイン</a>
+                <li v-show="!isLoggedIn"><a class="blue-grey darken-4 btn" v-on:click="signIn" v-translate>LOGIN</a>
                 </li>
               </ul>
               <ul class="side-nav" id="slide-out">
-                <li v-if="isLoggedIn" class="login avatar">
+                <li v-show="isLoggedIn" class="login avatar">
                   <img v-if="isLoggedIn" v-bind:src="avatar" alt="" class="circle responsive-img" /><span class="name">{{name}}</span>
                 </li>
-                <li v-if="!isLoggedIn"><a class="blue-grey darken-4 btn" v-on:click="signIn">ログイン</a>
-                </li>
-                <li><a v-on:click="onClickNav('portable')">ポータブル計算機</a>
-                </li>
-                <li><a v-on:click="onClickNav('xp')">XP計算機</a>
-                </li>
-                <li v-if="isLoggedIn"><a v-on:click="onClickNav('equipments')">装備一覧</a>
-                </li>
-                <li v-if="isLoggedIn" v-on:click="signOut"><a href="#!">ログアウト</a>
-                </li>
+                <li v-show="!isLoggedIn"><a class="blue-grey darken-4 btn" v-on:click="signIn" v-translate>LOGIN</a></li>
+                <li><a v-on:click="onClickNav('portable')" v-translate>PORTABILITY</a></li>
+                <li><a v-on:click="onClickNav('xp')" v-translate>XP</a></li>
+                <li v-show="isLoggedIn"><a v-on:click="onClickNav('equipments')" v-translate>EQUIPMENTS</a></li>
+                <li v-show="isLoggedIn"><a href="#!" v-on:click="signOut" v-translate>LOGOUT</a></li>
               </ul>
             </div>
           </nav>
@@ -112,11 +121,22 @@ var app = {
 
         <div id="loggedin-modal" class="modal">
           <div class="modal-content">
-            <h4>ログインしました</h4>
+            <h4 v-translate>LOGGED IN</h4>
             <p></p>
           </div>
           <div class="modal-footer">
             <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="input-field col s6 offset-s6 m3 offset-m9">
+              <select v-model="lang" v-on:change="onChangeLang" class="browser-default">
+                <option value="ja" v-translate>Japanese</option>
+                <option value="en" v-translate>English</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -132,6 +152,7 @@ var app = {
     data: function () {
         return {
             remoteService: null,
+            lang: null,
         };
     },
     computed: {
@@ -158,9 +179,46 @@ var app = {
                 jQuery('[id^=sidenav-overlay]').remove();
             });
             this.remoteService = new RemoteService();
+            this.setLanguage();
         });
     },
+    watch: {
+        '$route': function (to, from) {
+            this.setLanguage();
+        },
+    },
     methods: {
+        onChangeLang: function () {
+            console.log('onChangeLang');
+            if (this.lang) {
+                window.localStorage.setItem('lang', JSON.stringify(this.lang));
+                this.setLanguage(this.lang);
+            }
+        },
+        setLanguage: function (value) {
+            var lang = 'en';
+            if (value) {
+                lang = value;
+            } else {
+                var savedLang = window.localStorage.getItem('lang');
+                if (savedLang) {
+                    try {
+                        lang = JSON.parse(savedLang);
+                    } catch (error) {
+                        console.warn(error);
+                    }
+                } else {
+                    var userLang = navigator.language || navigator.userLanguage;
+                    console.log('User Lang:', userLang);
+                    if (/^ja(?:[_]|$)/.test(userLang)) {
+                        lang = 'ja';
+                    }
+                }
+            }
+            this.lang = lang;
+            console.log('setLang', lang);
+            this.$translate.setLang(lang);
+        },
         onClickNav: function (name) {
             this.$router.push({name: name});
             jQuery('[id^=sidenav-overlay]').remove();

@@ -1,19 +1,19 @@
 <div>
-  <h4>装備一覧</h4>
+  <h5 v-translate>EQUIPMENTS</h5>
   <div class="row">
     <div class="col s6">
-      <label for="search-region">部位</label>
+      <label for="search-region" v-translate>POSITION</label>
       <select class="browser-default" id="search-region" v-model="searchRegion">
-      <option value="ALL">全て</option>
-      <option value="HEADGEAR">ヘッドギア</option>
-      <option value="TORSO">胴</option>
-      <option value="LEGS">脚</option>
+      <option value="ALL" v-translate>ALL</option>
+      <option value="HEADGEAR" v-translate>HEAD</option>
+      <option value="TORSO" v-translate>TORSO</option>
+      <option value="LEGS" v-translate>LEG</option>
     </select>
     </div>
     <div class="col s6">
-      <label for="search-star">星</label>
+      <label for="search-star" v-translate>GRADE</label>
       <select class="browser-default" id="search-star" v-model.number="searchStar">
-      <option value="0">全て</option>
+      <option value="0" v-translate>ALL</option>
       <option value="6">★6</option>
       <option value="5">★5</option>
       <option value="4">★4</option>

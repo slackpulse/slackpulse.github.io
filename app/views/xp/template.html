@@ -1,12 +1,12 @@
 <div>
-  <h4>XP計算機</h4>
+  <h5 v-translate>XP CALCULATOR</h5>
   <div class="row">
     <div class="input-field col s6">
       <input id="xp-current-level2" type="number" class="active" min="1" v-model="currentLevel" required />
-      <label class="active" for="xp-current-level2">現在の武器レベル</label>
+      <label class="active" for="xp-current-level2" v-translate>CURRENT WEAPON LEVEL</label>
     </div>
     <div class="col s6">
-      <label for="mix-rank">素材の最大ランク</label>
+      <label for="mix-rank" v-translate>MAX WEAPON GRADE</label>
       <select class="browser-default" id="mix-rank" name="rate" type="number" v-model="mixRank" required>
       <option value="1">★</option>
       <option value="2">★★</option>
@@ -15,24 +15,24 @@
     </div>
   </div>
   <div class="row">
-    <div class="col s12">所持金 ⇒ 到達レベル</div>
+    <div class="col s12" v-translate>CASH &gt; LEVEL</div>
     <div class="input-field col s6">
       <input id="xp-money" type="number" min="0" v-model="money" required />
-      <label class="active" for="xp-money">所持金</label>
+      <label class="active" for="xp-money" v-translate>CASH</label>
     </div>
     <div class="input-field col s6">
-      <label class="active">到達レベル</label>
+      <label class="active" v-translate>LEVEL</label>
       <h5>{{levelResult | commify}}</h5>
     </div>
   </div>
   <div class="row">
-    <div class="col s12">目標レベル ⇒ 費用</div>
+    <div class="col s12" v-translate>LEVEL &gt; COST</div>
     <div class="input-field col s6">
       <input id="xp-target-level" type="number" min="0" v-model="targetLevel" required />
-      <label for="xp-target-level" class="active">目標レベル</label>
+      <label for="xp-target-level" class="active" v-translate>TARGET LEVEL</label>
     </div>
     <div class="input-field col s6">
-      <label class="active">費用</label>
+      <label class="active" v-translate>COST</label>
       <h5>{{moneyResult | commify}}</h5>
     </div>
   </div>
