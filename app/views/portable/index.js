@@ -14,12 +14,6 @@ module.exports = {
     template: require('./template.html'),
     data: function () {
         return {
-            headPortable: 952,
-            torsoPortable: 880,
-            pantsPortable: 928,
-            weaponPortable: 660,
-            additionalRate: 0,
-            histories: [],
         };
     },
     locales: {
@@ -41,7 +35,7 @@ module.exports = {
             'CLEAR': 'クリア',
             'TWEET': 'ツイートする',
             'SAVE': '保存',
-            'Unable to calculate': '計算不可',
+            'Error': 'エラー',
             'Skater': 'スケートできる!',
             'Not skater': 'スケートできません...',
         },
@@ -83,17 +77,54 @@ module.exports = {
         },
     },
     computed: {
-        additionalRateValue: function () {
-            if (!this.additionalRate) {
-                return 0;
-            }
-            return parseInt(this.additionalRate, 10);
+        headPortable: {
+            get: function () {
+                return this.$store.state.portability.headPortable;
+            },
+            set: function (value) {
+                this.$store.dispatch('setPortability', {key: 'headPortable', value: value})
+            },
+        },
+        torsoPortable: {
+            get: function () {
+                return this.$store.state.portability.torsoPortable;
+            },
+            set: function (value) {
+                this.$store.dispatch('setPortability', {key: 'torsoPortable', value: value})
+            },
+        },
+        pantsPortable: {
+            get: function () {
+                return this.$store.state.portability.pantsPortable;
+            },
+            set: function (value) {
+                this.$store.dispatch('setPortability', {key: 'pantsPortable', value: value})
+            },
+        },
+        weaponPortable: {
+            get: function () {
+                return this.$store.state.portability.weaponPortable;
+            },
+            set: function (value) {
+                this.$store.dispatch('setPortability', {key: 'weaponPortable', value: value})
+            },
+        },
+        additionalRate: {
+            get: function () {
+                return this.$store.state.portability.additionalRate;
+            },
+            set: function (value) {
+                this.$store.dispatch('setPortability', {key: 'additionalRate', value: value})
+            },
+        },
+        histories: function () {
+            return this.$store.state.portabilityHistories;
         },
         sum: function () {
-            return parseInt(this.headPortable, 10) + parseInt(this.torsoPortable, 10) + parseInt(this.pantsPortable, 10) + parseInt(this.weaponPortable, 10);
+            return this.headPortable + this.torsoPortable + this.pantsPortable + this.weaponPortable;
         },
         pantsAddition: function () {
-            return parseInt(this.pantsPortable) * this.additionalRateValue / 100;
+            return this.pantsPortable * this.additionalRate / 100;
         },
         pantsAdditionWithoutOnesPlace: function () {
             return Math.floor(this.pantsAddition / 10) * 10;
@@ -102,7 +133,7 @@ module.exports = {
             return this.pantsAddition % 10;
         },
         weaponAddition: function () {
-            return parseInt(this.weaponPortable, 10) * this.additionalRateValue / 100;
+            return this.weaponPortable * this.additionalRate / 100;
         },
         weaponAdditionWithoutOnesPlace: function () {
             return Math.floor(this.weaponAddition / 10) * 10;
@@ -111,18 +142,29 @@ module.exports = {
             return this.weaponAddition % 10;
         },
         isValid: function () {
-            if (this.additionalRateValue < 0) {
+            if (this.additionalRate < 0) {
                 return false;
             }
-            return this.headPortable && this.torsoPortable && this.pantsPortable && this.weaponPortable;
+            if (this.headPortable < 0 || 1000 < this.headPortable) {
+                return false;
+            }
+            if (this.torsoPortable < 0 || 1000 < this.torsoPortable) {
+                return false;
+            }
+            if (this.pantsPortable < 0 || 1000 < this.pantsPortable) {
+                return false;
+            }
+            if (this.weaponPortable < 0 || 1000 < this.weaponPortable) {
+                return false;
+            }
+            return true;
         },
         portable: function () {
             if (!this.isValid) {
-                return this.t('Unable to calculate.');
+                return this.t('Error');
             }
 
             var result = this.sum;
-
             console.log('sum', this.sum);
 
             var addition = this.pantsAdditionWithoutOnesPlace + this.weaponAdditionWithoutOnesPlace;
@@ -134,15 +176,15 @@ module.exports = {
             }
 
             // 固定値???
-            if (this.additionalRateValue === 5) {
+            if (this.additionalRate === 5) {
                 addition = 61;
-            } else if (this.additionalRateValue === 7) {
+            } else if (this.additionalRate === 7) {
                 addition = 86;
-            } else if (this.additionalRateValue === 10) {
+            } else if (this.additionalRate === 10) {
                 addition = 119;
-            } else if (this.additionalRateValue === 12) {
+            } else if (this.additionalRate === 12) {
                 addition = 86 + 61;
-            } else if (this.additionalRateValue === 17) {
+            } else if (this.additionalRate === 17) {
                 addition = 86 + 119;
             }
             result += addition;
@@ -152,10 +194,10 @@ module.exports = {
             return Math.floor(result);
         },
         skating: function () {
-            if (5 <= this.additionalRateValue) {
+            if (5 <= this.additionalRate) {
                 return 3311 <= this.portable;
             }
-            if (this.additionalRate && 0 < this.additionalRateValue) {
+            if (0 < this.additionalRate) {
                 return 3315 <= this.portable;
             }
             return 3311 <= this.portable;
@@ -193,25 +235,16 @@ module.exports = {
     },
     methods: {
         loadHistories: function () {
-            var stored = window.localStorage.getItem('histories');
-            if (!stored) {
-                this.histories = [];
-            } else {
-                this.histories = JSON.parse(stored);
-            }
-            return;
+            this.$store.dispatch('loadPortabilityHistories');
         },
         clear: function () {
-            if (this.histories) {
-                this.histories.splice(0, this.histories.length);
-            }
-            window.localStorage.clear();
+            this.$store.dispatch('clearPortability');
         },
         save: function () {
             if (!this.isValid) {
-                return true;
+                return;
             }
-            this.histories.push({
+            this.$store.dispatch('savePortability', {
                 uuid: getUniqueStr(),
                 headPortable: this.headPortable,
                 torsoPortable: this.torsoPortable,
@@ -222,23 +255,9 @@ module.exports = {
                 portable: this.portable,
                 skating: this.skating,
             });
-            this.histories = _.uniqBy(this.histories, function (record) {
-                var key = record.headPortable + '';
-                key += record.torsoPortable;
-                key += record.pantsPortable;
-                key += record.weaponPortable;
-                key += record.additionalRate;
-                console.log(key);
-                return key;
-            });
-            window.localStorage.setItem('histories', JSON.stringify(this.histories));
-            return true;
         },
         remove: function (uuid) {
-            this.histories = _.reject(this.histories, {
-                uuid: uuid
-            });
-            window.localStorage.setItem('histories', JSON.stringify(this.histories));
+            this.$store.dispatch('removePortability', uuid);
         },
     },
 };

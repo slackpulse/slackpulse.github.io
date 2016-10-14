@@ -22,6 +22,7 @@
   "dependencies": {
     "autosize": "latest",
     "bluebird": "latest",
+    "cleave.js": "latest",
     "firebase": "latest",
     "fs-readdir-recursive": "latest",
     "jquery": "latest",
@@ -35,7 +36,8 @@
     "vue-head": "latest",
     "vue-router": "latest",
     "vue-touch": "latest",
-    "vue-translate-plugin": "latest"
+    "vue-translate-plugin": "latest",
+    "vuex": "latest"
   },
   "devDependencies": {
     "autoprefixer": "latest",

@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var Cleave = require('../../components/cleave');
 
 var DRAW_COST = 4000;
 var XP_PER_WEAPON_1 = 350;
@@ -83,10 +84,6 @@ module.exports = {
     },
     data: function () {
         return {
-            money: 1000000,
-            currentLevel: 1,
-            targetLevel: 30,
-            mixRank: '3',
         };
     },
     beforeRouteEnter: function (route, redirect, next) {
@@ -100,32 +97,64 @@ module.exports = {
         },
     },
     computed: {
+        money: {
+            get: function () {
+                return this.$store.state.xp.money; 
+            },
+            set: function (value) {
+                this.$store.dispatch('setXPParams', {key: 'money', value: value});
+            },
+        },
+        currentLevel: {
+            get: function () {
+                return this.$store.state.xp.currentLevel; 
+            },
+            set: function (value) {
+                this.$store.dispatch('setXPParams', {key: 'currentLevel', value: value});
+            },
+        },
+        targetLevel: {
+            get: function () {
+                return this.$store.state.xp.targetLevel; 
+            },
+            set: function (value) {
+                this.$store.dispatch('setXPParams', {key: 'targetLevel', value: value});
+            },
+        },
+        mixRank: {
+            get: function () {
+                return this.$store.state.xp.mixRank;
+            },
+            set: function (value) {
+                this.$store.dispatch('setXPParams', {key: 'mixRank', value: value});
+            },
+        },
         expectedXp: function () {
             var result = 0;
-            if (this.mixRank === '1') {
+            if (this.mixRank === 1) {
                 result = expXp1 / (DRAW_COST + FUSION_COST_PER_WEAPON_1);
             }
-            if (this.mixRank === '2') {
+            if (this.mixRank === 2) {
                 result = (expXp1 + expXp2) / (DRAW_COST + p1 * FUSION_COST_PER_WEAPON_1 + p2 * FUSION_COST_PER_WEAPON_2);
             }
-            if (this.mixRank === '3') {
+            if (this.mixRank === 3) {
                 result = (expXp1 + expXp2 + expXp3) / (DRAW_COST + p1 * FUSION_COST_PER_WEAPON_1 + p2 * FUSION_COST_PER_WEAPON_2 + p3 * FUSION_COST_PER_WEAPON_3);
             }
-            return result * (parseInt(this.money, 10) + 1);
+            return (result * this.money) + 1;
         },
         expectedMoney: function () {
             var result = 0;
-            if (this.mixRank === '1') {
+            if (this.mixRank === 1) {
                 result = (DRAW_COST + FUSION_COST_PER_WEAPON_1) / (p1 * XP_PER_WEAPON_1);
             }
-            if (this.mixRank === '2') {
+            if (this.mixRank === 2) {
                 result = (
                     DRAW_COST + 
                     (p1 * FUSION_COST_PER_WEAPON_1) +
                     (p2 * FUSION_COST_PER_WEAPON_2)) /
                     (p1 * XP_PER_WEAPON_1 + p2 * XP_PER_WEAPON_2);
             }
-            if (this.mixRank === '3') {
+            if (this.mixRank === 3) {
                 result = (
                     DRAW_COST +
                     (p1 * FUSION_COST_PER_WEAPON_1) +
@@ -133,12 +162,11 @@ module.exports = {
                     (p3 * FUSION_COST_PER_WEAPON_3)) /
                     (p1 * XP_PER_WEAPON_1 + p2 * XP_PER_WEAPON_2 + p3 * XP_PER_WEAPON_3);
             }
-            console.log('expectedMoney', result);
             return result;
         },
         levelResult: function () {
             var that = this;
-            var currentValue = REQUIRED_XP[parseInt(this.currentLevel, 10) - 1];
+            var currentValue = REQUIRED_XP[this.currentLevel - 1];
             var foundIndex = _.findIndex(REQUIRED_XP, function (value, index) {
                 return that.expectedXp <= value - currentValue;
             });
@@ -154,16 +182,21 @@ module.exports = {
             return 40;
         },
         moneyResult: function () {
-            var targetValue = REQUIRED_XP[parseInt(this.targetLevel, 10) - 1];
-            var currentValue = REQUIRED_XP[parseInt(this.currentLevel, 10) - 1];
+            var targetValue = REQUIRED_XP[this.targetLevel - 1];
+            var currentValue = REQUIRED_XP[this.currentLevel - 1];
 
-            if (parseInt(this.targetLevel, 10) < parseInt(this.currentLevel, 10)) {
+            if (this.targetLevel < this.currentLevel) {
                 return 0;
             }
-            if (40 < parseInt(this.targetLevel, 10)) {
+            if (40 < this.targetLevel) {
                 return 0;
             }
             return Math.floor((targetValue - currentValue) * this.expectedMoney);
         },
+    },
+    methods: {
+    },
+    components: {
+        Cleave: Cleave,
     },
 };

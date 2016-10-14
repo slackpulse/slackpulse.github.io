@@ -7,12 +7,12 @@ Vue.use(VueHead);
 Vue.use(VueRouter);
 Vue.use(VueTranslate);
 
+var store = require('./store')
+
 global.jQuery = require('jquery');
 
 require('materialize-css/dist/css/materialize.css');
 require('materialize-css/dist/js/materialize.js');
-
-var RemoteService = require('./remote-service');
 
 function materializeInit() {
     console.log('materializeInit');
@@ -48,6 +48,7 @@ Vue.filter('commify', function (value) {
 var routeConfig = require('./router.js');
 
 var app = {
+    store: store,
     locales: {
         'ja': {
             'PORTABILITY': 'ポータブル',
@@ -148,7 +149,6 @@ var app = {
     data: function () {
         return {
             title: '',
-            remoteService: null,
             lang: null,
         };
     },
@@ -165,6 +165,9 @@ var app = {
         ],
     },
     computed: {
+        remoteService: function () {
+            return this.$store.state.remoteService;
+        },
         isLoggedIn: function () {
             return this.remoteService && this.remoteService.user;
         },
@@ -187,7 +190,7 @@ var app = {
             jQuery(document).on('click', '.drag-target', function () {
                 jQuery('[id^=sidenav-overlay]').remove();
             });
-            this.remoteService = new RemoteService();
+            this.$store.dispatch('createRemoteService');
             this.setLanguage();
             document.title = 'Afterpulse Calculator | slackpulse';
         });

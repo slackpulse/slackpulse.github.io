@@ -17,17 +17,26 @@ module.exports = {
     template: require('./template.html'),
     data: function () {
         return {
-            equipments: [],
             searchRegion: 'HEADGEAR',
             searchStar: 6,
         };
     },
     mounted: function () {
         this.$nextTick(function () {
-            this.getEquipments();
         });
     },
+    watch: {
+        '$route': function (to, from) {
+            if (to.name === 'equipments') {
+                this.$root.title = 'Afterpulse Equipments';
+                this.getEquipments();
+            }
+        },
+    },
     computed: {
+        equipments: function () {
+            return this.$store.state.equipments;
+        },
         filteredEquipments: function () {
             var that = this;
             return _.chain(this.equipments)
@@ -36,7 +45,7 @@ module.exports = {
                     if ('ALL' !== that.searchRegion && that.searchRegion !== equipment.region) {
                         isTarget = false;
                     }
-                    if (that.searchStar && that.searchStar !== equipment.star) {
+                    if (that.searchStar && parseInt(that.searchStar, 10) !== parseInt(equipment.star, 10)) {
                         isTarget = false;
                     }
                     return isTarget;
@@ -46,14 +55,10 @@ module.exports = {
     },
     methods: {
         getEquipments: function () {
-            var that = this;
-            if (!this.$root.remoteService) {
-                return [];
+            if (this.equipments && 0 < this.equipments.length) {
+                return;
             }
-            this.$root.remoteService.getEquipments()
-                .tap(function (data) {
-                    that.equipments = data;
-                });
+            this.$store.dispatch('loadEquipments');
         },
     },
     filters: {

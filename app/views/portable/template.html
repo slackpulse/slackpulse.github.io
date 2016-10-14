@@ -35,15 +35,18 @@
   <div class="row">
     <div class="col s4">
       <span v-translate>DISPLAYED PORTABILITY</span>
-      <h4>{{sum | commify}}</h4>
+      <h4 v-if="isValid">{{sum | commify}}</h4>
+      <h4 v-else>{{t('Error')}}</h4>
     </div>
     <div class="col s4">
       <span v-translate>CALCULATED PORTABILITY</span>
-      <h4>{{portable | commify}}</h4>
+      <h4 v-if="isValid">{{portable | commify}}</h4>
+      <h4 v-else>{{t('Error')}}</h4>
     </div>
     <div class="col s4">
       <span v-translate>SKATER</span>
-      <h4>{{ t(skating ? 'YES' : 'NO') }}</h4>
+      <h4 v-if="isValid">{{ t(skating ? 'YES' : 'NO') }}</h4>
+      <h4 v-else>{{t('Error')}}</h4>
     </div>
   </div>
 
