@@ -45,8 +45,6 @@ Vue.filter('commify', function (value) {
     return value ? value.commify() : '';
 });
 
-var routeConfig = require('./router.js');
-
 var app = {
     store: store,
     locales: {
@@ -245,7 +243,7 @@ var app = {
             this.remoteService.signOut();
         },
     },
-    router: new VueRouter(routeConfig),
+    router: require('./router'),
 };
 
 global.eventHub = new Vue(app).$mount('#app');

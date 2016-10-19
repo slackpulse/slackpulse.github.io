@@ -2,9 +2,9 @@ var _ = require('lodash');
 var Cleave = require('../../components/cleave');
 
 var DRAW_COST = 4000;
-var XP_PER_WEAPON_1 = 350;
-var XP_PER_WEAPON_2 = 800;
-var XP_PER_WEAPON_3 = 1750;
+var XP_PER_WEAPON_1 = 697.5;
+var XP_PER_WEAPON_2 = 1593.32;
+var XP_PER_WEAPON_3 = 3489.34;
 var FUSION_COST_PER_WEAPON_1 = 500;
 var FUSION_COST_PER_WEAPON_2 = 800;
 var FUSION_COST_PER_WEAPON_3 = 1300;

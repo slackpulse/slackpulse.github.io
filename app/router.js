@@ -1,12 +1,13 @@
 'use strict';
 
 var _ = require('lodash');
+var VueRouter = require('vue-router');
 
 var Portable = require('./views/portable');
 var Xp = require('./views/xp');
 var Equipment = require('./views/equipment');
 
-module.exports = {
+var routeConfig = {
     mode: 'hash',
     routes: [
         {
@@ -31,3 +32,6 @@ module.exports = {
         },
     ],
 };
+var router = new VueRouter(routerConfig);
+
+module.exports = router;
