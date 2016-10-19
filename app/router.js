@@ -7,7 +7,7 @@ var Portable = require('./views/portable');
 var Xp = require('./views/xp');
 var Equipment = require('./views/equipment');
 
-var routeConfig = {
+var routerConfig = {
     mode: 'hash',
     routes: [
         {
