@@ -42,11 +42,17 @@ var actions = {
     },
     setXPParams: function (context, payload) {
         var parsed = payload.value ? parseInt(payload.value, 10) : 0;
-        context.commit(types.XP_SET_VALUES, {key: payload.key, value: parsed})
+        context.commit(types.XP_SET_VALUES, {
+            key: payload.key,
+            value: parsed
+        })
     },
     setPortability: function (context, payload) {
         var parsed = payload.value ? parseInt(payload.value, 10) : 0;
-        context.commit(types.PORTABILITY_SET_VALUES, {key: payload.key, value: parsed})
+        context.commit(types.PORTABILITY_SET_VALUES, {
+            key: payload.key,
+            value: parsed
+        })
     },
     loadPortabilityHistories: function (context) {
         var stored = window.localStorage.getItem('histories');
@@ -64,6 +70,15 @@ var actions = {
             return key;
         });
         window.localStorage.setItem('histories', JSON.stringify(histories));
+        if (_.isFunction(ga)) {
+            ga('send', {
+                hitType: 'event',
+                eventCategory: 'Portable',
+                eventAction: 'Save',
+                eventLabel: JSON.stringify(value),
+                eventValue: 1,
+            });
+        }
         context.commit(types.PORTABILITY_SAVE, histories);
     },
     removePortability: function (context, uuid) {

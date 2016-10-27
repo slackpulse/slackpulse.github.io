@@ -83,7 +83,10 @@ module.exports = {
                 return this.$store.state.portability.headPortable;
             },
             set: function (value) {
-                this.$store.dispatch('setPortability', {key: 'headPortable', value: value})
+                this.$store.dispatch('setPortability', {
+                    key: 'headPortable',
+                    value: value
+                })
             },
         },
         torsoPortable: {
@@ -91,7 +94,10 @@ module.exports = {
                 return this.$store.state.portability.torsoPortable;
             },
             set: function (value) {
-                this.$store.dispatch('setPortability', {key: 'torsoPortable', value: value})
+                this.$store.dispatch('setPortability', {
+                    key: 'torsoPortable',
+                    value: value
+                })
             },
         },
         pantsPortable: {
@@ -99,7 +105,10 @@ module.exports = {
                 return this.$store.state.portability.pantsPortable;
             },
             set: function (value) {
-                this.$store.dispatch('setPortability', {key: 'pantsPortable', value: value})
+                this.$store.dispatch('setPortability', {
+                    key: 'pantsPortable',
+                    value: value
+                })
             },
         },
         weaponPortable: {
@@ -107,7 +116,10 @@ module.exports = {
                 return this.$store.state.portability.weaponPortable;
             },
             set: function (value) {
-                this.$store.dispatch('setPortability', {key: 'weaponPortable', value: value})
+                this.$store.dispatch('setPortability', {
+                    key: 'weaponPortable',
+                    value: value
+                })
             },
         },
         additionalRate: {
@@ -115,7 +127,10 @@ module.exports = {
                 return this.$store.state.portability.additionalRate;
             },
             set: function (value) {
-                this.$store.dispatch('setPortability', {key: 'additionalRate', value: value})
+                this.$store.dispatch('setPortability', {
+                    key: 'additionalRate',
+                    value: value
+                })
             },
         },
         histories: function () {

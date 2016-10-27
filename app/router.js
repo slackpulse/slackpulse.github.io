@@ -34,4 +34,17 @@ var routerConfig = {
 };
 var router = new VueRouter(routerConfig);
 
+router.beforeEach(function (to, from, next) {
+    if (_.isFunction(ga)) {
+        ga('send', {
+            hitType: 'event',
+            eventCategory: 'View',
+            eventAction: 'Show',
+            eventLabel: to.name,
+            eventValue: 1,
+        });
+    }
+    next();
+});
+
 module.exports = router;
