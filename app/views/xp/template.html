@@ -20,7 +20,7 @@
       <input id="xp-money" type="number" min="0" v-model="money"/>
       <label class="active" for="xp-money" v-translate>CASH</label>
     </div>
-    <div class="input-field col s6">
+    <div class="input-field col s6 center-align">
       <label class="active" v-translate>LEVEL</label>
       <h5>{{levelResult | commify}}</h5>
     </div>
@@ -31,7 +31,7 @@
       <input id="xp-target-level" type="number" min="0" v-model="targetLevel"/>
       <label for="xp-target-level" class="active" v-translate>TARGET LEVEL</label>
     </div>
-    <div class="input-field col s6">
+    <div class="input-field col s6 center-align">
       <label class="active" v-translate>COST</label>
       <h5>{{moneyResult | commify}}</h5>
     </div>
