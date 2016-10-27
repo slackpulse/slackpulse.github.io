@@ -72,7 +72,7 @@ module.exports = {
             'CASH > LEVEL': '所持金 ⇒  到達レベル',
             'CASH': '所持金',
             'LEVEL': 'レベル',
-            'LEVEL > COST': '目標レベル ⇒  COST',
+            'LEVEL > COST': '目標レベル ⇒  費用',
             'TARGET LEVEL': '目標レベル',
             'COST': '費用',
         },

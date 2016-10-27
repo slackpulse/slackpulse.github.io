@@ -4,7 +4,7 @@ var Promise = require('bluebird');
 module.exports = {
     locales: {
         'ja': {
-            'EQUIPMENTS': '装備データ',
+            'EQUIPMENTS': '装備',
             'POSITION': '部位',
             'GRADE': '星',
             'HEAD': '頭',
