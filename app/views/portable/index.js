@@ -30,6 +30,7 @@ module.exports = {
             'DISPLAYED': '表示',
             'CALCULATED': '算出',
             'SKATER': 'スケート可能',
+            'TIER': '段階',
             'YES': 'はい',
             'NO': 'いいえ',
             'CLEAR': 'クリア',
@@ -123,24 +124,6 @@ module.exports = {
         sum: function () {
             return this.headPortable + this.torsoPortable + this.pantsPortable + this.weaponPortable;
         },
-        pantsAddition: function () {
-            return this.pantsPortable * this.additionalRate / 100;
-        },
-        pantsAdditionWithoutOnesPlace: function () {
-            return Math.floor(this.pantsAddition / 10) * 10;
-        },
-        pantsAdditionOnesPlace: function () {
-            return this.pantsAddition % 10;
-        },
-        weaponAddition: function () {
-            return this.weaponPortable * this.additionalRate / 100;
-        },
-        weaponAdditionWithoutOnesPlace: function () {
-            return Math.floor(this.weaponAddition / 10) * 10;
-        },
-        weaponAdditionOnesPlace: function () {
-            return this.weaponAddition % 10;
-        },
         isValid: function () {
             if (this.additionalRate < 0) {
                 return false;
@@ -163,21 +146,12 @@ module.exports = {
             if (!this.isValid) {
                 return this.t('Error');
             }
-
             var result = this.sum;
-            console.log('sum', this.sum);
-
-            var addition = this.pantsAdditionWithoutOnesPlace + this.weaponAdditionWithoutOnesPlace;
-            if (5 <= this.pantsAdditionOnesPlace) {
-                addition += Math.floor(this.pantsAdditionOnesPlace);
-            }
-            if (5 <= this.weaponAdditionOnesPlace) {
-                addition += Math.floor(this.weaponAdditionOnesPlace);
-            }
-
             // 固定値???
-            if (this.additionalRate === 5) {
-                addition = 61;
+            if (this.additionalRate === 2) {
+                addition = 24;
+            } else if (this.additionalRate === 5) {
+                addition = 60;
             } else if (this.additionalRate === 7) {
                 addition = 86;
             } else if (this.additionalRate === 10) {
@@ -186,6 +160,10 @@ module.exports = {
                 addition = 86 + 61;
             } else if (this.additionalRate === 17) {
                 addition = 86 + 119;
+            } else if (this.additionalRate === 30) {
+                addition = 357;
+            } else {
+                addition = 1190 * (this.additionalRate / 100);
             }
             result += addition;
 
@@ -194,13 +172,23 @@ module.exports = {
             return Math.floor(result);
         },
         skating: function () {
-            if (5 <= this.additionalRate) {
-                return 3311 <= this.portable;
-            }
-            if (0 < this.additionalRate) {
-                return 3315 <= this.portable;
-            }
             return 3311 <= this.portable;
+        },
+        tier: function () {
+            if (this.portable < 3311) {
+                return 0;
+            } else if (this.portable < 3361) {
+                return 1;
+            } else if (this.portable < 3411) {
+                return 2;
+            } else if (this.portable < 3461) {
+                return 3;
+            } else if (this.portable < 3511) {
+                return 4;
+            } else if (this.portable < 3561) {
+                return 5;
+            }
+            return 6;
         },
         shareURL: function () {
             var compiled = _.template([
