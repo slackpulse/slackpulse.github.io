@@ -21,11 +21,10 @@ const cssLoaders = [
     'postcss-loader',
 ];
 let styleLoader = function (before) {
-    return styleLoader.extractTextWebpackPlugin.extract('vue-style-loader',
-        [].concat(cssLoaders, before || []).join('!'),
-        {
-            publicPath: '../'
-        });
+    return styleLoader.extractTextWebpackPlugin.extract({
+        fallback: 'vue-style-loader',
+        use: [].concat(cssLoaders, before || []).join('!'),
+    });
 };
 styleLoader.extractTextWebpackPlugin = new ExtractTextWebpackPlugin('css/main.css');
 
@@ -58,8 +57,10 @@ const webpackConfig = {
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextWebpackPlugin.extract(
-                    "style-loader", "css-loader?sourceMap!postcss-loader")
+                loader: ExtractTextWebpackPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader?sourceMap!postcss-loader",
+                })
             },
             {
                 test: /\.(png|ttf|eot|svg|woff(2)?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -73,21 +74,25 @@ const webpackConfig = {
         inline: true, // XXX: > specify --inline on the command line (you cannot specify it in the configuration)
         hot: process.argv.indexOf('--hot') !== -1,
     },
-    postcss: [
-        autoprefixer({
-            browsers: [
-                'iOS >= 7.0',
-                'Android >= 4.2',
-                'Safari >= 7',
-                'Chrome >= 42',
-            ],
-        }),
-    ],
     plugins: [
         new webpack.IgnorePlugin(/cls-bluebird/, /request-promise/),
         //new webpack.optimize.UglifyJsPlugin(),
         new HtmlWebpackPlugin({
             template: 'app/index.ejs',
+        }),
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                postcss: [ // <---- postcss configs go here under LoadOptionsPlugin({ options: { ??? } })
+										autoprefixer({
+												browsers: [
+														'iOS >= 7.0',
+														'Android >= 4.2',
+														'Safari >= 7',
+														'Chrome >= 42',
+												],
+										}),
+                ],            
+            },
         }),
     ],
     node: {
@@ -96,7 +101,7 @@ const webpackConfig = {
         tls: 'empty',
     },
     resolve: {
-        extensions: ['', '.js', '.jsx'],
+        extensions: ['.js', '.jsx'],
         alias: {
             jquery: path.join(__dirname, 'node_modules/jquery/dist/jquery'),
             vue: path.join(__dirname, 'node_modules/vue/dist/vue')
