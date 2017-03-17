@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var VueRouter = require('vue-router');
+var VueRouter = require('vue-router').default;
 
 var Portable = require('./views/portable');
 var Xp = require('./views/xp');
@@ -20,11 +20,6 @@ var routerConfig = {
             path: '/xp',
             component: Xp,
             name: 'xp',
-        },
-        {
-            path: '/equipments',
-            component: Equipment,
-            name: 'equipments',
         },
         {
             path: '*',

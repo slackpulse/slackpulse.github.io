@@ -3,9 +3,6 @@ var _ = require('lodash');
 var RemoteService = require('../remote-service');
 
 var Vue = require('vue');
-var Vuex = require('vuex');
-
-Vue.use(Vuex);
 
 var state = {
     remoteService: null,
@@ -160,9 +157,9 @@ var mutations = {
 var getters = {
 };
 
-module.exports = new Vuex.Store({
+module.exports = {
     state: state,
     getters: getters,
     actions: actions,
     mutations: mutations,
-});
+};

@@ -1,13 +1,13 @@
 var Vue = require('vue');
+var Vuex = require('vuex').default;
 var VueHead = require('vue-head');
-var VueRouter = require('vue-router');
+var VueRouter = require('vue-router').default;
 var VueTranslate = require('vue-translate-plugin');
 
+Vue.use(Vuex);
 Vue.use(VueHead);
 Vue.use(VueRouter);
 Vue.use(VueTranslate);
-
-var store = require('./store')
 
 global.jQuery = require('jquery');
 
@@ -21,7 +21,7 @@ function materializeInit() {
     });
     jQuery('select').material_select();
     jQuery('.dropdown-button').dropdown();
-    jQuery('.modal-trigger').leanModal();
+    //jQuery('.modal-trigger').leanModal();
 }
 
 String.prototype.reverse = function () {
@@ -44,6 +44,9 @@ Number.prototype.commify = function () {
 Vue.filter('commify', function (value) {
     return value ? value.commify() : '';
 });
+
+var storeOptions = require('./store');
+var store = new Vuex.Store(storeOptions);
 
 var app = {
     store: store,
@@ -77,27 +80,23 @@ var app = {
               <ul class="right hide-on-med-and-down">
                 <li><a v-on:click="onClickNav('portable')" v-translate>PORTABILITY</a></li>
                 <li><a v-on:click="onClickNav('xp')" v-translate>XP</a></li>
-                <li v-show="isLoggedIn"><a v-on:click="onClickNav('equipments')" v-translate>EQUIPMENTS</a></li>
                 <li v-show="isLoggedIn" class="login avatar">
                   <a class="dropdown-button" href="#!" data-activates="dropdown1" data-hover="true">
                     <img v-show="isLoggedIn" v-bind:src="avatar" alt="" class="circle responsive-img" />
                   </a>
                 </li>
-                <li v-show="!isLoggedIn"><a class="blue-grey darken-4 btn" v-on:click="signIn" v-translate>LOGIN</a>
-                </li>
-              </ul>
-              <ul class="side-nav" id="slide-out">
-                <li v-show="isLoggedIn" class="login avatar">
-                  <img v-if="isLoggedIn" v-bind:src="avatar" alt="" class="circle responsive-img" /><span class="name">{{name}}</span>
-                </li>
-                <li v-show="!isLoggedIn"><a class="blue-grey darken-4 btn" v-on:click="signIn" v-translate>LOGIN</a></li>
-                <li><a v-on:click="onClickNav('portable')" v-translate>PORTABILITY</a></li>
-                <li><a v-on:click="onClickNav('xp')" v-translate>XP</a></li>
-                <li v-show="isLoggedIn"><a v-on:click="onClickNav('equipments')" v-translate>EQUIPMENTS</a></li>
-                <li v-show="isLoggedIn"><a href="#!" v-on:click="signOut" v-translate>LOGOUT</a></li>
               </ul>
             </div>
           </nav>
+        </div>
+        <div class="nav-wrapper blue darken-4">
+          <ul class="side-nav" id="slide-out">
+            <li v-show="isLoggedIn" class="login avatar">
+              <img v-if="isLoggedIn" v-bind:src="avatar" alt="" class="circle responsive-img" /><span class="name">{{name}}</span>
+            </li>
+            <li><a v-on:click="onClickNav('portable')" v-translate>PORTABILITY</a></li>
+            <li><a v-on:click="onClickNav('xp')" v-translate>XP</a></li>
+          </ul>
         </div>
 
         <div class="container">
@@ -158,8 +157,18 @@ var app = {
             };
         },
         link: [
-            {rel: 'icon', href: 'images/icon-16.png', sizes: '16x16', type: 'image/png'},
-            {rel: 'icon', href: 'images/icon-32.png', sizes: '32x32', type: 'image/png'},
+            {
+                rel: 'icon',
+                href: 'images/icon-16.png',
+                sizes: '16x16',
+                type: 'image/png'
+            },
+            {
+                rel: 'icon',
+                href: 'images/icon-32.png',
+                sizes: '32x32',
+                type: 'image/png'
+            },
         ],
     },
     computed: {
@@ -231,7 +240,9 @@ var app = {
             this.$translate.setLang(lang);
         },
         onClickNav: function (name) {
-            this.$router.push({name: name});
+            this.$router.push({
+                name: name
+            });
             jQuery('[id^=sidenav-overlay]').remove();
         },
         signIn: function () {
