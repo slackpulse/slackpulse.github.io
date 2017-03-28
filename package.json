@@ -1,70 +1,35 @@
 {
-  "name": "slackpulse.github.io",
+  "name": "slackpulse",
   "version": "1.0.0",
-  "description": "Slackpulse Afterpulse tools",
+  "description": "slackpulse.github.io github page",
+  "author": "slackpulse",
   "license": "UNLICENSED",
-  "author": {
-    "name": "slackpulse",
-    "url": "https://slackpublse.github.io"
-  },
-  "main": "app/main.js",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:slackpulse/slackpulse.github.io.git"
+  "private": true,
+  "dependencies": {
+    "cleave.js": "^0.7.15",
+    "lodash": "^4.17.4",
+    "nuxt": "latest",
+    "vue-slider-component": "^2.2.2",
+    "vue-translate-plugin": "^1.2.0"
   },
   "scripts": {
-    "start": "sh -c 'webpack-dev-server --progress --colors --inline --hot'",
-    "--------": "--------",
-    "build": "webpack --progress --colors",
-    "clean": "rm -f -R ./tmp ./build/{index.html,js/,css/}",
-    "deploy": "sh -c 'git subtree push --prefix build/ origin master'"
-  },
-  "dependencies": {
-    "autosize": "latest",
-    "bluebird": "latest",
-    "cleave.js": "latest",
-    "firebase": "latest",
-    "fs-readdir-recursive": "latest",
-    "jquery": "latest",
-    "js-base64": "latest",
-    "lodash": "latest",
-    "materialize-css": "latest",
-    "moment": "latest",
-    "qs": "latest",
-    "vue": "latest",
-    "vue-head": "latest",
-    "vue-router": "latest",
-    "vue-touch": "latest",
-    "vue-translate-plugin": "latest",
-    "vuex": "latest"
+    "dev": "HOST=0.0.0.0 PORT=3000 nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint",
+    "deploy": "node_modules/.bin/push-dir --dir=dist --branch=master --cleanup"
   },
   "devDependencies": {
-    "autoprefixer": "latest",
-    "css-loader": "latest",
-    "escodegen": "latest",
-    "esprima-loader": "latest",
-    "expose-loader": "^0.7.1",
-    "extract-text-webpack-plugin": "latest",
-    "favicons": "latest",
-    "file-loader": "latest",
-    "fs-extra": "latest",
-    "html-minify-loader": "latest",
-    "html-webpack-plugin": "latest",
-    "json-loader": "latest",
-    "less": "latest",
-    "less-loader": "latest",
-    "loader-utils": "latest",
-    "node-sass": "latest",
-    "postcss-loader": "latest",
-    "raw-loader": "latest",
-    "sass-loader": "latest",
-    "script-loader": "latest",
-    "source-map": "latest",
-    "style-loader": "latest",
-    "url-loader": "latest",
-    "vue-style-loader": "latest",
-    "webpack": "latest",
-    "webpack-dev-server": "latest"
-  },
-  "private": true
+    "babel-eslint": "^7.1.1",
+    "babel-preset-vue-app": "^0.5.1",
+    "eslint": "^3.15.0",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-html": "^2.0.0",
+    "eslint-plugin-promise": "^3.4.1",
+    "eslint-plugin-standard": "^2.0.1",
+    "push-dir": "^0.4.1"
+  }
 }
