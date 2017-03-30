@@ -24,39 +24,23 @@
 </template>
 
 <script>
-import axios from '~plugins/axios'
 import jsonp from 'jsonp'
-import Promise from 'bluebird'
 
 const FETCH_URL = 'https://script.google.com/macros/s/AKfycbx-lmU0zm5hJ5Ko8rt1O6fRcWoyES04_g4e6Ko4xN3R1-QqCcA/exec'
 
 export default {
-  async fetch({store, params}) {
-    if (store.state.links.length) {
-      return Promise.resolve()
+  data() {
+    return {
+      loading: false
     }
-    if (!process.BROWSER_BUILD) {
-      return axios.get(FETCH_URL)
-        .then((res) => {
-          const sorted = [].concat(res.data)
-            .sort((a, b) => {
-              if (a.createdAt < b.createdAt) {
-                return 1
-              }
-              if (a.createdAt > b.createdAt) {
-                return -1
-              }
-              return 0
-            })
-          store.commit('LINK_RESET')
-          store.commit('LINK_RETRIEVED', {data: sorted})
-        })
-    }
-
-    return new Promise((resolve, reject) => {
+  },
+  mounted() {
+    const that = this
+    this.$nextTick(() => {
+      this.loading = true
       jsonp(FETCH_URL, null, (err, data) => {
+        that.loading = false
         if (err) {
-          reject(err)
           return
         }
         const sorted = [].concat(data)
@@ -69,9 +53,8 @@ export default {
             }
             return 0
           })
-        store.commit('LINK_RESET')
-        store.commit('LINK_RETRIEVED', {data: sorted})
-        resolve()
+        that.$store.commit('LINK_RESET')
+        that.$store.commit('LINK_RETRIEVED', {data: sorted})
       })
     })
   },
