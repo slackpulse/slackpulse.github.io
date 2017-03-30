@@ -48,6 +48,9 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    }
+    },
   },
+  plugins: [
+    '~plugins/axios',
+  ],
 }

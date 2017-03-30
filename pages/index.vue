@@ -24,7 +24,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '~plugins/axios'
+import jsonp from 'jsonp'
 import Promise from 'bluebird'
 
 const FETCH_URL = 'https://script.google.com/macros/s/AKfycbx-lmU0zm5hJ5Ko8rt1O6fRcWoyES04_g4e6Ko4xN3R1-QqCcA/exec'
@@ -34,26 +35,44 @@ export default {
     if (store.state.links.length) {
       return Promise.resolve()
     }
-    return Promise.all([
-      axios.get([FETCH_URL, '?sheet=events'].join('')),
-      axios.get([FETCH_URL, '?sheet=announcements'].join('')),
-      axios.get([FETCH_URL, '?sheet=jp_events'].join('')),
-      axios.get([FETCH_URL, '?sheet=ru_events'].join('')),
-    ])
-    .spread((events, announcements, jp, ru) => {
-      console.log(ru.data)
-      const allData = [].concat(events.data, announcements.data, jp.data, ru.data)
-        .sort((a, b) => {
-          if (a.createdAt < b.createdAt) {
-            return 1
-          }
-          if (a.createdAt > b.createdAt) {
-            return -1
-          }
-          return 0
+    if (!process.BROWSER_BUILD) {
+      return axios.get(FETCH_URL)
+        .then((res) => {
+          const sorted = [].concat(res.data)
+            .sort((a, b) => {
+              if (a.createdAt < b.createdAt) {
+                return 1
+              }
+              if (a.createdAt > b.createdAt) {
+                return -1
+              }
+              return 0
+            })
+          store.commit('LINK_RESET')
+          store.commit('LINK_RETRIEVED', {data: sorted})
         })
-      store.commit('LINK_RESET')
-      store.commit('LINK_RETRIEVED', {data: allData})
+    }
+
+    return new Promise((resolve, reject) => {
+      jsonp(FETCH_URL, null, (err, data) => {
+        if (err) {
+          reject(err)
+          return
+        }
+        const sorted = [].concat(data)
+          .sort((a, b) => {
+            if (a.createdAt < b.createdAt) {
+              return 1
+            }
+            if (a.createdAt > b.createdAt) {
+              return -1
+            }
+            return 0
+          })
+        store.commit('LINK_RESET')
+        store.commit('LINK_RETRIEVED', {data: sorted})
+        resolve()
+      })
     })
   },
   computed: {
