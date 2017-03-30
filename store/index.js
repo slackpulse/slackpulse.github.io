@@ -1,6 +1,7 @@
 import _ from 'lodash'
 
 const state = {
+  links: [],
   equipments: [],
   portability: {
     headPortable: 952,
@@ -23,7 +24,8 @@ const types = {
   XP_SET_VALUES: 'XP_SET_VALUES',
   PORTABILITY_SET_VALUES: 'PORTABILITY_SET_VALUES',
   PORTABILITY_SAVE: 'PORTABILITY_SAVE',
-  EQUIPMENTS_LOAD: 'EQUIPMENTS_LOAD',
+  LINK_RESET: 'LINK_RESET',
+  LINK_RETRIEVED: 'LINK_RETRIEVED',
 }
 
 const actions = {
@@ -127,8 +129,11 @@ var mutations = {
     }
     state.xp[params.key] = value
   },
-  EQUIPMENTS_LOAD(state, equipments) {
-    state.equipments = equipments
+  LINK_RESET(state) {
+    state.links.splice(0, state.links.length)
+  },
+  LINK_RETRIEVED(state, params) {
+    state.links = state.links.concat(params.data)
   },
 }
 

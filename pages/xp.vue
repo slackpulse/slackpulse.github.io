@@ -138,7 +138,7 @@ export default {
         show: true,
         tooltip: 'always',
         tooltipDir: [
-          'bottom',
+          'top',
           'top'
         ],
         formatter: 'Lv{value}',

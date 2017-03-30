@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <div class="links">
+      <div class="navigation">
         <nuxt-link to="/" class="button--blue" exact>トップ</nuxt-link>
         <nuxt-link to="/xp" class="button--blue" exact>経験値</nuxt-link>
         <nuxt-link to="/portable" class="button--blue">ポータブル</nuxt-link>
@@ -117,9 +117,15 @@ h2 {
   margin-bottom: 40px;
 }
 
+h1,h2,h3,h4,h5,h6 {
+  color: #526488;
+}
+
 .container
 {
   min-height: 80vh;
+  max-width: 100vw;
+  overflow-x: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,10 +134,31 @@ h2 {
   overflow-scrolling: none;
   padding-bottom: 40px;
 }
+.container > * {
+  max-width: 100%; 
+}
 .layout-enter-active, .layout-leave-to {
     transition: opacity .5s;
 }
 .layout-enter, .layout-leave-to {
     opacity: 0;
+}
+header {
+  height: 4rem;
+  width: 100%;
+}
+.navigation {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
+}
+.navigation > a {
+  display: block;
+  height: 3rem;
+  line-height: 3rem;
+  padding: 0 1.5rem;
+  margin-left: 0.5rem;
 }
 </style>
