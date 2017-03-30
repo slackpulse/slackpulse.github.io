@@ -15,8 +15,11 @@
       <h3>新着ニュース</h3>
       <div class="news">
         <a class="news--item" v-for="link in links" v-bind:href="link.url">
-          <span class="news--title">{{link.title}}</span><br />
-          <span class="news--link">{{link.url}}</span>
+          <img class="news--image" v-bind:src="link | eyecatch" />
+          <div class="news--content">
+            <span class="news--title">{{link.title | trunc}}</span><br />
+            <span class="news--link">{{link.url}}</span>
+          </div>
         </a>
       </div>
     </div>
@@ -63,6 +66,24 @@ export default {
       return this.$store.state.links
     }
   },
+  filters: {
+    eyecatch(link) {
+      if (!link || !link.title) {
+        return null
+      }
+
+      if (/^\[event\]/i.test(link.title)) {
+        return require('~static/images/logo-gamevil-event-80.png')
+      }
+      if (/^\[notice\]/i.test(link.title)) {
+        return require('~static/images/logo-gamevil-notice-80.png')
+      }
+      if (/アフターパルス/i.test(link.title)) {
+        return require('~static/images/logo-gamevil-japan-80.png')
+      }
+      return require('~static/images/logo-gamevil-80.png')
+    },
+  },
 }
 </script>
 
@@ -98,20 +119,39 @@ export default {
 .news--item{
   width: 100%;
   margin: auto;
-  padding: 0.5rem 2rem 0.5rem;
+  padding: 1rem 2rem 1rem;
   box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.news--image {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+}
+.news--content {
+  max-width: 300px;
+  position: relative;
+  display: inline-block;
 }
 .news--title {
   width: 100%;
   font-weight: bold;
+  max-height: 80px;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
 }
 .news--link {
   width: 100%;
   word-break: break-all;
   white-space: prewrap;
+  display: inline-block;
 }
 .news a {
-  display: inline-block;
   color: #3498db;
   text-decoration: none;
 }

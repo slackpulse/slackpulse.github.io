@@ -49,6 +49,10 @@ module.exports = {
         })
       }
     },
+    postcss: [
+      require('postcss-cssnext')(),
+      require('postcss-nested')(),
+    ],
   },
   plugins: [
     '~plugins/axios',

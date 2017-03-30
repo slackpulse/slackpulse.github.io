@@ -27,6 +27,12 @@ Object.assign(String.prototype, {
   commify() {
     const num = parseInt(this, 10)
     return num.commify()
+  },
+  trunc(length) {
+    if (this.length > length) {
+      return [this.substring(0, length - 1), '...'].join('')
+    }
+    return this
   }
 })
 Object.assign(Number.prototype, {
@@ -41,7 +47,9 @@ Object.assign(Number.prototype, {
 Vue.filter('commify', value => {
   return value ? value.commify() : ''
 })
-
+Vue.filter('trunc', (value) => {
+  return value ? value.trunc(140) : ''
+})
 export default {
   mounted() {
     this.$nextTick(() => {
@@ -128,10 +136,11 @@ h1,h2,h3,h4,h5,h6 {
   overflow-x: hidden;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   text-align: center;
   margin: auto;
   overflow-scrolling: none;
+  padding-top: 40px;
   padding-bottom: 40px;
 }
 .container > * {

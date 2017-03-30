@@ -474,7 +474,7 @@ export default {
 
 <style scoped>
 .row {
-  width: 90vw;
+  width: 80vw;
 }
 .label {
   display: block;
