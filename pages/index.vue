@@ -1,27 +1,25 @@
 <template>
   <section class="container">
-    <div>
-      <h1 class="title">
-        アフパル計算機
-      </h1>
-      <h2 class="subtitle">
-        @slackpulse
-      </h2>
+    <h1 class="title">
+      アフパル計算機
+    </h1>
+    <h2 class="subtitle">
+      @slackpulse
+    </h2>
 
-      <div class="links">
-        <a href="https://github.com/slackpulse/slackpulse.github.io" target="_blank" class="button--grey">Github</a>
-      </div>
+    <div class="links">
+      <a href="https://github.com/slackpulse/slackpulse.github.io" target="_blank" class="button--grey">Github</a>
+    </div>
 
-      <h3>新着ニュース</h3>
-      <div class="news">
-        <a class="news--item" v-for="link in links" v-bind:href="link.url">
-          <img class="news--image" v-bind:src="link | eyecatch" />
-          <div class="news--content">
-            <span class="news--title">{{link.title | trunc}}</span><br />
-            <span class="news--link">{{link.url}}</span>
-          </div>
-        </a>
-      </div>
+    <h3>新着ニュース</h3>
+    <div class="news">
+      <a class="news--item" v-for="link in links" v-bind:href="link.url">
+        <img class="news--image" v-bind:src="link | eyecatch" />
+        <div class="news--content">
+          <span class="news--title">{{link.title | trunc}}</span><br />
+          <span class="news--link">{{link.url}}</span>
+        </div>
+      </a>
     </div>
   </section>
 </template>
@@ -96,6 +94,7 @@ export default {
   font-size: 2rem;
   color: #35495e;
   letter-spacing: 1px;
+  margin-top: 40px;
 }
 .subtitle
 {
@@ -108,6 +107,7 @@ export default {
 .links
 {
   padding-top: 15px;
+  text-align: center;
   margin-bottom: 20px;
 }
 

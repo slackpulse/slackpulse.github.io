@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app">
     <header>
       <div class="navigation">
         <nuxt-link to="/" class="button--blue" exact>トップ</nuxt-link>
@@ -7,9 +7,7 @@
         <nuxt-link to="/portable" class="button--blue">ポータブル</nuxt-link>
       </div>
     </header>
-    <transition name="layout" mode="out-in">
-      <nuxt/>
-    </transition>
+    <nuxt/>
   </div>
 </template>
 
@@ -21,7 +19,6 @@ Vue.use(VueTranslate)
 
 Object.assign(String.prototype, {
   reverse() {
-    console.log(this)
     return this.split('').reverse().join('')
   },
   commify() {
@@ -127,20 +124,23 @@ h2 {
 
 h1,h2,h3,h4,h5,h6 {
   color: #526488;
+  text-align: center;
 }
 
+hr {
+  border: 0;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.app {
+  width: 100%;
+}
 .container
 {
   min-height: 80vh;
   max-width: 100vw;
   overflow-x: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: center;
-  margin: auto;
-  overflow-scrolling: none;
-  padding-top: 40px;
   padding-bottom: 40px;
 }
 .container > * {
@@ -153,15 +153,10 @@ h1,h2,h3,h4,h5,h6 {
     opacity: 0;
 }
 header {
-  height: 4rem;
-  width: 100%;
+  min-height: 4rem;
 }
 .navigation {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100%;
-  box-sizing: border-box;
+  lost-flex-container: row;
 }
 .navigation > a {
   display: block;
@@ -169,5 +164,52 @@ header {
   line-height: 3rem;
   padding: 0 1.5rem;
   margin-left: 0.5rem;
+  margin-top: 0.5rem;
 }
+.row {
+  lost-flex-container: row;
+  min-width: 260px;
+  box-sizing: border-box;
+
+  &.center {
+    lost-align: center;
+    text-align: center;
+  }
+}
+.label {
+  display: block;
+  min-width: 80px;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-weight: bold;
+}
+.statistics {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.col2 {
+  lost-column: 1/2 flex;
+  lost-flex-container: column;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  &.center {
+    text-align: center;
+  }
+  &.left {
+    text-align: left;
+  }
+  &.right {
+    text-align: right; 
+  }
+}
+.slider-wrapper {
+  min-width: 300px;
+  width: 80%;
+  margin: 2rem auto 0;
+}
+
 </style>

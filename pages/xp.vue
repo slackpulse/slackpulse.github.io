@@ -1,23 +1,29 @@
 <template>
   <section class="container">
-    <div>
-      <h2 v-translate>XP CALCULATOR</h2>
+    <h2 v-translate>XP CALCULATOR</h2>
 
-      <div class="row">
+    <div class="row center">
+      <div>
+        <label class="label" v-translate>COST</label>
+        <label class="statistics">{{moneyResult | commify}}</label>
+      </div>
+    </div>
+
+    <hr />
+    <div class="row">
+      <div class="slider-wrapper">
         <vue-slider v-bind="sliderOption" v-model="levelValues"></vue-slider>
       </div>
+    </div>
 
-      <div class="row">
+    <div class="row center">
+      <div>
         <select class="browser-default" id="mix-rank" name="rate" type="number" v-model="mixRank" required>
           <option value="1">★</option>
           <option value="2">★★</option>
           <option value="3">★★★</option>
         </select>
         <label class="" for="mix-rank" v-translate>MAX WEAPON GRADE</label>
-      </div>
-      <div class="row center-align">
-        <label class="label" v-translate>COST</label>
-        <label class="statistics">{{moneyResult | commify}}</label>
       </div>
     </div>
   </section>
@@ -104,7 +110,7 @@ export default {
       'LEVEL': 'レベル',
       'LEVEL > COST': '目標レベル ⇒  費用',
       'TARGET LEVEL': '目標レベル',
-      'COST': '費用',
+      'COST': '予測費用',
     },
   },
   data() {
@@ -289,24 +295,4 @@ export default {
 </script>
 
 <style scoped>
-.row {
-  display: flex;
-  justify-content: center;
-  min-width: 260px;
-  box-sizing: border-box;
-}
-.label {
-  display: block;
-  min-width: 80px;
-  margin-top: auto;
-  margin-bottom: auto;
-  font-weight: bold;
-}
-.statistics {
-  max-width: 160px;
-  display: block;
-  font-size: 2rem;
-  font-weight: bold;
-  text-align: center;
-}
 </style>

@@ -1,49 +1,63 @@
 <template>
 <section class="container">
-<div>
   <h2 v-translate>PORTABILITY CALCULATOR</h2>
+  <div v-bind:style="affix">
+		<div class="row">
+			<div class="col2 center">
+				<span class="label" v-translate>DISPLAY PORT.</span>
+				<label class="statistics" v-if="isValid">{{sum | commify}}</label>
+				<label v-else>{{t('Error')}}</label>
+			</div>
+			<div class="col2 center">
+				<span class="label" v-translate>CALCULATED PORT.</span>
+				<label class="statistics" v-if="isValid">{{portable | commify}}</label>
+				<label v-else>{{t('Error')}}</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col2 center">
+				<span class="label" v-translate>SKATER</span>
+				<label class="statistics" v-if="isValid">{{ t(skating ? 'YES' : 'NO') }}</label>
+				<label v-else>{{t('Error')}}</label>
+			</div>
+			<div class="col2 center">
+				<span class="label" v-translate>TIER</span>
+				<label class="statistics" v-if="isValid">{{tier}}</label>
+				<label v-else>{{t('Error')}}</label>
+			</div>
+		</div>
+  </div>
+  <hr />
   <div class="row">
-    <span class="label" v-translate>DISPLAY PORT.</span>
-    <label class="statistics" v-if="isValid">{{sum | commify}}</label>
-    <label v-else>{{t('Error')}}</label>
+    <label class="label col2" for="portability-headgear" v-translate>HEADGEAR</label>
+		<div class="slider-wrapper">
+			<vue-slider v-bind="sliderOption1" v-model="headValue"></vue-slider>
+		</div>
   </div>
   <div class="row">
-    <span class="label" v-translate>CALCULATED PORT.</span>
-    <label class="statistics" v-if="isValid">{{portable | commify}}</label>
-    <label v-else>{{t('Error')}}</label>
+    <label class="label col2" for="portability-torso" v-translate>TORSO</label>
+		<div class="slider-wrapper">
+			<vue-slider v-bind="sliderOption1" v-model="torsoValue"></vue-slider>
+		</div>
   </div>
   <div class="row">
-    <span class="label" v-translate>SKATER</span>
-    <label v-if="isValid">{{ t(skating ? 'YES' : 'NO') }}</label>
-    <label v-else>{{t('Error')}}</label>
+    <label class="label col2" for="portability-pants " v-translate>LEG</label>
+		<div class="slider-wrapper">
+			<vue-slider v-bind="sliderOption1" v-model="pantsValue"></vue-slider>
+		</div>
   </div>
   <div class="row">
-    <span class="label" v-translate>TIER</span>
-    <label v-if="isValid">{{tier}}</label>
-    <label v-else>{{t('Error')}}</label>
+    <label class="label col2" for="portability-weapon" v-translate>WEAPON</label>
+		<div class="slider-wrapper">
+			<vue-slider v-bind="sliderOption2" v-model="weaponValue"></vue-slider>
+		</div>
   </div>
   <div class="row">
-    <label class="label" for="portability-headgear" v-translate>HEADGEAR</label>
-    <vue-slider v-bind="sliderOption1" v-model="headValue"></vue-slider>
+    <label class="label col2" for="portability-addition" v-translate>+RATE(%)</label>
+		<div class="slider-wrapper">
+			<vue-slider v-bind="sliderOption3" v-model="rateValue"></vue-slider>
+		</div>
   </div>
-  <div class="row">
-    <label class="label" for="portability-torso" v-translate>TORSO</label>
-    <vue-slider v-bind="sliderOption1" v-model="torsoValue"></vue-slider>
-  </div>
-  <div class="row">
-    <label class="label" for="portability-pants " v-translate>LEG</label>
-    <vue-slider v-bind="sliderOption1" v-model="pantsValue"></vue-slider>
-  </div>
-  <div class="row">
-    <label class="label" for="portability-weapon" v-translate>WEAPON</label>
-    <vue-slider v-bind="sliderOption2" v-model="weaponValue"></vue-slider>
-  </div>
-  <div class="row">
-    <label class="label" for="portability-addition" v-translate>+RATE(%)</label>
-    <vue-slider v-bind="sliderOption3" v-model="rateValue"></vue-slider>
-  </select>
-  </div>
-</div>
 </section>
 </template>
 
@@ -63,6 +77,8 @@ function getUniqueStr(myStrong) {
   }
   return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16)
 }
+
+var ticking = false
 
 export default {
   locales: {
@@ -97,9 +113,20 @@ export default {
       pantsValue: 900,
       weaponValue: 580,
       rateValue: 0,
+      scrollY: 0,
     }
   },
   mounted() {
+    const that = this
+    window.addEventListener('scroll', (e) => {
+      that.scrollY = window.scrollY
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          ticking = false
+        })
+      }
+      ticking = true
+    })
     this.$nextTick(() => {
       this.loadHistories()
     })
@@ -151,6 +178,22 @@ export default {
     },
   },
   computed: {
+    affix() {
+      if (40 < this.scrollY) {
+        return {
+          position: 'absolute',
+          top: 0,
+          transform: ['translateY(', this.scrollY, 'px)'].join(''),
+          color: '#ffffff',
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          width: '100vw',
+          padding: '1rem 0 1rem',
+          transition: 'transform 100ms linear',
+          zIndex: '9999',
+        }
+      }
+      return {}
+    },
     sliderOption1() {
       return {
         width: '100%',
@@ -161,7 +204,7 @@ export default {
         disabled: false,
         show: true,
         tooltip: 'always',
-        tooltipDir: 'bottom',
+        tooltipDir: 'top',
         formatter: '{value}',
         piecewise: false,
         style: {
@@ -204,7 +247,7 @@ export default {
         disabled: false,
         show: true,
         tooltip: 'always',
-        tooltipDir: 'bottom',
+        tooltipDir: 'top',
         formatter: '{value}',
         piecewise: false,
         style: {
@@ -247,7 +290,7 @@ export default {
         disabled: false,
         show: true,
         tooltip: 'always',
-        tooltipDir: 'bottom',
+        tooltipDir: 'top',
         formatter: '{value}',
         piecewise: false,
         style: {
@@ -385,8 +428,6 @@ export default {
       }
       result += addition
 
-      console.log('addition', addition)
-      console.log('portable', result)
       return Math.floor(result)
     },
     skating() {
@@ -473,21 +514,4 @@ export default {
 </script>
 
 <style scoped>
-.row {
-  width: 80vw;
-}
-.label {
-  display: block;
-  min-width: 80px;
-  margin-top: auto;
-  margin-bottom: auto;
-  font-weight: bold;
-}
-.statistics {
-  max-width: 160px;
-  display: block;
-  font-size: 2rem;
-  font-weight: bold;
-  margin: auto;
-}
 </style>
