@@ -47,6 +47,7 @@ Vue.filter('commify', value => {
 Vue.filter('trunc', (value) => {
   return value ? value.trunc(140) : ''
 })
+
 export default {
   mounted() {
     this.$nextTick(() => {
@@ -138,7 +139,7 @@ h1,h2,h3,h4,h5,h6 {
   padding-bottom: 40px;
 }
 .container > * {
-  max-width: 100%; 
+  max-width: 100%;
 }
 .layout-enter-active, .layout-leave-to {
     transition: opacity .5s;
@@ -198,7 +199,7 @@ header {
     text-align: left;
   }
   &.right {
-    text-align: right; 
+    text-align: right;
   }
 }
 .slider-wrapper {

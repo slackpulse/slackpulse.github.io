@@ -57,5 +57,6 @@ module.exports = {
   },
   plugins: [
     '~plugins/axios',
+    { src: '~plugins/ga.js', ssr: false },
   ],
 }

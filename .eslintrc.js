@@ -17,5 +17,7 @@ module.exports = {
     'space-before-function-paren': ["error", "never"],
     'no-extend-native': 'off'
   },
-  globals: {}
+  globals: {
+    ga: true,
+  }
 }
