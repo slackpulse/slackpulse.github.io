@@ -1,7 +1,7 @@
 <template>
 <section class="container">
   <h2 v-translate>PORTABILITY CALCULATOR</h2>
-  <div v-bind:style="affix">
+  <div v-bind:class="affixClass" v-bind:style="affix">
 		<div class="row">
 			<div class="col2 center">
 				<span class="label" v-translate>DISPLAY PORT.</span>
@@ -27,8 +27,7 @@
 			</div>
 		</div>
   </div>
-  <hr />
-  <div class="row">
+  <div class="row form-start">
     <label class="label col2" for="portability-headgear" v-translate>HEADGEAR</label>
 		<div class="slider-wrapper">
 			<vue-slider v-bind="sliderOption1" v-model="headValue"></vue-slider>
@@ -178,18 +177,16 @@ export default {
     },
   },
   computed: {
+    affixClass() {
+      if (40 < this.scrollY) {
+        return 'affix'
+      }
+      return ''
+    },
     affix() {
       if (40 < this.scrollY) {
         return {
-          position: 'absolute',
-          top: 0,
           transform: ['translateY(', this.scrollY, 'px)'].join(''),
-          color: '#ffffff',
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          width: '100vw',
-          padding: '1rem 0 1rem',
-          transition: 'transform 100ms linear',
-          zIndex: '9999',
         }
       }
       return {}
@@ -514,4 +511,14 @@ export default {
 </script>
 
 <style scoped>
+.affix {
+	position: absolute;
+	top: 0;
+	color: #ffffff;
+	background-color: rgba(0, 0, 0, 0.8);
+	width: 100vw;
+	padding: 1rem 0 1rem;
+	transition: transform 100ms linear;
+	z-index: 9999;
+}
 </style>

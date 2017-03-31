@@ -127,12 +127,6 @@ h1,h2,h3,h4,h5,h6 {
   text-align: center;
 }
 
-hr {
-  border: 0;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
 .app {
   width: 100%;
 }
@@ -174,6 +168,7 @@ header {
   &.center {
     lost-align: center;
     text-align: center;
+    min-height: 4rem;
   }
 }
 .label {
@@ -211,5 +206,7 @@ header {
   width: 80%;
   margin: 2rem auto 0;
 }
-
+.form-start {
+  margin-top: 40px;
+}
 </style>

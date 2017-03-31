@@ -9,8 +9,7 @@
       </div>
     </div>
 
-    <hr />
-    <div class="row">
+    <div class="row form-start">
       <div class="slider-wrapper">
         <vue-slider v-bind="sliderOption" v-model="levelValues"></vue-slider>
       </div>
