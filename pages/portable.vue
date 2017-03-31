@@ -1,7 +1,7 @@
 <template>
 <section class="container">
   <h2 v-translate>PORTABILITY CALCULATOR</h2>
-  <div v-bind:class="affixClass" v-bind:style="affix">
+  <div v-bind:style="{visibility: (showAffix ? 'hidden' : 'visible')}">
 		<div class="row">
 			<div class="col2 center">
 				<span class="label" v-translate>DISPLAY PORT.</span>
@@ -27,6 +27,34 @@
 			</div>
 		</div>
   </div>
+  <transition name="affix-transition">
+  <div v-show="showAffix" class="affix" v-bind:style="affix">
+		<div class="row">
+			<div class="col2 center">
+				<span class="label" v-translate>DISPLAY PORT.</span>
+				<label class="statistics" v-if="isValid">{{sum | commify}}</label>
+				<label v-else>{{t('Error')}}</label>
+			</div>
+			<div class="col2 center">
+				<span class="label" v-translate>CALCULATED PORT.</span>
+				<label class="statistics" v-if="isValid">{{portable | commify}}</label>
+				<label v-else>{{t('Error')}}</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col2 center">
+				<span class="label" v-translate>SKATER</span>
+				<label class="statistics" v-if="isValid">{{ t(skating ? 'YES' : 'NO') }}</label>
+				<label v-else>{{t('Error')}}</label>
+			</div>
+			<div class="col2 center">
+				<span class="label" v-translate>TIER</span>
+				<label class="statistics" v-if="isValid">{{tier}}</label>
+				<label v-else>{{t('Error')}}</label>
+			</div>
+		</div>
+  </div>
+  </transition>
   <div class="row form-start">
     <label class="label col2" for="portability-headgear" v-translate>HEADGEAR</label>
 		<div class="slider-wrapper">
@@ -93,10 +121,10 @@ export default {
       'CALCULATED PORT.': '算出ポータブル',
       'DISPLAYED': '表示',
       'CALCULATED': '算出',
-      'SKATER': 'スケート可能',
+      'SKATER': 'スケート',
       'TIER': 'ギヤ',
-      'YES': 'はい',
-      'NO': 'いいえ',
+      'YES': 'できる',
+      'NO': 'できない',
       'CLEAR': 'クリア',
       'TWEET': 'ツイートする',
       'SAVE': '保存',
@@ -177,19 +205,20 @@ export default {
     },
   },
   computed: {
-    affixClass() {
-      if (40 < this.scrollY) {
-        return 'affix'
-      }
-      return ''
+    showAffix() {
+      return 100 < this.scrollY
     },
     affix() {
-      if (40 < this.scrollY) {
-        return {
-          transform: ['translateY(', this.scrollY, 'px)'].join(''),
-        }
+      let opacity = 0
+      let transform = null
+      if (this.showAffix) {
+        opacity = 1
+        transform = ['translateY(', this.scrollY, 'px)'].join('')
       }
-      return {}
+      return {
+        opacity: opacity,
+        transform: transform,
+      }
     },
     sliderOption1() {
       return {
@@ -433,18 +462,8 @@ export default {
     tier() {
       if (this.portable < 3311) {
         return 0
-      } else if (this.portable < 3361) {
-        return 1
-      } else if (this.portable < 3411) {
-        return 2
-      } else if (this.portable < 3461) {
-        return 3
-      } else if (this.portable < 3511) {
-        return 4
-      } else if (this.portable < 3561) {
-        return 5
       }
-      return 6
+      return Math.floor((this.portable - 3311) / 50) + 1
     },
     shareURL() {
       const compiled = _.template([
@@ -518,7 +537,8 @@ export default {
 	background-color: rgba(0, 0, 0, 0.8);
 	width: 100vw;
 	padding: 1rem 0 1rem;
-	transition: transform 100ms linear;
+	opacity: 0;
+	transition: transform 100ms linear, opacity 300ms ease;
 	z-index: 9999;
 }
 </style>
