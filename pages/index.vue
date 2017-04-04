@@ -37,13 +37,13 @@
 
 <script>
 import _ from 'lodash'
-import jsonp from 'jsonp'
+import axios from 'axios'
 import moment from 'moment'
 
 moment.locale('ja')
 
-const TIMELINE_FETCH_URL = 'https://script.google.com/macros/s/AKfycbyeKuozUgWPCcgUsSikZB-_1m5uafP8OYW0iA8sLcMb5aF5GQld/exec'
-const FETCH_URL = 'https://script.google.com/macros/s/AKfycbx-lmU0zm5hJ5Ko8rt1O6fRcWoyES04_g4e6Ko4xN3R1-QqCcA/exec'
+const TIMELINE_FETCH_URL = 'https://slackpulse.sirohako.com/events.json'
+const FETCH_URL = 'https://slackpulse.sirohako.com/news.json'
 
 export default {
   data() {
@@ -56,48 +56,46 @@ export default {
     const that = this
     this.$nextTick(() => {
       this.loading = true
-      jsonp(TIMELINE_FETCH_URL, null, (err, data) => {
-        if (err) {
-          return
-        }
-        that.events = _.chain(data)
-          .sort((a, b) => {
-            if (a.startAt < b.startAt) {
-              return 1
-            }
-            if (a.startAt > b.startAt) {
-              return -1
-            }
-            return 0
+      axios.get(TIMELINE_FETCH_URL)
+        .then((res) => {
+          that.events = _.chain(res.data)
+            .sort((a, b) => {
+              if (a.startAt < b.startAt) {
+                return 1
+              }
+              if (a.startAt > b.startAt) {
+                return -1
+              }
+              return 0
+            })
+            .map((item) => {
+              item.startAt = moment(item.startAt, 'MM/DD HH:mm')
+              item.endAt = moment(item.endAt, 'MM/DD HH:mm')
+              return item
+            })
+            .reject((item) => {
+              return item.endAt.toDate() < Date.now()
+            })
+            .value()
+        })
+      axios.get(FETCH_URL)
+        .then((res) => {
+          that.loading = false
+          const sorted = [].concat(res.data)
+            .sort((a, b) => {
+              if (a.createdAt < b.createdAt) {
+                return 1
+              }
+              if (a.createdAt > b.createdAt) {
+                return -1
+              }
+              return 0
+            })
+          that.$store.commit('LINK_RESET')
+          that.$store.commit('LINK_RETRIEVED', {
+            data: sorted
           })
-          .map((item) => {
-            item.startAt = moment(item.startAt, 'MM/DD HH:mm')
-            item.endAt = moment(item.endAt, 'MM/DD HH:mm')
-            return item
-          })
-          .reject((item) => {
-            return item.endAt.toDate() < Date.now()
-          })
-          .value()
-      })
-      jsonp(FETCH_URL, null, (err, data) => {
-        that.loading = false
-        if (err) {
-          return
-        }
-        const sorted = [].concat(data)
-          .sort((a, b) => {
-            if (a.createdAt < b.createdAt) {
-              return 1
-            }
-            if (a.createdAt > b.createdAt) {
-              return -1
-            }
-            return 0
-          })
-        that.$store.commit('LINK_RESET')
-        that.$store.commit('LINK_RETRIEVED', {data: sorted})
-      })
+        })
     })
   },
   computed: {
