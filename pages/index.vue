@@ -11,12 +11,22 @@
       <a href="https://github.com/slackpulse/slackpulse.github.io" target="_blank" class="button--grey">Github</a>
     </div>
 
+    <h3>イベント</h3>
+    <div class="news" v-show="events.length">
+      <a class="news--item" v-for="link in events" v-bind:href="link.url">
+        <div class="news--content">
+          <span class="news--title">{{link.title | trunc}}</span>
+          <span class="news--term">{{link.startAt | dateformat}} から {{link.endAt | dateformat}} まで</span>
+        </div>
+      </a>
+    </div>
+
     <h3>新着ニュース</h3>
-    <div class="news">
+    <div class="news" v-show="links.length">
       <a class="news--item" v-for="link in links" v-bind:href="link.url">
         <img class="news--image" v-bind:src="link | eyecatch" />
         <div class="news--content">
-          <span class="news--title">{{link.title | trunc}}</span><br />
+          <span class="news--title">{{link.title | trunc}}</span>
           <span class="news--link">{{link.url}}</span>
         </div>
       </a>
@@ -25,20 +35,50 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import jsonp from 'jsonp'
+import moment from 'moment'
 
+moment.locale('ja')
+
+const TIMELINE_FETCH_URL = 'https://script.google.com/macros/s/AKfycbyeKuozUgWPCcgUsSikZB-_1m5uafP8OYW0iA8sLcMb5aF5GQld/exec'
 const FETCH_URL = 'https://script.google.com/macros/s/AKfycbx-lmU0zm5hJ5Ko8rt1O6fRcWoyES04_g4e6Ko4xN3R1-QqCcA/exec'
 
 export default {
   data() {
     return {
-      loading: false
+      loading: false,
+      events: [],
     }
   },
   mounted() {
     const that = this
     this.$nextTick(() => {
       this.loading = true
+      jsonp(TIMELINE_FETCH_URL, null, (err, data) => {
+        if (err) {
+          return
+        }
+        that.events = _.chain(data)
+          .sort((a, b) => {
+            if (a.startAt < b.startAt) {
+              return 1
+            }
+            if (a.startAt > b.startAt) {
+              return -1
+            }
+            return 0
+          })
+          .map((item) => {
+            item.startAt = moment(item.startAt, 'MM/DD HH:mm')
+            item.endAt = moment(item.endAt, 'MM/DD HH:mm')
+            return item
+          })
+          .reject((item) => {
+            return item.endAt.toDate() < Date.now()
+          })
+          .value()
+      })
       jsonp(FETCH_URL, null, (err, data) => {
         that.loading = false
         if (err) {
@@ -81,6 +121,9 @@ export default {
       }
       return require('~static/images/logo-gamevil-80.png')
     },
+    dateformat(iso) {
+      return moment(iso).format('M月D日 (ddd) H:mm')
+    }
   },
 }
 </script>
@@ -108,13 +151,14 @@ export default {
 {
   padding-top: 15px;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .news {
   width: 100%;
   margin: auto;
   box-sizing: border-box;
+  margin-bottom: 30px;
 }
 .news--item{
   width: 100%;
@@ -131,11 +175,12 @@ export default {
   width: 40px;
   height: 40px;
   display: inline-block;
+  margin-right: 0.5rem;
 }
 .news--content {
-  max-width: 300px;
+  width: 320px;
   position: relative;
-  display: inline-block;
+  display: block;
 }
 .news--title {
   width: 100%;
@@ -143,13 +188,20 @@ export default {
   max-height: 80px;
   overflow-y: hidden;
   text-overflow: ellipsis;
-  display: inline-block;
+  display: block;
 }
 .news--link {
   width: 100%;
   word-break: break-all;
   white-space: prewrap;
-  display: inline-block;
+  display: block;
+}
+.news--term {
+  width: 100%;
+  word-break: break-all;
+  white-space: prewrap;
+  display: block;
+  font-size: 0.9rem;
 }
 .news a {
   color: #3498db;
