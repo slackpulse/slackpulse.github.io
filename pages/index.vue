@@ -17,6 +17,7 @@
         <div class="news--content">
           <span class="news--title">{{link.title | trunc}}</span>
           <span class="news--term">{{link.startAt | dateformat}} から {{link.endAt | dateformat}} まで</span>
+          <span class="news--fromnow" v-if="fromNow(link.endAt)">{{fromNow(link.endAt)}}</span>
         </div>
       </a>
     </div>
@@ -104,6 +105,14 @@ export default {
       return this.$store.state.links
     }
   },
+  methods: {
+    fromNow(m) {
+      if (m.toDate().getTime() - Date.now() < 2 * 24 * 60 * 60 * 1000) {
+        return ['イベント終了まであと', m.fromNow(true)].join('')
+      }
+      return null
+    },
+  },
   filters: {
     eyecatch(link) {
       if (!link || !link.title) {
@@ -121,9 +130,9 @@ export default {
       }
       return require('~static/images/logo-gamevil-80.png')
     },
-    dateformat(iso) {
-      return moment(iso).format('M月D日 (ddd) H:mm')
-    }
+    dateformat(m) {
+      return m.format('M月D日 (ddd) H:mm')
+    },
   },
 }
 </script>
@@ -202,6 +211,13 @@ export default {
   white-space: prewrap;
   display: block;
   font-size: 0.9rem;
+}
+.news--fromnow {
+  width: 100%;
+  color: #ee0000;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: block;
 }
 .news a {
   color: #3498db;
