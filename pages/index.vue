@@ -17,6 +17,7 @@
         <div class="news--content">
           <span class="news--title">{{link.title | trunc}}</span>
           <span class="news--term">{{link.startAt | dateformat}} から {{link.endAt | dateformat}} まで</span>
+          <span class="news--infuture" v-if="inFuture(link.startAt)">{{inFuture(link.startAt)}}</span>
           <span class="news--fromnow" v-if="fromNow(link.endAt)">{{fromNow(link.endAt)}}</span>
         </div>
       </a>
@@ -109,6 +110,15 @@ export default {
     }
   },
   methods: {
+    inFuture(m) {
+      if (m.toDate().getTime() - Date.now() <= 0) {
+        return null
+      }
+      if (m.toDate().getTime() - Date.now() < 3 * 24 * 60 * 60 * 1000) {
+        return ['イベント開始まであと', m.fromNow(true)].join('')
+      }
+      return null
+    },
     fromNow(m) {
       if (m.toDate().getTime() - Date.now() < 2 * 24 * 60 * 60 * 1000) {
         return ['イベント終了まであと', m.fromNow(true)].join('')
@@ -215,6 +225,13 @@ export default {
   white-space: prewrap;
   display: block;
   font-size: 0.9rem;
+}
+.news--infuture {
+  width: 100%;
+  color: #0000ee;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: block;
 }
 .news--fromnow {
   width: 100%;
