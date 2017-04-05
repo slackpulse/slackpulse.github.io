@@ -69,6 +69,7 @@ export default {
               return 0
             })
             .map((item) => {
+              item.url = item.url || '#'
               item.startAt = moment(item.startAt, 'MM/DD HH:mm')
               item.endAt = moment(item.endAt, 'MM/DD HH:mm')
               return item
