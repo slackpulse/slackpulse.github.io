@@ -2,6 +2,7 @@ import _ from 'lodash'
 
 const state = {
   links: [],
+  events: [],
   equipments: [],
   portability: {
     headPortable: 952,
@@ -26,6 +27,7 @@ const types = {
   PORTABILITY_SAVE: 'PORTABILITY_SAVE',
   LINK_RESET: 'LINK_RESET',
   LINK_RETRIEVED: 'LINK_RETRIEVED',
+  EVENT_RETRIEVED: 'EVENT_RETRIEVED',
 }
 
 const actions = {
@@ -133,7 +135,10 @@ var mutations = {
     state.links.splice(0, state.links.length)
   },
   LINK_RETRIEVED(state, params) {
-    state.links = state.links.concat(params.data)
+    state.links = params.data
+  },
+  EVENT_RETRIEVED(state, params) {
+    state.events = params.data
   },
 }
 

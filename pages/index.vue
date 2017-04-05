@@ -49,7 +49,6 @@ export default {
   data() {
     return {
       loading: false,
-      events: [],
     }
   },
   mounted() {
@@ -58,7 +57,7 @@ export default {
       this.loading = true
       axios.get(TIMELINE_FETCH_URL)
         .then((res) => {
-          that.events = _.chain(res.data)
+          const events = _.chain(res.data)
             .sort((a, b) => {
               if (a.startAt < b.startAt) {
                 return 1
@@ -78,6 +77,9 @@ export default {
               return item.endAt.toDate() < Date.now()
             })
             .value()
+          that.$store.commit('EVENT_RETRIEVED', {
+            data: events
+          })
         })
       axios.get(FETCH_URL)
         .then((res) => {
@@ -92,7 +94,6 @@ export default {
               }
               return 0
             })
-          that.$store.commit('LINK_RESET')
           that.$store.commit('LINK_RETRIEVED', {
             data: sorted
           })
@@ -102,6 +103,9 @@ export default {
   computed: {
     links() {
       return this.$store.state.links
+    },
+    events() {
+      return this.$store.state.events
     }
   },
   methods: {
@@ -183,6 +187,7 @@ export default {
   width: 40px;
   height: 40px;
   display: inline-block;
+  box-sizing: border-box;
   margin-right: 0.5rem;
 }
 .news--content {
