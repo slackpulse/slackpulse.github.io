@@ -20,8 +20,8 @@
           <span class="news--term news--term--main">{{link.startAt | dateformat}} - {{link.endAt | dateformat}}</span>
           <span class="news--term news--term--pst">{{link.startAt | asPDT}} - {{link.endAt | asPDT}}</span>
           <span class="news--description" v-show="link.description">{{link.description}}</span>
-          <span class="news--infuture" v-if="inFuture(link.startAt)">{{inFuture(link.startAt)}}</span>
-          <span class="news--fromnow" v-if="fromNow(link.endAt)">{{fromNow(link.endAt)}}</span>
+          <span class="news--infuture" v-if="inFuture(link)">{{inFuture(link)}}</span>
+          <span class="news--fromnow" v-if="fromNow(link)">{{fromNow(link)}}</span>
           <span class="news--link">{{link.url | asDomain }}</span>
         </div>
       </a>
@@ -114,27 +114,27 @@ export default {
     }
   },
   methods: {
-    inFuture(m) {
-      if (m.toDate().getTime() - Date.now() <= 0) {
+    inFuture(link) {
+      if (link.startAt.toDate().getTime() - Date.now() <= 0) {
         return null
       }
-      const duration = moment.duration(m.diff(moment()))
+      const duration = moment.duration(link.startAt.diff(moment()))
       const days = duration.days()
       const hours = duration.hours()
       const minutes = duration.get('minutes')
 
       return ['イベント開始まであと', [days, '日', hours, '時間', minutes, '分'].join('')].join('')
     },
-    fromNow(m) {
-      if (m.toDate().getTime() - Date.now() < 2 * 24 * 60 * 60 * 1000) {
-        const duration = moment.duration(m.diff(moment()))
-        const days = duration.days()
-        const hours = duration.hours()
-        const minutes = duration.minutes()
-
-        return ['イベント終了まであと', [days, '日', hours, '時間', minutes, '分'].join('')].join('')
+    fromNow(link) {
+      if (link.startAt.toDate().getTime() - Date.now() > 0) {
+        return null
       }
-      return null
+      const duration = moment.duration(link.endAt.diff(moment()))
+      const days = duration.days()
+      const hours = duration.hours()
+      const minutes = duration.minutes()
+
+      return ['イベント終了まであと', [days, '日', hours, '時間', minutes, '分'].join('')].join('')
     },
   },
   filters: {
