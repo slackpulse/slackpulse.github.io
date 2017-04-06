@@ -14,11 +14,15 @@
     <h3>イベント</h3>
     <div class="news" v-show="events.length">
       <a class="news--item" v-for="link in events" v-bind:href="link.url">
+        <img class="news--image" v-bind:src="link | eventicon" />
         <div class="news--content">
           <span class="news--title">{{link.title | trunc}}</span>
-          <span class="news--term">{{link.startAt | dateformat}} から {{link.endAt | dateformat}} まで</span>
+          <span class="news--term news--term--main">{{link.startAt | dateformat}} - {{link.endAt | dateformat}}</span>
+          <span class="news--term news--term--pst">{{link.startAt | asPDT}} - {{link.endAt | asPDT}}</span>
+          <span class="news--description" v-show="link.description">{{link.description}}</span>
           <span class="news--infuture" v-if="inFuture(link.startAt)">{{inFuture(link.startAt)}}</span>
           <span class="news--fromnow" v-if="fromNow(link.endAt)">{{fromNow(link.endAt)}}</span>
+          <span class="news--link">{{link.url | asDomain }}</span>
         </div>
       </a>
     </div>
@@ -26,10 +30,10 @@
     <h3>新着ニュース</h3>
     <div class="news" v-show="links.length">
       <a class="news--item" v-for="link in links" v-bind:href="link.url">
-        <img class="news--image" v-bind:src="link | eyecatch" />
+        <img class="news--image" v-bind:src="link | newsicon" />
         <div class="news--content">
           <span class="news--title">{{link.title | trunc}}</span>
-          <span class="news--link">{{link.url}}</span>
+          <span class="news--link">{{link.url | asDomain }}</span>
         </div>
       </a>
     </div>
@@ -39,7 +43,7 @@
 <script>
 import _ from 'lodash'
 import axios from 'axios'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 moment.locale('ja')
 
@@ -114,20 +118,33 @@ export default {
       if (m.toDate().getTime() - Date.now() <= 0) {
         return null
       }
-      if (m.toDate().getTime() - Date.now() < 3 * 24 * 60 * 60 * 1000) {
-        return ['イベント開始まであと', m.fromNow(true)].join('')
-      }
-      return null
+      const duration = moment.duration(m.diff(moment()))
+      const days = duration.days()
+      const hours = duration.hours()
+      const minutes = duration.get('minutes')
+
+      return ['イベント開始まであと', [days, '日', hours, '時間', minutes, '分'].join('')].join('')
     },
     fromNow(m) {
       if (m.toDate().getTime() - Date.now() < 2 * 24 * 60 * 60 * 1000) {
-        return ['イベント終了まであと', m.fromNow(true)].join('')
+        const duration = moment.duration(m.diff(moment()))
+        const days = duration.days()
+        const hours = duration.hours()
+        const minutes = duration.minutes()
+
+        return ['イベント終了まであと', [days, '日', hours, '時間', minutes, '分'].join('')].join('')
       }
       return null
     },
   },
   filters: {
-    eyecatch(link) {
+    eventicon(link) {
+      if (link.startAt.toDate().getTime() - Date.now() <= 0) {
+        return require('~static/images/hot.png')
+      }
+      return require('~static/images/soon.png')
+    },
+    newsicon(link) {
       if (!link || !link.title) {
         return null
       }
@@ -143,8 +160,19 @@ export default {
       }
       return require('~static/images/logo-gamevil-80.png')
     },
+    asPDT(m) {
+      const cloned = m.clone().tz('PST8PDT')
+      cloned.locale('en')
+      return cloned.format('M/D A h:mm z')
+    },
     dateformat(m) {
-      return m.format('M月D日 (ddd) H:mm')
+      return m.format('M月D日 (ddd) Ah:mm')
+    },
+    asDomain(url) {
+      if (url.length < 3) {
+        return ''
+      }
+      return url.replace(/https?:[/][/]/ig, '').replace(/[/].*/ig, '')
     },
   },
 }
@@ -183,25 +211,25 @@ export default {
   margin-bottom: 30px;
 }
 .news--item{
-  width: 100%;
+  width: 100vw;
   margin: auto;
-  padding: 1rem 2rem 1rem;
+  padding: 1rem 5vw 1rem;
   box-sizing: border-box;
 
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: flex-start;
+
 }
 .news--image {
-  position: relative;
-  width: 40px;
-  height: 40px;
+  width: 7.5vw;
+  height: 7.5vw;
   display: inline-block;
   box-sizing: border-box;
-  margin-right: 0.5rem;
+  margin-right: 2.5vw;
 }
 .news--content {
-  width: 320px;
+  width: 75vw;
   position: relative;
   display: block;
 }
@@ -218,13 +246,22 @@ export default {
   word-break: break-all;
   white-space: prewrap;
   display: block;
+  font-size: 0.8rem;
+  color: #3498db;
 }
 .news--term {
   width: 100%;
   word-break: break-all;
   white-space: prewrap;
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+}
+.news--term--main {
+  font-weight: bold;
+}
+.news--term--pst {
+  font-style: italic;
+  color: #999;
 }
 .news--infuture {
   width: 100%;
@@ -240,8 +277,15 @@ export default {
   font-size: 0.9rem;
   display: block;
 }
+.news--description {
+  width: 100%;
+  word-break: break-all;
+  white-space: prewrap;
+  font-size: 1rem;
+  display: block;
+}
 .news a {
-  color: #3498db;
+  color: #35495e;
   text-decoration: none;
 }
 .news a:hover {
