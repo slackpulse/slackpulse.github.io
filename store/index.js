@@ -18,6 +18,7 @@ const state = {
     targetLevel: 30,
     money: 1000000,
   },
+  scrollY: 0,
 }
 
 const types = {
@@ -28,6 +29,7 @@ const types = {
   LINK_RESET: 'LINK_RESET',
   LINK_RETRIEVED: 'LINK_RETRIEVED',
   EVENT_RETRIEVED: 'EVENT_RETRIEVED',
+  SET_SCROLL: 'SET_SCROLL',
 }
 
 const actions = {
@@ -139,6 +141,9 @@ var mutations = {
   },
   EVENT_RETRIEVED(state, params) {
     state.events = params.data
+  },
+  SET_SCROLL(state, value) {
+    state.scrollY = value
   },
 }
 

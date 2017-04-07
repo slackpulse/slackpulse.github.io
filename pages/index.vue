@@ -209,12 +209,14 @@ export default {
   margin: auto;
   box-sizing: border-box;
   margin-bottom: 30px;
+  z-index: 1;
 }
 .news--item{
   width: 100vw;
   margin: auto;
   padding: 1rem 5vw 1rem;
   box-sizing: border-box;
+  z-index: 1;
 
   display: flex;
   justify-content: left;

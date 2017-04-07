@@ -1,10 +1,10 @@
 <template>
   <div class="app">
-    <header>
+    <header v-bind:style="headerStyle">
       <div class="navigation">
-        <nuxt-link to="/" class="button--blue" exact>トップ</nuxt-link>
-        <nuxt-link to="/xp" class="button--blue" exact>経験値</nuxt-link>
-        <nuxt-link to="/portable" class="button--blue">ポータブル</nuxt-link>
+        <nuxt-link to="/" class="navitem" exact>トップ</nuxt-link>
+        <nuxt-link to="/xp" class="navitem" exact>経験値</nuxt-link>
+        <nuxt-link to="/portable" class="navitem">ポータブル</nuxt-link>
       </div>
     </header>
     <nuxt/>
@@ -48,12 +48,34 @@ Vue.filter('trunc', (value) => {
   return value ? value.trunc(140) : ''
 })
 
+var ticking = false
+
 export default {
   mounted() {
     this.$nextTick(() => {
+      const that = this
+      window.addEventListener('scroll', (e) => {
+        that.$store.commit('SET_SCROLL', window.scrollY)
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            ticking = false
+          })
+        }
+        ticking = true
+      })
       this.$translate.setLang('ja')
     })
-  }
+  },
+  computed: {
+    scrollY() {
+      return this.$store.state.scrollY
+    },
+    headerStyle() {
+      return {
+        transform: ['translateY(', this.scrollY, 'px)'].join(''),
+      }
+    },
+  },
 }
 </script>
 
@@ -130,6 +152,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .app {
   width: 100%;
+  z-index: 0;
 }
 .container
 {
@@ -137,6 +160,8 @@ h1,h2,h3,h4,h5,h6 {
   max-width: 100vw;
   overflow-x: hidden;
   padding-bottom: 40px;
+  z-index: 1;
+  padding-top: 4rem;
 }
 .container > * {
   max-width: 100%;
@@ -149,17 +174,32 @@ h1,h2,h3,h4,h5,h6 {
 }
 header {
   min-height: 4rem;
+  z-index: 5000;
+  position: absolute;
+  width: 100%;
+  top: 0;
 }
 .navigation {
   lost-flex-container: row;
+  border: 1px solid #3498db;
+  box-sizing: border-box;
+  background-color: hsl(212, 88%, 54%);
 }
-.navigation > a {
-  display: block;
-  height: 3rem;
-  line-height: 3rem;
-  padding: 0 1.5rem;
-  margin-left: 0.5rem;
-  margin-top: 0.5rem;
+.navitem
+{
+  lost-column: 1/3 3 1px flex;
+  font-weight: bold;
+  background-color: hsl(212, 88%, 54%);
+  color: #ffffff;
+  text-decoration: none;
+  height: 4rem;
+  line-height: 4rem;
+  text-align: center;
+}
+.navitem:hover
+{
+  color: #3498db;
+  background-color: #ffffff;
 }
 .row {
   lost-flex-container: row;

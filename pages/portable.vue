@@ -105,8 +105,6 @@ function getUniqueStr(myStrong) {
   return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16)
 }
 
-var ticking = false
-
 export default {
   locales: {
     'ja': {
@@ -140,20 +138,9 @@ export default {
       pantsValue: 900,
       weaponValue: 580,
       rateValue: 0,
-      scrollY: 0,
     }
   },
   mounted() {
-    const that = this
-    window.addEventListener('scroll', (e) => {
-      that.scrollY = window.scrollY
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          ticking = false
-        })
-      }
-      ticking = true
-    })
     this.$nextTick(() => {
       this.loadHistories()
     })
@@ -205,6 +192,9 @@ export default {
     },
   },
   computed: {
+    scrollY() {
+      return this.$store.state.scrollY
+    },
     showAffix() {
       return 100 < this.scrollY
     },
@@ -531,6 +521,7 @@ export default {
 
 <style scoped>
 .affix {
+  margin-top: 4rem;
 	position: absolute;
 	top: 0;
 	color: #ffffff;
