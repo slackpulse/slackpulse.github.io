@@ -16,7 +16,31 @@ module.exports = {
         hid: 'アフパル計算機',
         name: 'アフパル計算機',
         content: 'アフターパルス計算機'
-      }
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary',
+      },
+      {
+        name: 'twitter:site',
+        content: 'slackpulse.github.io',
+      },
+      {
+        name: 'twitter:title',
+        content: 'アフパル計算機',
+      },
+      {
+        name: 'twitter:description',
+        content: 'イベント情報・XP計算機などアフターパルスのお役立ちツール',
+      },
+      {
+        name: 'twitter:image',
+        content: 'https://slackpulse.github.io/apple-touch-icon.png',
+      },
+      {
+        name: 'twitter:url',
+        content: 'https://slackpulse.github.io/',
+      },
     ],
     link: [
       {
