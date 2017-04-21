@@ -19,7 +19,6 @@
           <span class="news--title">{{link.title | trunc}}</span>
           <span class="news--term news--term--main">{{link.startAt | dateformat}} - {{link.endAt | dateformat}}</span>
           <span class="news--term news--term--pst">{{link.startAt | asPDT}} - {{link.endAt | asPDT}}</span>
-          <span class="news--description" v-show="link.description">{{link.description}}</span>
           <span class="news--infuture" v-if="inFuture(link)">{{inFuture(link)}}</span>
           <span class="news--fromnow" v-if="fromNow(link)">{{fromNow(link)}}</span>
           <span class="news--link">{{link.url | asDomain }}</span>
@@ -277,13 +276,6 @@ export default {
   color: #ee0000;
   font-weight: bold;
   font-size: 0.9rem;
-  display: block;
-}
-.news--description {
-  width: 100%;
-  word-break: break-all;
-  white-space: prewrap;
-  font-size: 1rem;
   display: block;
 }
 .news a {
