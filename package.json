@@ -6,17 +6,20 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "axios": "^0.15.3",
-    "bluebird": "^3.5.0",
-    "cleave.js": "^0.7.15",
-    "jsonp": "^0.2.1",
-    "lodash": "^4.17.4",
-    "lost": "^8.0.0",
-    "moment": "^2.18.1",
-    "moment-timezone": "^0.5.13",
+    "axios": "latest",
+    "bluebird": "latest",
+    "cleave.js": "latest",
+    "jsonp": "latest",
+    "lodash": "latest",
+    "lost": "latest",
+    "moment": "latest",
+    "moment-timezone": "latest",
     "nuxt": "latest",
-    "vue-slider-component": "^2.2.2",
-    "vue-translate-plugin": "^1.2.0"
+    "vue": "latest",
+    "vue-router": "^2.5.2",
+    "vue-server-renderer": "latest",
+    "vue-slider-component": "latest",
+    "vue-translate-plugin": "latest"
   },
   "scripts": {
     "dev": "HOST=0.0.0.0 PORT=3000 nuxt",
@@ -28,16 +31,20 @@
     "deploy": "node_modules/.bin/push-dir --dir=dist --branch=master --cleanup"
   },
   "devDependencies": {
-    "babel-eslint": "^7.1.1",
-    "babel-preset-vue-app": "^0.5.1",
-    "eslint": "^3.15.0",
-    "eslint-config-standard": "^6.2.1",
-    "eslint-loader": "^1.6.1",
-    "eslint-plugin-html": "^2.0.0",
-    "eslint-plugin-promise": "^3.4.1",
-    "eslint-plugin-standard": "^2.0.1",
-    "postcss-cssnext": "^2.10.0",
-    "postcss-nested": "^1.0.0",
-    "push-dir": "^0.4.1"
+    "babel-eslint": "latest",
+    "babel-preset-vue-app": "latest",
+    "eslint": "latest",
+    "eslint-config-standard": "latest",
+    "eslint-loader": "latest",
+    "eslint-plugin-html": "latest",
+    "eslint-plugin-import": "latest",
+    "eslint-plugin-node": "latest",
+    "eslint-plugin-promise": "latest",
+    "eslint-plugin-standard": "latest",
+    "file-loader": "latest",
+    "postcss-cssnext": "latest",
+    "postcss-nested": "latest",
+    "push-dir": "latest",
+    "webpack": "latest"
   }
 }
