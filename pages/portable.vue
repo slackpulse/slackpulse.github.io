@@ -58,31 +58,31 @@
   <div class="row form-start">
     <label class="label col2" for="portability-headgear" v-translate>HEADGEAR</label>
 		<div class="slider-wrapper">
-			<vue-slider v-bind="sliderOption1" v-model="headValue"></vue-slider>
+			<vue-slider v-bind="sliderOption1(800, 1000)" v-model="headValue"></vue-slider>
 		</div>
   </div>
   <div class="row">
     <label class="label col2" for="portability-torso" v-translate>TORSO</label>
 		<div class="slider-wrapper">
-			<vue-slider v-bind="sliderOption1" v-model="torsoValue"></vue-slider>
+			<vue-slider v-bind="sliderOption1(600, 1000)" v-model="torsoValue"></vue-slider>
 		</div>
   </div>
   <div class="row">
     <label class="label col2" for="portability-pants " v-translate>LEG</label>
 		<div class="slider-wrapper">
-			<vue-slider v-bind="sliderOption1" v-model="pantsValue"></vue-slider>
+			<vue-slider v-bind="sliderOption1(800, 1000)" v-model="pantsValue"></vue-slider>
 		</div>
   </div>
   <div class="row">
     <label class="label col2" for="portability-weapon" v-translate>WEAPON</label>
 		<div class="slider-wrapper">
-			<vue-slider v-bind="sliderOption2" v-model="weaponValue"></vue-slider>
+			<vue-slider v-bind="sliderOption2(300, 800)" v-model="weaponValue"></vue-slider>
 		</div>
   </div>
   <div class="row">
     <label class="label col2" for="portability-addition" v-translate>+RATE(%)</label>
 		<div class="slider-wrapper">
-			<vue-slider v-bind="sliderOption3" v-model="rateValue"></vue-slider>
+			<vue-slider v-bind="sliderOption3()" v-model="rateValue"></vue-slider>
 		</div>
   </div>
 </section>
@@ -208,135 +208,6 @@ export default {
       return {
         opacity: opacity,
         transform: transform,
-      }
-    },
-    sliderOption1() {
-      return {
-        width: '100%',
-        height: 8,
-        dotSize: 20,
-        min: 600,
-        max: 1000,
-        disabled: false,
-        show: true,
-        tooltip: 'always',
-        tooltipDir: 'top',
-        formatter: '{value}',
-        piecewise: false,
-        style: {
-          'marginBottom': '30px',
-        },
-        bgStyle: {
-          'backgroundColor': '#fff',
-          'boxShadow': 'inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)',
-        },
-        sliderStyle: [
-          {
-            'backgroundColor': '#f05b72',
-          },
-          {
-            'backgroundColor': '#3498db',
-          },
-        ],
-        tooltipStyle: [
-          {
-            'backgroundColor': '#f05b72',
-            'borderColor': '#f05b72',
-          },
-          {
-            'backgroundColor': '#3498db',
-            'borderColor': '#3498db',
-          }
-        ],
-        processStyle: {
-          'backgroundImage': '-webkit-linear-gradient(left, #f05b72, #3498db)',
-        },
-      }
-    },
-    sliderOption2() {
-      return {
-        width: '100%',
-        height: 8,
-        dotSize: 20,
-        min: 300,
-        max: 700,
-        disabled: false,
-        show: true,
-        tooltip: 'always',
-        tooltipDir: 'top',
-        formatter: '{value}',
-        piecewise: false,
-        style: {
-          'marginBottom': '30px',
-        },
-        bgStyle: {
-          'backgroundColor': '#fff',
-          'boxShadow': 'inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)',
-        },
-        sliderStyle: [
-          {
-            'backgroundColor': '#f05b72',
-          },
-          {
-            'backgroundColor': '#3498db',
-          },
-        ],
-        tooltipStyle: [
-          {
-            'backgroundColor': '#f05b72',
-            'borderColor': '#f05b72',
-          },
-          {
-            'backgroundColor': '#3498db',
-            'borderColor': '#3498db',
-          }
-        ],
-        processStyle: {
-          'backgroundImage': '-webkit-linear-gradient(left, #f05b72, #3498db)',
-        },
-      }
-    },
-    sliderOption3() {
-      return {
-        width: '100%',
-        height: 8,
-        dotSize: 20,
-        min: 0,
-        max: 30,
-        disabled: false,
-        show: true,
-        tooltip: 'always',
-        tooltipDir: 'top',
-        formatter: '{value}',
-        piecewise: false,
-        style: {
-          'marginBottom': '30px',
-        },
-        bgStyle: {
-          'backgroundColor': '#fff',
-          'boxShadow': 'inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)',
-        },
-        sliderStyle: [
-          {
-            'backgroundColor': '#f05b72',
-          },
-          {
-            'backgroundColor': '#3498db',
-          },
-        ],
-        tooltipStyle: [
-          {
-            'backgroundColor': '#f05b72',
-            'borderColor': '#f05b72',
-          },
-          {
-            'backgroundColor': '#3498db',
-            'borderColor': '#3498db',
-          }
-        ],
-        processStyle: {
-          'backgroundImage': '-webkit-linear-gradient(left, #f05b72, #3498db)',
-        },
       }
     },
     headPortable: {
@@ -511,6 +382,136 @@ export default {
     },
     remove(uuid) {
       this.$store.dispatch('removePortability', uuid)
+    },
+    sliderOption1(min, max) {
+      return {
+        width: '100%',
+        height: 8,
+        dotSize: 20,
+        min: min || 600,
+        max: max || 1000,
+        disabled: false,
+        show: true,
+        tooltip: 'always',
+        tooltipDir: 'top',
+        formatter: '{value}',
+        piecewise: false,
+        style: {
+          'marginBottom': '30px',
+        },
+        bgStyle: {
+          'backgroundColor': '#fff',
+          'boxShadow': 'inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)',
+        },
+        sliderStyle: [
+          {
+            'backgroundColor': '#f05b72',
+          },
+          {
+            'backgroundColor': '#3498db',
+          },
+        ],
+        tooltipStyle: [
+          {
+            'backgroundColor': '#f05b72',
+            'borderColor': '#f05b72',
+          },
+          {
+            'backgroundColor': '#3498db',
+            'borderColor': '#3498db',
+          }
+        ],
+        processStyle: {
+          'backgroundImage': '-webkit-linear-gradient(left, #f05b72, #3498db)',
+        },
+      }
+    },
+    sliderOption2(min, max) {
+      return {
+        width: '100%',
+        height: 8,
+        dotSize: 20,
+        min: min || 300,
+        max: max || 800,
+        interval: 10,
+        disabled: false,
+        show: true,
+        tooltip: 'always',
+        tooltipDir: 'top',
+        formatter: '{value}',
+        piecewise: false,
+        style: {
+          'marginBottom': '30px',
+        },
+        bgStyle: {
+          'backgroundColor': '#fff',
+          'boxShadow': 'inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)',
+        },
+        sliderStyle: [
+          {
+            'backgroundColor': '#f05b72',
+          },
+          {
+            'backgroundColor': '#3498db',
+          },
+        ],
+        tooltipStyle: [
+          {
+            'backgroundColor': '#f05b72',
+            'borderColor': '#f05b72',
+          },
+          {
+            'backgroundColor': '#3498db',
+            'borderColor': '#3498db',
+          }
+        ],
+        processStyle: {
+          'backgroundImage': '-webkit-linear-gradient(left, #f05b72, #3498db)',
+        },
+      }
+    },
+    sliderOption3() {
+      return {
+        width: '100%',
+        height: 8,
+        dotSize: 20,
+        min: 0,
+        max: 30,
+        disabled: false,
+        show: true,
+        tooltip: 'always',
+        tooltipDir: 'top',
+        formatter: '{value}',
+        piecewise: false,
+        style: {
+          'marginBottom': '30px',
+        },
+        bgStyle: {
+          'backgroundColor': '#fff',
+          'boxShadow': 'inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)',
+        },
+        sliderStyle: [
+          {
+            'backgroundColor': '#f05b72',
+          },
+          {
+            'backgroundColor': '#3498db',
+          },
+        ],
+        tooltipStyle: [
+          {
+            'backgroundColor': '#f05b72',
+            'borderColor': '#f05b72',
+          },
+          {
+            'backgroundColor': '#3498db',
+            'borderColor': '#3498db',
+          }
+        ],
+        processStyle: {
+          'backgroundImage': '-webkit-linear-gradient(left, #f05b72, #3498db)',
+        },
+      }
     },
   },
   components: {
