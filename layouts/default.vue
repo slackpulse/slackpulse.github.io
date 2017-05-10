@@ -259,6 +259,6 @@ header {
 }
 
 .disqus {
-  padding: 4rem;
+  padding: 2rem;
 }
 </style>
