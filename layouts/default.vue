@@ -8,12 +8,16 @@
       </div>
     </header>
     <nuxt/>
+    <div class="disqus">
+      <vue-disqus shortname="slackpulse" :identifier="$route.path"></vue-disqus>
+    </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import VueTranslate from 'vue-translate-plugin'
+import VueDisqus from 'vue-disqus/VueDisqus.vue'
 
 Vue.use(VueTranslate)
 
@@ -75,6 +79,9 @@ export default {
         transform: ['translateY(', this.scrollY, 'px)'].join(''),
       }
     },
+  },
+  components: {
+    VueDisqus,
   },
 }
 </script>
@@ -249,5 +256,9 @@ header {
 }
 .form-start {
   margin-top: 40px;
+}
+
+.disqus {
+  padding: 4rem;
 }
 </style>

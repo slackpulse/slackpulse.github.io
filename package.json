@@ -16,10 +16,11 @@
     "moment-timezone": "latest",
     "nuxt": "latest",
     "vue": "latest",
-    "vue-router": "^2.5.2",
+    "vue-router": "latest",
     "vue-server-renderer": "latest",
     "vue-slider-component": "latest",
-    "vue-translate-plugin": "latest"
+    "vue-translate-plugin": "latest",
+    "vue-disqus": "latest"
   },
   "scripts": {
     "dev": "HOST=0.0.0.0 PORT=3000 nuxt",
