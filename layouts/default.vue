@@ -2,9 +2,10 @@
   <div class="app">
     <header v-bind:style="headerStyle">
       <div class="navigation">
-        <nuxt-link to="/" class="navitem" exact>トップ</nuxt-link>
+        <nuxt-link to="/" class="navitem" exact>イベント</nuxt-link>
         <nuxt-link to="/xp" class="navitem" exact>経験値</nuxt-link>
         <nuxt-link to="/portable" class="navitem">ポータブル</nuxt-link>
+        <nuxt-link to="/weapons" class="navitem">武器</nuxt-link>
       </div>
     </header>
     <nuxt/>
@@ -194,7 +195,7 @@ header {
 }
 .navitem
 {
-  lost-column: 1/3 3 1px flex;
+  lost-column: 1/4 3 1px flex;
   font-weight: bold;
   background-color: hsl(212, 88%, 54%);
   color: #ffffff;

@@ -19,6 +19,8 @@ const state = {
     money: 1000000,
   },
   scrollY: 0,
+  weapons: [],
+  weaponMappings: [],
 }
 
 const types = {
@@ -30,6 +32,8 @@ const types = {
   LINK_RETRIEVED: 'LINK_RETRIEVED',
   EVENT_RETRIEVED: 'EVENT_RETRIEVED',
   SET_SCROLL: 'SET_SCROLL',
+  WEAPONS_RETRIEVED: 'WEAPONS_RETRIEVED',
+  WEAPONMAPPINGS_RETRIEVED: 'WEAPONMAPPINGS_RETRIEVED',
 }
 
 const actions = {
@@ -144,6 +148,12 @@ var mutations = {
   },
   SET_SCROLL(state, value) {
     state.scrollY = value
+  },
+  WEAPONS_RETRIEVED(state, value) {
+    state.weapons = value
+  },
+  WEAPONMAPPINGS_RETRIEVED(state, value) {
+    state.weaponMappings = value
   },
 }
 
