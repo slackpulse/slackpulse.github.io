@@ -21,6 +21,8 @@ const state = {
   scrollY: 0,
   weapons: [],
   weaponMappings: [],
+  weapon: null,
+  weaponQuery: '',
 }
 
 const types = {
@@ -35,6 +37,8 @@ const types = {
   WEAPONS_RETRIEVED: 'WEAPONS_RETRIEVED',
   WEAPONMAPPINGS_RETRIEVED: 'WEAPONMAPPINGS_RETRIEVED',
   JOIN_WEAPON: 'JOIN_WEAPON',
+  CHANGE_WEAPON: 'CHANGE_WEAPON',
+  CHANGE_WEAPON_QUERY: 'CHANGE_WEAPON_QUERY',
 }
 
 const actions = {
@@ -171,6 +175,12 @@ var mutations = {
         return weapon
       })
       .value()
+  },
+  CHANGE_WEAPON(state, value) {
+    state.weapon = value
+  },
+  CHANGE_WEAPON_QUERY(state, value) {
+    state.weaponQuery = value
   },
 }
 

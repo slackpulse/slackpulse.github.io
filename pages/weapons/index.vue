@@ -3,7 +3,7 @@
   <div class="row">
   <div class="form">
 		<div class="search">
-			<input type="search" v-model="query">
+			<input type="search" v-on:input="changeQuery" v-bind:value="weaponQuery">
 			<icon name="search"></icon>
 		</div>
   </div>
@@ -30,7 +30,6 @@ export default {
   data() {
     return {
       loading: false,
-      query: '',
     }
   },
   mounted() {
@@ -52,18 +51,31 @@ export default {
     })
   },
   computed: {
+    weaponQuery: {
+      set(value) {
+        this.$store.commit('CHANGE_WEAPON_QUERY', value)
+      },
+      get() {
+        return this.$store.state.weaponQuery
+      }
+    },
     weapons() {
       return this.$store.state.weapons
     },
     filteredWeapons() {
       const that = this
-      if (!this.query) {
+      if (!this.weaponQuery) {
         return this.weapons
       }
       return _.filter(this.weapons, (weapon) => {
-        return new RegExp(that.query, 'ig').test(weapon.summary)
+        return new RegExp(that.weaponQuery, 'ig').test(weapon.summary)
       })
     },
+  },
+  methods: {
+    changeQuery(event) {
+      this.weaponQuery = (event.target || event.sourceElement).value
+    }
   },
   components: {
     WeaponListItem,
@@ -108,7 +120,7 @@ export default {
 }
 input[type="search"] {
   border-radius: 1rem;
-  
+
   z-index: 2;
   display: block;
   position: absolute;
@@ -136,5 +148,9 @@ ul {
   width: 100%;
   list-style: none;
   box-sizing: border-box;
+}
+a {
+  color: inherit;
+  text-decoration: none;
 }
 </style>

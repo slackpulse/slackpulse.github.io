@@ -1,13 +1,15 @@
 <template>
 <div class="weapon" v-if="weapon">
-  <div class="name">{{ weapon.name }}</div>
-  <div class="fonetic">{{ weapon.fonetic }}</div>
+  <nuxt-link :to="{ name: 'weapons-id', params: { id: weapon.ID}}">
+    <div class="name">{{ weapon.name }}</div>
+  </nuxt-link>
+  <div v-on:click="onClickTag" class="fonetic">{{ weapon.fonetic }}</div>
   <div>
-    <div class="class_name">{{ weapon['class_name'] }}</div>
-    <div class="slot">{{ weapon.slot | slot }}</div>
+    <div v-on:click="onClickTag" class="class_name">{{ weapon['class_name'] }}</div>
+    <div v-on:click="onClickTag" class="slot">{{ weapon.slot | slot }}</div>
   </div>
   <div class="description">{{ weapon.description }}</div>
-  <div v-bind:class="className(s.series_id)" v-for="s in weapon.series">{{ s.series_name || 'ノーマル' }}</div>
+  <div v-on:click="onClickTag" v-bind:class="className(s.series_id)" v-for="s in weapon.series">{{ s.series_name || 'ノーマル' }}</div>
 </div>
 </template>
 
@@ -32,6 +34,11 @@ export default {
     className(value) {
       return 'series series-' + value
     },
+    onClickTag(event) {
+      this.$store.state.weaponQuery = event.target.innerText
+      event.stopPropergation()
+      return false
+    }
   },
 }
 
