@@ -79,7 +79,7 @@ input[type="search"] {
 	bottom: 0;
 	left: 0;
   right: 0;
-	width: 90;
+	width: 90%;
 	max-width: 300px;
 	margin: auto;
 	box-sizing: border-box;
