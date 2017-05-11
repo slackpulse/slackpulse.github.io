@@ -1,10 +1,12 @@
 <template>
 <section class="container">
-  <h2>武器</h2>
   <div class="row">
+  <div class="search">
+		<input type="search" v-model="query">
+  </div>
   <ul>
-    <li class="weapon" v-for="key in weaponKeys">
-      <weapon-list-item :weapon="weaponByKey(key)"></weapon-list-item>
+    <li class="weapon" v-for="weapon in filteredWeapons">
+      <weapon-list-item :weapon-id="weapon.ID"></weapon-list-item>
     </li>
   </ul>
   </div>
@@ -23,20 +25,24 @@ export default {
   data() {
     return {
       loading: false,
+      query: '',
     }
   },
   mounted() {
     const that = this
     this.$nextTick(() => {
       this.loading = true
-      axios.get(WEAPONMAPPINGS_URL)
-        .then((res) => {
-          that.$store.commit('WEAPONMAPPINGS_RETRIEVED', res.data)
-        })
       axios.get(WEAPONS_URL)
         .then((res) => {
           that.$store.commit('WEAPONS_RETRIEVED', res.data)
           that.loading = false
+          return axios.get(WEAPONMAPPINGS_URL)
+        })
+        .then((res) => {
+          return that.$store.commit('WEAPONMAPPINGS_RETRIEVED', res.data)
+        })
+        .then((res) => {
+          return that.$store.commit('JOIN_WEAPON')
         })
     })
   },
@@ -44,22 +50,14 @@ export default {
     weapons() {
       return this.$store.state.weapons
     },
-    weaponMappings() {
-      return this.$store.state.weaponMappings
-    },
-    weaponKeys() {
-      return _.chain(this.weaponMappings)
-        .groupBy('weapon_name')
-        .keys()
-        .value()
-    },
-  },
-  methods: {
-    weaponsByKey(key) {
-      return _.filter(this.weaponMappings, {weapon_name: key})
-    },
-    weaponByKey(key) {
-      return _.find(this.weapons, {name: key})
+    filteredWeapons() {
+      const that = this
+      if (!this.query) {
+        return this.weapons
+      }
+      return _.filter(this.weapons, (weapon) => {
+        return new RegExp(that.query, 'ig').test(weapon.summary)
+      })
     },
   },
   components: {
@@ -70,6 +68,26 @@ export default {
 </script>
 
 <style scoped>
+.search {
+  position: relative;
+  width: 100%;
+	height: 4rem;
+}
+input[type="search"] {
+  position: absolute;
+  top: 0;
+	bottom: 0;
+	left: 0;
+  right: 0;
+	width: 90;
+	max-width: 300px;
+	margin: auto;
+	box-sizing: border-box;
+	height: 2rem;
+  line-height: 2rem;
+  font-size: 1rem;
+  padding: 0.2rem 0.8rem;
+}
 ul {
   display: flex;
   justify-content: flex-start;

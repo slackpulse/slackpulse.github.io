@@ -34,6 +34,7 @@ const types = {
   SET_SCROLL: 'SET_SCROLL',
   WEAPONS_RETRIEVED: 'WEAPONS_RETRIEVED',
   WEAPONMAPPINGS_RETRIEVED: 'WEAPONMAPPINGS_RETRIEVED',
+  JOIN_WEAPON: 'JOIN_WEAPON',
 }
 
 const actions = {
@@ -154,6 +155,22 @@ var mutations = {
   },
   WEAPONMAPPINGS_RETRIEVED(state, value) {
     state.weaponMappings = value
+  },
+  JOIN_WEAPON(state) {
+    state.weapons = _.chain(state.weapons)
+      .map((weapon) => {
+        let keywords = [weapon.name, weapon.class_name, weapon.fonetic, weapon.description, weapon.slot === 'primary' ? 'メイン' : 'サブ']
+        const series = _.chain(state.weaponMappings)
+          .filter((mapping) => {
+            return weapon.ID === mapping.weapon_id && mapping.series_id !== 1
+          })
+          .value()
+        keywords = keywords.concat(_.map(series, 'series_name'))
+        weapon.series = series
+        weapon.summary = keywords.join(' ')
+        return weapon
+      })
+      .value()
   },
 }
 
