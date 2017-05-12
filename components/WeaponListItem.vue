@@ -1,7 +1,7 @@
 <template>
 <div class="weapon" v-if="weapon">
-  <nuxt-link :to="{ name: 'weapons-id', params: { id: weapon.ID}}">
-    <div class="name">{{ weapon.name }}</div>
+  <nuxt-link :to="{ name: 'weapons-id', params: { id: weapon.ID}}" tag="div" class="name">
+    {{ weapon.name }}
   </nuxt-link>
   <div v-on:click="onClickTag" class="fonetic">{{ weapon.fonetic }}</div>
   <div>
@@ -46,10 +46,18 @@ export default {
 
 <style scoped>
 .weapon {
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 1rem;
+  width: 100%;
+  border-radius: 0.2rem;
+  border: 1px solid #fff;
 }
 .name {
   font-weight: bold;
   display: inline-block;
+  color: #fff;
 }
 .class_name {
   font-size: 0.8rem;

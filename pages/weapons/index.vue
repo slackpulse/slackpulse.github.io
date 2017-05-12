@@ -36,6 +36,9 @@ export default {
     const that = this
     this.$nextTick(() => {
       this.loading = true
+      if (this.$store.state.weapons.length) {
+        return
+      }
       axios.get(WEAPONS_URL)
         .then((res) => {
           that.$store.commit('WEAPONS_RETRIEVED', res.data)
@@ -86,6 +89,9 @@ export default {
 </script>
 
 <style scoped>
+.container {
+	background: #000;
+}
 .form {
 	position: relative;
   margin: 0;
@@ -141,13 +147,19 @@ ul {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 0;
 }
 .weapon {
   margin-bottom: 1rem;
   display: inline-block;
-  width: 100%;
   list-style: none;
   box-sizing: border-box;
+  margin: 0 auto 1rem;
+  position: relative;
+  left: 0;
+  right: 0;
+  width: 90%;
 }
 a {
   color: inherit;

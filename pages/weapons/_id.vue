@@ -1,5 +1,6 @@
 <template>
 <section class="container">
+  <nuxt-link to="/weapons/" tag="div" class="back">戻る</nuxt-link>
   <div class="weapon" v-if="weapon">
     <div class="name">{{ weapon.name }}</div>
     <div class="fonetic">{{ weapon.fonetic }}</div>
@@ -9,7 +10,7 @@
     </div>
     <div class="description">{{ weapon.description }}</div>
     <div v-bind:class="className(s.series_id)" v-for="s in weapon.series">{{ s.series_name || 'ノーマル' }}</div>
-    <div><a class="hash" v-bind:href="'https://twitter.com/search?f=images&q=%23' + replaceWS('afterpulse_' + weapon.name)">{{ replaceWS('#afterpulse_' + weapon.name) }}</a></div>
+    <div><a class="hashtag" v-bind:href="'https://twitter.com/search?f=images&q=' + encodeURIComponent(hashtag)">{{ hashtag }}</a></div>
   </div>
 </section>
 </template>
@@ -67,6 +68,9 @@ export default {
   computed: {
     weapon() {
       return this.$store.state.weapon
+    },
+    hashtag() {
+      return ['#アフパル', this.replaceWS(this.weapon.name)].join('')
     }
   },
   filters: {
@@ -82,7 +86,7 @@ export default {
       return 'series series-' + value
     },
     replaceWS(value) {
-      return value.replace(/\s/g, '_')
+      return value.replace(/[\s-]/g, '')
     },
   },
   components: {
@@ -92,8 +96,27 @@ export default {
 </script>
 
 <style scoped>
+.container {
+	background: #000;
+}
+.back {
+  margin: 1rem 1.2rem;
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 0.2rem;
+  width: 4rem;
+  text-align: center;
+}
 .weapon {
-  padding: 2rem;
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 1rem;
+  width: 90%;
+  border-radius: 0.2rem;
+  border: 1px solid #fff;
+  margin: 1rem auto;
 }
 .name {
   font-weight: bold;
@@ -186,6 +209,10 @@ export default {
 }
 .series-14 {
   background-color: #9f657e;
+  color: #fff;
+}
+.hashtag {
+  text-decoration: none;
   color: #fff;
 }
 </style>
