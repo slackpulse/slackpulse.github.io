@@ -10,7 +10,7 @@
     </div>
     <div class="description">{{ weapon.description }}</div>
     <div v-bind:class="className(s.series_id)" v-for="s in weapon.series">{{ s.series_name || 'ノーマル' }}</div>
-    <div><a class="hashtag" v-bind:href="'https://twitter.com/search?f=images&q=' + encodeURIComponent(hashtag)">{{ hashtag }}</a></div>
+    <div><a class="hashtag" v-bind:href="'https://twitter.com/search?f=images&q=' + encodeURIComponent(hashtag)">Twitterで {{ hashtag }} を検索</a></div>
   </div>
 </section>
 </template>
@@ -54,7 +54,7 @@ export default {
         })
     })
   },
-  data() {
+  asyncData() {
     return {
       id: null
     }

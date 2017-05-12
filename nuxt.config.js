@@ -1,3 +1,6 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+var axios = require('axios')
+
 module.exports = {
   /*
   ** Headers of the page
@@ -79,28 +82,40 @@ module.exports = {
       require('lost')(),
     ],
   },
+  generate: {
+    routes: function(callback) {
+      axios.get('https://slackpulse.sirohako.com/weapons.json')
+        .then((res) => {
+          var routes = res.data.map((weapon) => {
+            return '/weapons/' + weapon.ID
+          })
+          callback(null, routes)
+        })
+        .catch(callback)
+    }
+  },
   plugins: [
     '~plugins/axios',
-    { src: '~plugins/ga.js', ssr: false },
+    {src: '~plugins/ga.js', ssr: false},
   ],
-	minify: {
-		collapseBooleanAttributes: true,
-		collapseWhitespace: true,
-		decodeEntities: true,
-		minifyCSS: true,
-		minifyJS: true,
-		processConditionalComments: true,
-		removeAttributeQuotes: false,
-		removeComments: false,
-		removeEmptyAttributes: true,
-		removeOptionalTags: true,
-		removeRedundantAttributes: true,
-		removeScriptTypeAttributes: false,
-		removeStyleLinkTypeAttributes: false,
-		removeTagWhitespace: false,
-		sortAttributes: true,
-		sortClassName: true,
-		trimCustomFragments: true,
-		useShortDoctype: true,
-	}
+  minify: {
+    collapseBooleanAttributes: true,
+    collapseWhitespace: true,
+    decodeEntities: true,
+    minifyCSS: true,
+    minifyJS: true,
+    processConditionalComments: true,
+    removeAttributeQuotes: false,
+    removeComments: false,
+    removeEmptyAttributes: true,
+    removeOptionalTags: true,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: false,
+    removeStyleLinkTypeAttributes: false,
+    removeTagWhitespace: false,
+    sortAttributes: true,
+    sortClassName: true,
+    trimCustomFragments: true,
+    useShortDoctype: true,
+  }
 }
