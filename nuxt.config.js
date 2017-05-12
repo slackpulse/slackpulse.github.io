@@ -94,6 +94,13 @@ module.exports = {
         .catch(callback)
     }
   },
+  router: {
+    extendRoutes: function(routes) {
+      routes.find(function(r) {
+        r.path.includes('weapons/_id.vue').path = '/weapons/:id/'
+      })
+    },
+  },
   plugins: [
     '~plugins/axios',
     {src: '~plugins/ga.js', ssr: false},

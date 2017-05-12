@@ -1,6 +1,6 @@
 <template>
 <div class="weapon" v-if="weapon">
-  <nuxt-link :to="{ name: 'weapons-id', params: { id: weapon.ID}}" tag="div" class="name">
+  <nuxt-link :to="{ name: 'weapons-id', params: { id: weapon.ID }}" tag="div" class="name">
     {{ weapon.name }}
   </nuxt-link>
   <div v-on:click="onClickTag" class="fonetic">{{ weapon.fonetic }}</div>
