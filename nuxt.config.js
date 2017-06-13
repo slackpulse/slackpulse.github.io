@@ -44,6 +44,10 @@ module.exports = {
         name: 'twitter:url',
         content: 'https://slackpulse.github.io/',
       },
+      {
+        name: 'google-site-verification',
+        content: '51WdBEkVCMRbGArH5H5uGY-tCDD8d8vxUIAqmEnYAz0',
+      },
     ],
     link: [
       {
