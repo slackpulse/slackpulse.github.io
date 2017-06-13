@@ -36,7 +36,7 @@ export default {
     },
     onClickTag(event) {
       this.$store.state.weaponQuery = event.target.innerText
-      event.stopPropergation()
+      event.stopPropagation()
       return false
     }
   },
@@ -58,23 +58,27 @@ export default {
   font-weight: bold;
   display: inline-block;
   color: #fff;
+  cursor: pointer;
 }
 .class_name {
   font-size: 0.8rem;
   display: inline-block;
   margin-bottom: 0.2rem;
   padding: 0.2rem 0.2rem;
+  cursor: pointer;
 }
 .slot {
   font-size: 0.8rem;
   display: inline-block;
   margin-bottom: 0.2rem;
   padding: 0.2rem 0.2rem;
+  cursor: pointer;
 }
 .fonetic {
   font-size: 0.8rem;
   display: inline-block;
   padding: 0.2rem 0.5rem;
+  cursor: pointer;
 }
 .description {
   padding: 0.5rem 1rem 0.5rem 0;
@@ -92,6 +96,7 @@ export default {
   padding: 0.2rem 0.5rem;
   line-height: 1.2rem;
   box-sizing: border-box;
+  cursor: pointer;
 }
 .series-1 {
 }
@@ -146,6 +151,10 @@ export default {
 }
 .series-14 {
   background-color: #9f657e;
+  color: #fff;
+}
+.series-15 {
+  background-color: #000;
   color: #fff;
 }
 </style>
