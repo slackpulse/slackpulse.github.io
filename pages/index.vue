@@ -3,25 +3,21 @@
     <h1 class="title">
       アフパル計算機
     </h1>
-    <h2 class="subtitle">
-      @slackpulse
-    </h2>
-
     <div class="links">
       <a href="https://github.com/slackpulse/slackpulse.github.io" target="_blank" class="button--grey">Github</a>
     </div>
 
     <h3>イベント</h3>
-    <div class="news" v-show="events.length">
-      <a class="news--item" v-for="link in events" v-bind:href="link.url">
-        <img class="news--image" v-bind:src="link | eventicon" />
-        <div class="news--content">
-          <span class="news--title">{{link.title | trunc}}</span>
-          <span class="news--term news--term--main">{{link.startAt | dateformat}} - {{link.endAt | dateformat}}</span>
-          <span class="news--term news--term--pst">{{link.startAt | asPDT}} - {{link.endAt | asPDT}}</span>
-          <span class="news--infuture" v-if="inFuture(link)">{{inFuture(link)}}</span>
-          <span class="news--fromnow" v-if="fromNow(link)">{{fromNow(link)}}</span>
-          <span class="news--link">{{link.url | asDomain }}</span>
+    <div class="event" v-show="events.length">
+      <a class="event--item" v-for="link in events" v-bind:href="link.url">
+        <img class="event--icon" v-bind:src="link | eventicon" />
+        <div class="event--content">
+          <span class="event--title">{{link.title | trunc}}</span>
+          <span class="event--term event--term--main">{{link.startAt | dateformat}} - {{link.endAt | dateformat}}</span>
+          <span class="event--term event--term--pst">{{link.startAt | asPDT}} - {{link.endAt | asPDT}}</span>
+          <span class="event--infuture" v-if="inFuture(link)">{{inFuture(link)}}</span>
+          <span class="event--fromnow" v-if="fromNow(link)">{{fromNow(link)}}</span>
+          <span class="event--link">{{link.url | asDomain }}</span>
         </div>
       </a>
     </div>
@@ -29,7 +25,7 @@
     <h3>新着ニュース</h3>
     <div class="news" v-show="links.length">
       <a class="news--item" v-for="link in links" v-bind:href="link.url">
-        <img class="news--image" v-bind:src="link | newsicon" />
+				<div class="news--image" v-bind:style="{backgroundImage: 'url(' + newsicon(link) + ')'}"></div>
         <div class="news--content">
           <span class="news--title">{{link.title | trunc}}</span>
           <span class="news--link">{{link.url | asDomain }}</span>
@@ -135,17 +131,13 @@ export default {
 
       return ['イベント終了まであと', [days, '日', hours, '時間', minutes, '分'].join('')].join('')
     },
-  },
-  filters: {
-    eventicon(link) {
-      if (link.startAt.toDate().getTime() - Date.now() <= 0) {
-        return require('~static/images/hot.png')
-      }
-      return require('~static/images/soon.png')
-    },
     newsicon(link) {
       if (!link || !link.title) {
         return null
+      }
+
+      if (link.image && link.image !== 'undefined') {
+        return link.image
       }
 
       if (/^\[event\]/i.test(link.title)) {
@@ -158,6 +150,14 @@ export default {
         return require('~static/images/logo-gamevil-japan-80.png')
       }
       return require('~static/images/logo-gamevil-80.png')
+    },
+  },
+  filters: {
+    eventicon(link) {
+      if (link.startAt.toDate().getTime() - Date.now() <= 0) {
+        return require('~static/images/hot.png')
+      }
+      return require('~static/images/soon.png')
     },
     asPDT(m) {
       const cloned = m.clone().tz('PST8PDT')
@@ -203,14 +203,14 @@ export default {
   margin-bottom: 30px;
 }
 
-.news {
+.event {
   width: 100%;
   margin: auto;
   box-sizing: border-box;
   margin-bottom: 30px;
   z-index: 1;
 }
-.news--item{
+.event--item{
   width: 100vw;
   margin: auto;
   padding: 1rem 5vw 1rem;
@@ -222,15 +222,121 @@ export default {
   align-items: flex-start;
 
 }
-.news--image {
+.event--icon {
   width: 7.5vw;
   height: 7.5vw;
   display: inline-block;
   box-sizing: border-box;
   margin-right: 2.5vw;
 }
-.news--content {
+.event--image {
+  width: 25vw;
+  height: 25vw;
+  display: inline-block;
+  box-sizing: border-box;
+  margin-right: 2.5vw;
+
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.event--content {
   width: 75vw;
+  position: relative;
+  display: block;
+}
+.event--title {
+  width: 100%;
+  font-weight: bold;
+  max-height: 80px;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+.event--link {
+  width: 100%;
+  word-break: break-all;
+  white-space: prewrap;
+  display: block;
+  font-size: 0.8rem;
+  color: #3498db;
+}
+.event--term {
+  width: 100%;
+  word-break: break-all;
+  white-space: prewrap;
+  display: block;
+  font-size: 0.8rem;
+}
+.event--term--main {
+  font-weight: bold;
+}
+.event--term--pst {
+  font-style: italic;
+  color: #999;
+}
+.event--infuture {
+  width: 100%;
+  color: #0000ee;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: block;
+}
+
+.event--fromnow {
+  width: 100%;
+  color: #ee0000;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: block;
+}
+.event a {
+  color: #35495e;
+  text-decoration: none;
+}
+.event a:hover {
+  color: #fff;
+  background-color: #3498db;
+}
+
+.news {
+  width: 100%;
+  margin: auto;
+  box-sizing: border-box;
+  margin-bottom: 30px;
+  z-index: 1;
+}
+.news--item {
+  width: 100vw;
+  margin: auto;
+  padding: 1rem 5vw 1rem;
+  box-sizing: border-box;
+  z-index: 1;
+
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+}
+.news--icon {
+  width: 7.5vw;
+  height: 7.5vw;
+  display: inline-block;
+  box-sizing: border-box;
+  margin-right: 2.5vw;
+}
+.news--image {
+  width: 20vw;
+	padding-bottom: 15%;
+  display: inline-block;
+  box-sizing: border-box;
+  margin-right: 2.5vw;
+
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: top center;
+}
+.news--content {
+  width: 60vw;
   position: relative;
   display: block;
 }
